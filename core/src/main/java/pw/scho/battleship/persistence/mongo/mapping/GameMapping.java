@@ -1,4 +1,4 @@
-package pw.scho.battleship.core.persistence.mongo.mapping;
+package pw.scho.battleship.persistence.mongo.mapping;
 
 import org.mongolink.domain.mapper.AggregateMap;
 import pw.scho.battleship.model.Game;

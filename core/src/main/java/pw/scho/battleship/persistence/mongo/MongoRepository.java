@@ -1,7 +1,7 @@
-package pw.scho.battleship.core.persistence.mongo;
+package pw.scho.battleship.persistence.mongo;
 
 import org.mongolink.MongoSession;
-import pw.scho.battleship.core.persistence.Repository;
+import pw.scho.battleship.persistence.Repository;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.List;

@@ -1,7 +1,6 @@
-package pw.scho.battleship.core.persistence.configuration;
+package pw.scho.battleship.persistence.configuration;
 
 
-import com.google.common.collect.Lists;
 import com.mongodb.ServerAddress;
 import org.mongolink.MongoSession;
 import org.mongolink.MongoSessionManager;
@@ -10,6 +9,7 @@ import org.mongolink.UpdateStrategies;
 import org.mongolink.domain.mapper.ContextBuilder;
 
 import java.net.UnknownHostException;
+import java.util.Arrays;
 
 public class MongoConfiguration {
 
@@ -27,13 +27,13 @@ public class MongoConfiguration {
         private final MongoSessionManager mongoSessionManager;
 
         private Singleton() {
-            ContextBuilder builder = new ContextBuilder("pw.scho.battleship.core.persistence.mapping");
+            ContextBuilder builder = new ContextBuilder("pw.scho.battleship.persistence.mapping");
             Settings settings = null;
             try {
                 settings = Settings.defaultInstance()
                         .withDefaultUpdateStrategy(UpdateStrategies.DIFF)
                         .withDbName("battleship")
-                        .withAddresses(Lists.newArrayList(new ServerAddress("localhost", 7689)));
+                        .withAddresses(Arrays.asList(new ServerAddress("localhost", 7689)));
 
             } catch (UnknownHostException e) {
             }

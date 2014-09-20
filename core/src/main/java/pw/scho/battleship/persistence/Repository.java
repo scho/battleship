@@ -1,4 +1,4 @@
-package pw.scho.battleship.core.persistence;
+package pw.scho.battleship.persistence;
 
 import java.util.List;
 
