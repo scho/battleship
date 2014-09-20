@@ -11,14 +11,14 @@ public class ShipTest {
     public void testHorizontalShipHasCorrectSize(){
         Ship ship = Ship.createHorizontal(new Position(0,0), 3);
 
-        assertThat(ship.getSize(), is(3));
+        assertThat(ship.size(), is(3));
     }
 
     @Test
     public void testVerticalShipHasCorrectSize(){
-        Ship ship = Ship.createVertical(new Position(0,0), 5);
+        Ship ship = Ship.createVertical(new Position(0, 0), 5);
 
-        assertThat(ship.getSize(), is(5));
+        assertThat(ship.size(), is(5));
     }
 
 }

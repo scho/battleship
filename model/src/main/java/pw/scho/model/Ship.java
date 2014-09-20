@@ -17,7 +17,7 @@ public class Ship {
         return new Ship(position, new Position(position.getX(), position.getY() + size - 1));
     }
 
-    public Ship(Position fromPosition, Position toPosition) {
+    protected Ship(Position fromPosition, Position toPosition) {
         this.fromPosition = fromPosition;
         this.toPosition = toPosition;
     }
@@ -30,7 +30,7 @@ public class Ship {
         return toPosition;
     }
 
-    public int getSize() {
+    public int size() {
         return Math.max(toPosition.getX() - fromPosition.getX(), toPosition.getY() - fromPosition.getY()) + 1;
     }
 
@@ -39,14 +39,14 @@ public class Ship {
     }
 
     public boolean sunk() {
-        return hits == getSize();
+        return hits == size();
     }
 
-    public Iterable<Position> getShipPositions(){
+    public Iterable<Position> getShipPositions() {
         ArrayList<Position> positions = new ArrayList();
 
-        for(int x = fromPosition.getX(); x <= toPosition.getX(); x++){
-            for(int y = fromPosition.getY(); y <= toPosition.getY(); y++){
+        for (int x = fromPosition.getX(); x <= toPosition.getX(); x++) {
+            for (int y = fromPosition.getY(); y <= toPosition.getY(); y++) {
                 positions.add(new Position(x, y));
             }
         }
@@ -54,13 +54,13 @@ public class Ship {
         return positions;
     }
 
-    public Iterable<Position> getBoarderPositions(){
+    public Iterable<Position> getBoarderPositions() {
         ArrayList<Position> positions = new ArrayList();
 
-        for(int x = fromPosition.getX() - 1; x <= toPosition.getX() + 1; x++){
-            for(int y = fromPosition.getY() - 1; y <= toPosition.getY() + 1; y++){
-                if(x < fromPosition.getX() || x > toPosition.getX()
-                        || y < fromPosition.getY() || y > toPosition.getY()){
+        for (int x = fromPosition.getX() - 1; x <= toPosition.getX() + 1; x++) {
+            for (int y = fromPosition.getY() - 1; y <= toPosition.getY() + 1; y++) {
+                if (x < fromPosition.getX() || x > toPosition.getX()
+                        || y < fromPosition.getY() || y > toPosition.getY()) {
                     positions.add(new Position(x, y));
                 }
             }

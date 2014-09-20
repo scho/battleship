@@ -1,16 +1,17 @@
 package pw.scho.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BoardMessageQueue {
 
-    private final ArrayList<String> messages;
+    private final List<String> messages;
 
     public BoardMessageQueue(){
         messages = new ArrayList();
     }
 
-    public Iterable<String> getAllMessages(){
+    public List<String> getAllMessages(){
         return messages;
     }
 

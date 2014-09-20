@@ -1,14 +1,15 @@
 package pw.scho.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Board {
 
-    private static final int WIDTH = 10;
-    private static final int HEIGHT = 10;
+    public static final int WIDTH = 10;
+    public static final int HEIGHT = 10;
 
-    private ArrayList<Ship> ships;
-    private ArrayList<Position> shots;
+    private List<Ship> ships;
+    private List<Position> shots;
 
     private Ship[][] ships2DMap;
     private boolean[][] shots2DMap;
@@ -22,6 +23,14 @@ public class Board {
 
     public BoardMessageQueue getMessageQueue() {
         return messageQueue;
+    }
+
+    public List<Ship> getShips() {
+        return ships;
+    }
+
+    public List<Position> getShots() {
+        return shots;
     }
 
     public void clearAllShips() {
@@ -102,10 +111,6 @@ public class Board {
 
     private void setShipAtPosition(Ship ship, Position position) {
         ships2DMap[position.getY()][position.getX()] = ship;
-    }
-
-    private boolean areaIsOnBoard(Position topLeftCorner, Position bottomRightCorner) {
-        return positionIsOnBoard(topLeftCorner) && positionIsOnBoard(bottomRightCorner);
     }
 
     private boolean positionIsOnBoard(Position position) {
