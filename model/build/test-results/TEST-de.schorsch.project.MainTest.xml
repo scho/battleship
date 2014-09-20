@@ -1,7 +1,0 @@
-<?xml version="1.1" encoding="UTF-8"?>
-<testsuite name="de.schorsch.project.MainTest" tests="1" failures="0" errors="0" timestamp="2014-09-19T18:13:00" hostname="scho-lapunder.local" time="0.003">
-  <properties/>
-  <testcase name="testEcho" classname="de.schorsch.project.MainTest" time="0.003"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

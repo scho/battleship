@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="pw.scho.model.MainTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2014-09-19T19:58:02" hostname="scho-lapunder.local" time="0.008">
-  <properties/>
-  <testcase name="testEcho" classname="pw.scho.model.MainTest" time="0.008"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
