@@ -9,7 +9,7 @@ public class BoardRandomizer {
 
     public Board randomize(int[] shipSizes) {
 
-        for(int size : shipSizes){
+        for (int size : shipSizes) {
             placeShip(size);
         }
 
@@ -17,10 +17,10 @@ public class BoardRandomizer {
     }
 
     private void placeShip(int size) {
-        while(true){
+        while (true) {
             Ship ship = createRandomShip(size);
 
-            if(board.shipIsPlaceable(ship)){
+            if (board.shipIsPlaceable(ship)) {
                 board.placeShip(ship);
                 break;
             }
@@ -33,7 +33,7 @@ public class BoardRandomizer {
 
         Position position = new Position(x, y);
 
-        if(random.nextBoolean()){
+        if (random.nextBoolean()) {
             return Ship.createHorizontal(position, size);
         } else {
             return Ship.createVertical(position, size);

@@ -1,33 +1,34 @@
 package pw.scho.model;
 
 import org.junit.Test;
+
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
 
 public class BoardShootingTest {
 
     private Board board = new Board();
 
     @Test
-    public void testIsShootableAtIsFalseIfAlreadyShotAt(){
+    public void testIsShootableAtIsFalseIfAlreadyShotAt() {
         board.shootAt(new Position(0, 0));
 
         assertThat(board.isShootableAt(new Position(0, 0)), is(false));
     }
 
     @Test
-    public void testIsShootableAtIsTrueIfNotShotAt(){
+    public void testIsShootableAtIsTrueIfNotShotAt() {
         assertThat(board.isShootableAt(new Position(0, 0)), is(true));
     }
 
-    @Test(expected=GameRuntimeException.class)
-    public void testIllegalVerticalPlacementThrowsException(){
+    @Test(expected = GameRuntimeException.class)
+    public void testIllegalVerticalPlacementThrowsException() {
         board.shootAt(new Position(0, 0));
         board.shootAt(new Position(0, 0));
     }
 
     @Test
-    public void testAllShipsSunkIsTrueIfAllShipsWereFullyHit(){
+    public void testAllShipsSunkIsTrueIfAllShipsWereFullyHit() {
         Ship ship = Ship.createHorizontal(new Position(0, 0), 2);
 
         board.placeShip(ship);
@@ -38,7 +39,7 @@ public class BoardShootingTest {
     }
 
     @Test
-    public void testAllShipsSunkIsFalseIfSomeShipsPartiallyRemain(){
+    public void testAllShipsSunkIsFalseIfSomeShipsPartiallyRemain() {
         Ship ship = Ship.createHorizontal(new Position(0, 0), 2);
         Ship otherShip = Ship.createVertical(new Position(3, 3), 3);
 

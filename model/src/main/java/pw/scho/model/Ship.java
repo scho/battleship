@@ -4,10 +4,14 @@ import java.util.ArrayList;
 
 public class Ship {
 
-    private int hits = 0;
-
     private final Position fromPosition;
     private final Position toPosition;
+    private int hits = 0;
+
+    protected Ship(Position fromPosition, Position toPosition) {
+        this.fromPosition = fromPosition;
+        this.toPosition = toPosition;
+    }
 
     public static Ship createHorizontal(Position position, int size) {
         return new Ship(position, new Position(position.getX() + size - 1, position.getY()));
@@ -15,11 +19,6 @@ public class Ship {
 
     public static Ship createVertical(Position position, int size) {
         return new Ship(position, new Position(position.getX(), position.getY() + size - 1));
-    }
-
-    protected Ship(Position fromPosition, Position toPosition) {
-        this.fromPosition = fromPosition;
-        this.toPosition = toPosition;
     }
 
     public Position getFromPosition() {

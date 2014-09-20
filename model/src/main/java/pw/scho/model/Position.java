@@ -2,9 +2,9 @@ package pw.scho.model;
 
 public class Position {
 
+    private static String[] digits = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
     private final int x;
     private final int y;
-    private static String[] digits = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
     public Position(int x, int y) {
         this.x = x;
@@ -19,7 +19,7 @@ public class Position {
         return y;
     }
 
-    public String toString(){
+    public String toString() {
         return digits[x] + String.valueOf(y + 1);
     }
 }

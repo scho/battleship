@@ -10,14 +10,14 @@ public class BoardRandomizerTest {
     private BoardRandomizer boardRandomizer = new BoardRandomizer();
 
     @Test
-    public void testAddsCorrectNumberOfShips(){
+    public void testAddsCorrectNumberOfShips() {
         Board board = boardRandomizer.randomize(new int[]{2, 3, 4});
 
         assertThat(board.getShips().size(), is(3));
     }
 
     @Test
-    public void testAddsCorrectSize(){
+    public void testAddsCorrectSize() {
         Board board = boardRandomizer.randomize(new int[]{2, 3, 4});
 
         assertThat(board.getShips().get(0).size(), is(2));

@@ -7,14 +7,11 @@ public class Board {
 
     public static final int WIDTH = 10;
     public static final int HEIGHT = 10;
-
+    private final BoardMessageQueue messageQueue = new BoardMessageQueue();
     private List<Ship> ships;
     private List<Position> shots;
-
     private Ship[][] ships2DMap;
     private boolean[][] shots2DMap;
-
-    private final BoardMessageQueue messageQueue = new BoardMessageQueue();
 
     public Board() {
         clearAllShips();
@@ -43,15 +40,15 @@ public class Board {
         shots = new ArrayList();
     }
 
-    public boolean shipIsPlaceable(Ship ship){
-        for(Position position : ship.getShipPositions()){
-            if(!positionIsOnBoard(position) || positionIsTaken(position)){
+    public boolean shipIsPlaceable(Ship ship) {
+        for (Position position : ship.getShipPositions()) {
+            if (!positionIsOnBoard(position) || positionIsTaken(position)) {
                 return false;
             }
         }
 
-        for(Position position : ship.getBoarderPositions()){
-            if(positionIsOnBoard(position) && positionIsTaken(position)){
+        for (Position position : ship.getBoarderPositions()) {
+            if (positionIsOnBoard(position) && positionIsTaken(position)) {
                 return false;
             }
         }
@@ -101,11 +98,11 @@ public class Board {
         return true;
     }
 
-    private boolean positionIsTaken(Position position){
+    private boolean positionIsTaken(Position position) {
         return getShipAtPosition(position) != null;
     }
 
-    private Ship getShipAtPosition(Position position){
+    private Ship getShipAtPosition(Position position) {
         return ships2DMap[position.getY()][position.getX()];
     }
 

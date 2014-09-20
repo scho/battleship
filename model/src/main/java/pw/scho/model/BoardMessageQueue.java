@@ -7,25 +7,25 @@ public class BoardMessageQueue {
 
     private final List<String> messages;
 
-    public BoardMessageQueue(){
+    public BoardMessageQueue() {
         messages = new ArrayList();
     }
 
-    public List<String> getAllMessages(){
+    public List<String> getAllMessages() {
         return messages;
     }
 
-    public int size(){
+    public int size() {
         return messages.size();
     }
 
-    public void addMissMessage(Position position){
+    public void addMissMessage(Position position) {
         messages.add("Your shot at " + position.toString() + " was a miss.");
     }
 
-    public void addHitMessage(Position position, Ship ship){
+    public void addHitMessage(Position position, Ship ship) {
         String message = "Your shot at " + position.toString() + " was a hit.";
-        if(ship.sunk()){
+        if (ship.sunk()) {
             message += " Ship sunk!";
         }
         messages.add(message);

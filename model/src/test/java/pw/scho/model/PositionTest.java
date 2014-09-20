@@ -8,7 +8,7 @@ import static org.hamcrest.Matchers.is;
 public class PositionTest {
 
     @Test
-    public void testToString(){
+    public void testToString() {
         Position position = new Position(3, 3);
 
         assertThat(position.toString(), is("D4"));

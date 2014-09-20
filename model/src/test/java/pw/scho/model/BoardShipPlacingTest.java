@@ -10,21 +10,21 @@ public class BoardShipPlacingTest {
     private Board board = new Board();
 
     @Test
-    public void testShipIsPlaceableForEmptyBoard(){
+    public void testShipIsPlaceableForEmptyBoard() {
         Ship ship = Ship.createHorizontal(new Position(2, 2), 5);
 
         assertThat(board.shipIsPlaceable(ship), is(true));
     }
 
     @Test
-    public void testShipIsPlaceableNextToEdge(){
+    public void testShipIsPlaceableNextToEdge() {
         Ship ship = Ship.createHorizontal(new Position(0, 9), 5);
 
         assertThat(board.shipIsPlaceable(ship), is(true));
     }
 
     @Test
-    public void testShipIsNotPlaceableIfOtherShipIsOnSpot(){
+    public void testShipIsNotPlaceableIfOtherShipIsOnSpot() {
         board.placeShip(Ship.createHorizontal(new Position(0, 0), 5));
 
         Ship ship = Ship.createHorizontal(new Position(4, 0), 2);
@@ -33,7 +33,7 @@ public class BoardShipPlacingTest {
     }
 
     @Test
-    public void testIsNotPlaceableIfOtherShipBordersInXDirection(){
+    public void testIsNotPlaceableIfOtherShipBordersInXDirection() {
         board.placeShip(Ship.createVertical(new Position(1, 0), 5));
 
         Ship ship = Ship.createHorizontal(new Position(0, 0), 1);
@@ -42,7 +42,7 @@ public class BoardShipPlacingTest {
     }
 
     @Test
-    public void testIsNotPlaceableIfOtherShipBordersInYDirection(){
+    public void testIsNotPlaceableIfOtherShipBordersInYDirection() {
         board.placeShip(Ship.createHorizontal(new Position(0, 1), 5));
 
         Ship ship = Ship.createHorizontal(new Position(0, 0), 1);
@@ -51,21 +51,21 @@ public class BoardShipPlacingTest {
     }
 
     @Test
-    public void testIsNotPlaceableIfShipIsOutOfBoard(){
+    public void testIsNotPlaceableIfShipIsOutOfBoard() {
         Ship ship = Ship.createHorizontal(new Position(9, 9), 2);
 
         assertThat(board.shipIsPlaceable(ship), is(false));
     }
 
     @Test
-    public void testIsPlaceableInCorner(){
+    public void testIsPlaceableInCorner() {
         Ship ship = Ship.createHorizontal(new Position(9, 9), 1);
 
         assertThat(board.shipIsPlaceable(ship), is(true));
     }
 
-    @Test(expected=GameRuntimeException.class)
-    public void testIllegalPlacementThrowsException(){
+    @Test(expected = GameRuntimeException.class)
+    public void testIllegalPlacementThrowsException() {
         Ship ship = Ship.createHorizontal(new Position(9, 9), 1);
         Ship otherShip = Ship.createHorizontal(new Position(9, 9), 1);
 
