@@ -58,7 +58,7 @@ public class Board {
 
     public void placeShip(Ship ship) {
         if (!shipIsPlaceable(ship)) {
-            throw GameRuntimeException.CreateShipNotPlaceable();
+            throw GameException.CreateShipNotPlaceable();
         }
 
         for (Position position : ship.getShipPositions()) {
@@ -73,7 +73,7 @@ public class Board {
 
     public void shootAt(Position position) {
         if (!isShootableAt(position)) {
-            throw GameRuntimeException.CreateAlreadyShotAt();
+            throw GameException.CreateAlreadyShotAt();
         }
 
         shots2DMap[position.getY()][position.getX()] = true;

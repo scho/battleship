@@ -64,7 +64,7 @@ public class BoardShipPlacingTest {
         assertThat(board.shipIsPlaceable(ship), is(true));
     }
 
-    @Test(expected = GameRuntimeException.class)
+    @Test(expected = GameException.class)
     public void testIllegalPlacementThrowsException() {
         Ship ship = Ship.createHorizontal(new Position(9, 9), 1);
         Ship otherShip = Ship.createHorizontal(new Position(9, 9), 1);

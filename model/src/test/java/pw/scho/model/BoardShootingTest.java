@@ -21,7 +21,7 @@ public class BoardShootingTest {
         assertThat(board.isShootableAt(new Position(0, 0)), is(true));
     }
 
-    @Test(expected = GameRuntimeException.class)
+    @Test(expected = GameException.class)
     public void testIllegalVerticalPlacementThrowsException() {
         board.shootAt(new Position(0, 0));
         board.shootAt(new Position(0, 0));
