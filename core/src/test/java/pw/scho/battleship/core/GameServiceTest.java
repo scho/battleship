@@ -1,4 +1,4 @@
-package pw.scho.core;
+package pw.scho.battleship.core;
 
 public class GameServiceTest {
 }

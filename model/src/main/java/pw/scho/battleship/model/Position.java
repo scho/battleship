@@ -1,4 +1,4 @@
-package pw.scho.model;
+package pw.scho.battleship.model;
 
 public class Position {
 
