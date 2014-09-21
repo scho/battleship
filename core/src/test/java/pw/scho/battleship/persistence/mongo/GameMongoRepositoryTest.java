@@ -4,7 +4,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mongolink.MongoSession;
+import pw.scho.battleship.model.Board;
 import pw.scho.battleship.model.Game;
+import pw.scho.battleship.model.Position;
+import pw.scho.battleship.model.Ship;
 import pw.scho.battleship.persistence.Repository;
 import pw.scho.battleship.persistence.configuration.MongoConfiguration;
 
@@ -35,7 +38,7 @@ public class GameMongoRepositoryTest {
     }
 
     @Test()
-    public void testInsert() {
+    public void testSimpleInsert() {
         Game game = new Game();
         UUID firstPlayerId = UUID.randomUUID();
         UUID secondPlayerId = UUID.randomUUID();
@@ -45,9 +48,36 @@ public class GameMongoRepositoryTest {
         repository.add(game);
         session.flush();
         session.clear();
-        Game gameFromRepository = repository.get(game.getId());
 
+        Game gameFromRepository = repository.get(game.getId());
         assertThat(gameFromRepository.getFirstPlayerId(), is(firstPlayerId));
         assertThat(gameFromRepository.getSecondPlayerId(), is(secondPlayerId));
+    }
+
+    @Test()
+    public void testInsertWithAssociations() {
+        Game game = new Game();
+        Board firstBoard = new Board();
+        firstBoard.placeShip(Ship.createHorizontal(new Position(1, 1), 5));
+        firstBoard.placeShip(Ship.createHorizontal(new Position(3, 3), 2));
+        firstBoard.shootAt(new Position(1, 1));
+        Board secondBoard = new Board();
+        secondBoard.placeShip(Ship.createVertical(new Position(0, 0), 5));
+        secondBoard.shootAt(new Position(0, 0));
+        secondBoard.shootAt(new Position(1, 1));
+        game.setFirstBoard(firstBoard);
+        game.setSecondBoard(secondBoard);
+
+        repository.add(game);
+        session.flush();
+        session.clear();
+
+        Game gameFromRepository = repository.get(game.getId());
+        firstBoard = gameFromRepository.getFirstBoard();
+        secondBoard = gameFromRepository.getSecondBoard();
+        assertThat(firstBoard.getShips().size(), is(2));
+        assertThat(firstBoard.getShots().size(), is(1));
+        assertThat(secondBoard.getShips().size(), is(1));
+        assertThat(secondBoard.getShots().size(), is(2));
     }
 }

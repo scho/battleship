@@ -7,7 +7,7 @@ public class BoardMapping extends AggregateMap<Board> {
 
     @Override
     public void map() {
-        property().onProperty(element().getShips());
-        property().onProperty(element().getShots());
+        collection().onProperty(element().getShips());
+        collection().onProperty(element().getShots());
     }
 }
