@@ -9,6 +9,7 @@ public class PlayerMapping extends AggregateMap<Player> {
     public void map() {
         id().onProperty(element().getId()).natural();
         property().onProperty(element().getName());
+        property().onProperty(element().getPassword());
         property().onProperty(element().getGamesLost());
         property().onProperty(element().getGamesWon());
     }

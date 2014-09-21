@@ -37,6 +37,7 @@ public class PlayerMongoRepositoryTest {
     public void testInsert() {
         Player player = new Player();
         player.setName("Toni");
+        player.setPassword("secret");
 
         repository.add(player);
         session.flush();
@@ -44,6 +45,7 @@ public class PlayerMongoRepositoryTest {
         Player toni = repository.get(player.getId());
 
         assertThat(toni.getName(), is("Toni"));
+        assertThat(toni.getPassword(), is("secret"));
     }
 
     @Test
