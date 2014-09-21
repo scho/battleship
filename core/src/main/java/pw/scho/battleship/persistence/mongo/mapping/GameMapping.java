@@ -7,8 +7,10 @@ public class GameMapping extends AggregateMap<Game> {
 
     @Override
     public void map() {
-        id().onProperty(element()).natural();
-        property().onField("name");
-        property().onProperty(element());
+        id().onProperty(element().getId()).natural();
+        property().onProperty(element().getFirstBoard());
+        property().onProperty(element().getSecondBoard());
+        property().onProperty(element().getSecondPlayerId());
+        property().onProperty(element().getFirstPlayerId());
     }
 }

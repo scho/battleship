@@ -1,6 +1,8 @@
 package pw.scho.battleship.persistence.mongo;
 
 import org.mongolink.MongoSession;
+import org.mongolink.domain.criteria.Criteria;
+import org.mongolink.domain.criteria.Restriction;
 import pw.scho.battleship.persistence.Repository;
 
 import java.lang.reflect.ParameterizedType;
@@ -32,6 +34,15 @@ public abstract class MongoRepository<T> implements Repository<T> {
     @Override
     public List<T> all() {
         return session.getAll(persistentType());
+    }
+
+    @Override
+    public List<T> findByRestriction(Restriction restriction) {
+        Criteria<T> criteria = session.createCriteria(persistentType());
+
+        criteria.add(restriction);
+
+        return criteria.list();
     }
 
     protected final Class<T> persistentType() {

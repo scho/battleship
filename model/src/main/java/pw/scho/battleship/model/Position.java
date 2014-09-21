@@ -3,8 +3,11 @@ package pw.scho.battleship.model;
 public class Position {
 
     private static String[] digits = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-    private final int x;
-    private final int y;
+    private int x;
+    private int y;
+
+    public Position() {
+    }
 
     public Position(int x, int y) {
         this.x = x;

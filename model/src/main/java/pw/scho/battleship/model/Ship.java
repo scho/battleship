@@ -4,9 +4,12 @@ import java.util.ArrayList;
 
 public class Ship {
 
-    private final Position fromPosition;
-    private final Position toPosition;
+    private Position fromPosition;
+    private Position toPosition;
     private int hits = 0;
+
+    public Ship() {
+    }
 
     protected Ship(Position fromPosition, Position toPosition) {
         this.fromPosition = fromPosition;

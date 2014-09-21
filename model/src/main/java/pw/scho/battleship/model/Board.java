@@ -14,8 +14,10 @@ public class Board {
     private boolean[][] shots2DMap;
 
     public Board() {
-        clearAllShips();
-        clearAllShots();
+        ships2DMap = new Ship[HEIGHT][WIDTH];
+        ships = new ArrayList();
+        shots2DMap = new boolean[HEIGHT][WIDTH];
+        shots = new ArrayList();
     }
 
     public BoardMessageQueue getMessageQueue() {
@@ -28,16 +30,6 @@ public class Board {
 
     public List<Position> getShots() {
         return shots;
-    }
-
-    public void clearAllShips() {
-        ships2DMap = new Ship[HEIGHT][WIDTH];
-        ships = new ArrayList();
-    }
-
-    public void clearAllShots() {
-        shots2DMap = new boolean[HEIGHT][WIDTH];
-        shots = new ArrayList();
     }
 
     public boolean shipIsPlaceable(Ship ship) {
