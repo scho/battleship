@@ -67,13 +67,17 @@ public class PlayerResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("info")
     public PlayerDto register(@CookieParam("playerId") String playerId) {
-        if (playerId == null || playerId.isEmpty()) {
-            Response.ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
-            builder.entity("playerId must be set");
-            throw new WebApplicationException(builder.build());
+
+        if(playerId != null && !playerId.isEmpty()){
+            Player player = service.get(UUID.fromString(playerId));
+            if(player != null){
+                return PlayerMapper.map(player);
+            }
         }
 
-        return PlayerMapper.map(service.get(UUID.fromString(playerId)));
+        Response.ResponseBuilder builder = Response.status(Response.Status.BAD_REQUEST);
+        builder.entity("playerId must be set");
+        throw new WebApplicationException(builder.build());
     }
 
 
