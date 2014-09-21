@@ -5,6 +5,7 @@ import pw.scho.battleship.model.Player;
 import pw.scho.battleship.persistence.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 public class PlayerService {
 
@@ -42,5 +43,9 @@ public class PlayerService {
         }
 
         return player;
+    }
+
+    public Player get(UUID playerId) {
+        return repository.get(playerId);
     }
 }

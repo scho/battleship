@@ -10,8 +10,8 @@ public class Player {
     private int gamesLost = 0;
     private String password;
 
-    public Player(String name, String password){
-        super();
+    public Player(String name, String password) {
+        this();
         this.name = name;
         this.password = password;
     }

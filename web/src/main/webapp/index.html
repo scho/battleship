@@ -1,1 +1,99 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Battleship</title>
+    <meta name="description" content="Battleship - Yet anther browser version of this famous game.">
+    <meta name="author" content="Georg Meyer">
+
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="header">
+    <h1>Battleship</h1>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div id="content" class="span12>">
+            <form>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="inputName" placeholder="Name">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                </div>
+                <button id="login-button" class="btn btn-primary">Login</button>
+                <button id="register-button" class="btn btn-secondary">Register</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="lib/jquery-1.11.1.js"></script>
+<script src="lib/bootstrap.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#login-button').click(function(event){
+
+        event.preventDefault();
+    });
+
+    $('#register-button').click(function(event){
+
+        $.ajax({
+            type: "POST",
+            url: '/api/players/register',
+            data: {
+                name: $('#inputName').val(),
+                password: $('#inputPassword').val()
+            },
+            dataType: 'json'
+        }).done(function(data){
+            window.location = "lobby.html";
+        }).fail(function(){
+            alert("Registering failed. Name blank or already taken?");
+        });
+
+        event.preventDefault();
+    });
+
+    $('#login-button').click(function(event){
+
+        $.ajax({
+            type: "POST",
+            url: '/api/players/login',
+            data: {
+                name: $('#inputName').val(),
+                password: $('#inputPassword').val()
+            },
+            dataType: 'json'
+        }).done(function(){
+            window.location = "lobby.html";
+        }).fail(function(){
+            alert("Login failed. Wrong password?");
+        });
+
+        event.preventDefault();
+    });
+
+    $.ajax({
+        type: "GET",
+        url: '/api/players/info',
+        dataType: 'json'
+    }).done(function(data){
+        window.location = "/lobby.html";
+    });
+});
+
+
+</script>
+
+
+</body>
+</html>

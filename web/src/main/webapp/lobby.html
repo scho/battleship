@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Battleship</title>
+    <meta name="description" content="Battleship - Yet anther browser version of this famous game.">
+    <meta name="author" content="Georg Meyer">
+
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="header">
+    <h1>Battleship - Lobby</h1>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div id="content" class="span12>">
+
+            <span id="player-info"></span>
+            <button id="logout-button" class="btn btn-secondary">Logout</button>
+        </div>
+    </div>
+</div>
+
+<script src="lib/jquery-1.11.1.js"></script>
+<script src="lib/bootstrap.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#logout-button').click(function(event){
+
+        $.ajax({
+            type: "POST",
+            url: '/api/players/logout'
+        }).done(function(data){
+            window.location = "/";
+        });
+
+        event.preventDefault();
+    });
+
+    $.ajax({
+        type: "GET",
+        url: '/api/games',
+        dataType: 'json'
+    }).done(function(data){
+        console.log(data);
+    }).fail(function(){
+        alert("Loading of games failed.");
+    });
+
+    $.ajax({
+        type: "GET",
+        url: '/api/players/info',
+        dataType: 'json'
+    }).done(function(player){
+        $('#player-info').text('Logged in as ' + player.name + ' - ' + player.gamesWon + ' games won, ' + player.gamesLost + ' games lost');
+    }).fail(function(){
+        window.location = "/";
+    });
+});
+
+
+</script>
+
+
+</body>
+</html>
