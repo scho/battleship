@@ -87,22 +87,16 @@ public class Board {
         shots2DMap = new boolean[HEIGHT][WIDTH];
         shots2DMap = new boolean[HEIGHT][WIDTH];
 
-        List<Ship> copiedShips = new ArrayList(ships);
-        for (Ship ship : copiedShips) {
-            ship.reset();
-        }
+        ships.forEach(Ship::reset);
 
+        List<Ship> copiedShips = new ArrayList(ships);
         List<Position> copiedShots = new ArrayList(shots);
 
         ships.clear();
         shots.clear();
 
-        for (Ship ship : copiedShips) {
-            placeShip(ship);
-        }
-        for (Position position : copiedShots) {
-            shootAt(position);
-        }
+        copiedShips.forEach(this::placeShip);
+        copiedShots.forEach(this::shootAt);
     }
 
     private boolean positionIsTaken(Position position) {
