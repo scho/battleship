@@ -1,15 +1,27 @@
 apply plugin: 'java'
-
 sourceCompatibility = 1.8
 version = '1.0'
 
 repositories {
     mavenCentral()
+    maven {
+        url 'http://repository-mongolink.forge.cloudbees.com/release/'
+    }
 }
 
 dependencies {
     compile project(':model')
     compile project(':core')
+
+    compile 'org.glassfish.jersey.containers:jersey-container-servlet:2.12'
+    compile 'org.glassfish.jersey.media:jersey-media-moxy:2.12'
+
+    compile 'net.anthavio.maven:jetty-essentials:9.2.3'
+
+    // Not used yet, maybe later?
+    //compile 'com.squareup.dagger:dagger:1.2.2'
+    //compile 'com.squareup.dagger:dagger-compiler:1.2.2'
+
     testCompile 'junit:junit:4.11'
     testCompile 'org.hamcrest:hamcrest-all:1.3'
 }
