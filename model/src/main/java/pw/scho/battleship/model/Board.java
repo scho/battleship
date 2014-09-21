@@ -7,18 +7,11 @@ public class Board {
 
     public static final int WIDTH = 10;
     public static final int HEIGHT = 10;
+    private Ship[][] ships2DMap = new Ship[HEIGHT][WIDTH];
+    private boolean[][] shots2DMap = new boolean[HEIGHT][WIDTH];
     private final BoardMessageQueue messageQueue = new BoardMessageQueue();
-    private List<Ship> ships;
-    private List<Position> shots;
-    private Ship[][] ships2DMap;
-    private boolean[][] shots2DMap;
-
-    public Board() {
-        ships2DMap = new Ship[HEIGHT][WIDTH];
-        ships = new ArrayList();
-        shots2DMap = new boolean[HEIGHT][WIDTH];
-        shots = new ArrayList();
-    }
+    private List<Ship> ships = new ArrayList();
+    private List<Position> shots = new ArrayList();
 
     public BoardMessageQueue getMessageQueue() {
         return messageQueue;
@@ -88,6 +81,28 @@ public class Board {
             }
         }
         return true;
+    }
+
+    public void resetAndPlayThrough() {
+        shots2DMap = new boolean[HEIGHT][WIDTH];
+        shots2DMap = new boolean[HEIGHT][WIDTH];
+
+        List<Ship> copiedShips = new ArrayList(ships);
+        for (Ship ship : copiedShips) {
+            ship.reset();
+        }
+
+        List<Position> copiedShots = new ArrayList(shots);
+
+        ships.clear();
+        shots.clear();
+
+        for (Ship ship : copiedShips) {
+            placeShip(ship);
+        }
+        for (Position position : copiedShots) {
+            shootAt(position);
+        }
     }
 
     private boolean positionIsTaken(Position position) {
