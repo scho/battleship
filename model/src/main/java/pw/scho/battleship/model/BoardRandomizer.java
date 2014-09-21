@@ -5,9 +5,14 @@ import java.util.Random;
 public class BoardRandomizer {
 
     private final Random random = new Random();
-    private final Board board = new Board();
+    private Board board;
+
+    public Board randomizeWithStandardShips() {
+        return randomize(new int[]{2, 2, 2, 2, 3, 3, 3, 4, 4, 5});
+    }
 
     public Board randomize(int[] shipSizes) {
+        board = new Board();
 
         for (int size : shipSizes) {
             placeShip(size);

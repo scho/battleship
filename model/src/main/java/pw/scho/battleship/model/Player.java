@@ -10,6 +10,12 @@ public class Player {
     private int gamesLost = 0;
     private String password;
 
+    public Player(String name, String password){
+        super();
+        this.name = name;
+        this.password = password;
+    }
+
     public Player() {
         id = UUID.randomUUID();
     }
