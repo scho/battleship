@@ -6,7 +6,7 @@ This is a multiplayer version of [battleship](http://en.wikipedia.org/wiki/Battl
 Dependencies
 ------------
 
-* MongoDB: Intall with ```brew install mongodb``` and run with ``mongod --config /usr/local/etc/mongod.conf```. Used port is ``27017```.
+* MongoDB: Intall with ```brew install mongodb``` and run with ```mongod --config /usr/local/etc/mongod.conf```. Used port is ```27017```.
 
 Build
 -----
