@@ -6,7 +6,6 @@ import org.junit.Test;
 import org.mongolink.MongoSession;
 import org.mongolink.domain.criteria.Restrictions;
 import pw.scho.battleship.model.Player;
-import pw.scho.battleship.persistence.Repository;
 import pw.scho.battleship.persistence.configuration.MongoConfiguration;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -14,7 +13,7 @@ import static org.hamcrest.Matchers.is;
 
 public class PlayerMongoRepositoryTest {
 
-    private Repository<Player> repository;
+    private MongoRepository<Player> repository;
     private MongoSession session;
 
     @Before

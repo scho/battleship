@@ -36,7 +36,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return session.getAll(persistentType());
     }
 
-    @Override
     public List<T> findByRestriction(Restriction restriction) {
         Criteria<T> criteria = session.createCriteria(persistentType());
 
