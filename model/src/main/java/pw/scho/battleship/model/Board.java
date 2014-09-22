@@ -27,13 +27,13 @@ public class Board {
 
     public boolean shipIsPlaceable(Ship ship) {
         for (Position position : ship.getShipPositions()) {
-            if (!positionIsOnBoard(position) || positionIsTaken(position)) {
+            if (!positionIsOnBoard(position) || positionIsTakenByShip(position)) {
                 return false;
             }
         }
 
         for (Position position : ship.getBoarderPositions()) {
-            if (positionIsOnBoard(position) && positionIsTaken(position)) {
+            if (positionIsOnBoard(position) && positionIsTakenByShip(position)) {
                 return false;
             }
         }
@@ -52,12 +52,16 @@ public class Board {
         ships.add(ship);
     }
 
-    public boolean isShootableAt(Position position) {
+    public boolean positionIsShootableAt(Position position) {
         return shots2DMap[position.getY()][position.getX()] == false;
     }
 
+    public boolean positionWasShotAt(Position position) {
+        return !positionIsShootableAt(position);
+    }
+
     public void shootAt(Position position) {
-        if (!isShootableAt(position)) {
+        if (!positionIsShootableAt(position)) {
             throw GameException.CreateAlreadyShotAt();
         }
 
@@ -83,7 +87,7 @@ public class Board {
         return true;
     }
 
-    private boolean positionIsTaken(Position position) {
+    private boolean positionIsTakenByShip(Position position) {
         return getShipAtPosition(position) != null;
     }
 

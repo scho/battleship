@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public class PlayerService {
 
-    // Use MongoRepository here since we need restrictions
+    // Use MongoRepository as type here and not Repository<Player> because we need restrictions
     private final MongoRepository<Player> repository;
 
     public PlayerService(MongoRepository<Player> repository) {
