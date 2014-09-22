@@ -83,22 +83,6 @@ public class Board {
         return true;
     }
 
-    public void resetAndPlayThrough() {
-        shots2DMap = new boolean[HEIGHT][WIDTH];
-        shots2DMap = new boolean[HEIGHT][WIDTH];
-
-        ships.forEach(Ship::reset);
-
-        List<Ship> copiedShips = new ArrayList(ships);
-        List<Position> copiedShots = new ArrayList(shots);
-
-        ships.clear();
-        shots.clear();
-
-        copiedShips.forEach(this::placeShip);
-        copiedShots.forEach(this::shootAt);
-    }
-
     private boolean positionIsTaken(Position position) {
         return getShipAtPosition(position) != null;
     }

@@ -24,10 +24,6 @@ public class Ship {
         return new Ship(position, new Position(position.getX(), position.getY() + size - 1));
     }
 
-    public void reset() {
-        hits = 0;
-    }
-
     public Position getFromPosition() {
         return fromPosition;
     }

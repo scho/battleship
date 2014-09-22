@@ -125,29 +125,4 @@ public class BoardTest {
 
         assertThat(board.allShipsSunk(), is(false));
     }
-
-    // Reset and play through
-
-    @Test
-    public void testResetAndPlayThroughPlacesAllShipsAndPerformsShooting() {
-        Ship ship = Ship.createHorizontal(new Position(0, 0), 1);
-        Ship otherShip = Ship.createHorizontal(new Position(0, 2), 2);
-        board.getShips().add(ship);
-        board.getShots().add(new Position(0, 0));
-        board.getShots().add(new Position(0, 2));
-
-        board.resetAndPlayThrough();
-
-        assertThat(ship.sunk(), is(true));
-        assertThat(otherShip.sunk(), is(false));
-    }
-
-    @Test
-    public void testResetAndPlayThroughAddsMessages() {
-        board.getShots().add(new Position(0, 0));
-
-        board.resetAndPlayThrough();
-
-        assertThat(board.getMessageQueue().size(), is(1));
-    }
 }
