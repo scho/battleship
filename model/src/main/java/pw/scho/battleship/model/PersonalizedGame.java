@@ -14,7 +14,7 @@ public class PersonalizedGame {
         return game.getFirstPlayer().getId().equals(player.getId());
     }
 
-    public Board getMyBoard() {
+    public Board getBoard() {
         if (iAmFirst()) {
             return game.getFirstBoard();
         }
@@ -31,7 +31,7 @@ public class PersonalizedGame {
     }
 
 
-    public Player getMyself() {
+    public Player getPlayer() {
         if (iAmFirst()) {
             return game.getFirstPlayer();
         }
@@ -45,5 +45,18 @@ public class PersonalizedGame {
         }
 
         return game.getFirstPlayer();
+    }
+
+    public void shootAt(Position position){
+        getBoard().shootAt(position);
+        game.toggleTurn();
+    }
+
+    public boolean isItPlayersTurn() {
+        if (iAmFirst()) {
+            return game.isItFirstPlayersTurn();
+        }
+
+        return game.isItSecondPlayersTurn();
     }
 }

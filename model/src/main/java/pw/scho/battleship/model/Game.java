@@ -9,6 +9,7 @@ public class Game {
     private Player firstPlayer;
     private Player secondPlayer;
     private UUID id;
+    private boolean firstPlayersTurn = true;
 
     public Game() {
         this.id = UUID.randomUUID();
@@ -48,5 +49,17 @@ public class Game {
 
     public void setSecondBoard(Board secondBoard) {
         this.secondBoard = secondBoard;
+    }
+
+    public void toggleTurn(){
+        firstPlayersTurn = !firstPlayersTurn;
+    }
+
+    public boolean isItFirstPlayersTurn(){
+        return firstPlayersTurn;
+    }
+
+    public boolean isItSecondPlayersTurn(){
+        return !firstPlayersTurn;
     }
 }
