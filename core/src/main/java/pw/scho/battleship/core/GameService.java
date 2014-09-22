@@ -1,54 +1,63 @@
 package pw.scho.battleship.core;
 
-import org.mongolink.domain.criteria.Restriction;
-import org.mongolink.domain.criteria.Restrictions;
 import pw.scho.battleship.model.BoardRandomizer;
 import pw.scho.battleship.model.Game;
+import pw.scho.battleship.model.Player;
 import pw.scho.battleship.persistence.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class GameService {
 
-    private final Repository<Game> repository;
+    private final Repository<Game> gameRepository;
+    private final Transaction transaction;
 
-    public GameService(Repository<Game> repository) {
-        this.repository = repository;
+    public GameService(Repository<Game> gameRepository) {
+        this.gameRepository = gameRepository;
+        this.transaction = Transaction.getInstance();
     }
 
-    public Game createGame(UUID playerId) {
-        Game game = new Game();
-        BoardRandomizer boardRandomizer = new BoardRandomizer();
-        game.setFirstPlayerId(playerId);
-        game.setFirstBoard(boardRandomizer.randomizeWithStandardShips());
-        game.setSecondBoard(boardRandomizer.randomizeWithStandardShips());
+    public Game createGame(Player player) {
+        synchronized (transaction) {
+            Game game = new Game();
 
-        repository.add(game);
+            BoardRandomizer boardRandomizer = new BoardRandomizer();
+            game.setFirstPlayer(player);
+            game.setFirstBoard(boardRandomizer.randomizeWithStandardShips());
+            game.setSecondBoard(boardRandomizer.randomizeWithStandardShips());
 
-        return game;
-    }
+            gameRepository.add(game);
 
-    public void joinGame(UUID gameId, UUID playerId) {
-        List<Game> games = repository.findByRestriction(Restrictions.equals("id", gameId));
-
-        if (games.size() != 1) {
-            throw new RuntimeException("Cannot find your game");
+            return game;
         }
-
-        Game game = games.get(0);
-        game.setSecondPlayerId(playerId);
-
-
-        repository.add(game);
     }
 
-    public List<Game> allGamesByPlayerId(UUID playerId) {
-        Restriction restriction = Restrictions.or()
-                .with(Restrictions.equals("firstPlayerId", playerId))
-                .with(Restrictions.equals("secondPlayerId", playerId));
-        List<Game> games = repository.findByRestriction(restriction);
+    public void joinGame(UUID gameId, Player player) {
+        synchronized (transaction) {
+            Game game = gameRepository.get(gameId);
 
-        return games;
+            if (game == null) {
+                throw new RuntimeException("Cannot find your game");
+            }
+
+            game.setSecondPlayer(player);
+        }
+    }
+
+    public List<Game> getAllOpenGames(Player player) {
+        synchronized (transaction) {
+            List<Game> games = gameRepository.all();
+            List<Game> openGames = new ArrayList();
+
+            for (Game game : games) {
+                if (game.getSecondPlayer() == null && !game.getFirstPlayer().getId().equals(player.getId())) {
+                    openGames.add(game);
+                }
+            }
+
+            return openGames;
+        }
     }
 }

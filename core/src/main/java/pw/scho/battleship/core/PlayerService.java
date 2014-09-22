@@ -2,16 +2,17 @@ package pw.scho.battleship.core;
 
 import org.mongolink.domain.criteria.Restrictions;
 import pw.scho.battleship.model.Player;
-import pw.scho.battleship.persistence.Repository;
+import pw.scho.battleship.persistence.mongo.MongoRepository;
 
 import java.util.List;
 import java.util.UUID;
 
 public class PlayerService {
 
-    private final Repository<Player> repository;
+    // Use MongoRepository here since we need restrictions
+    private final MongoRepository<Player> repository;
 
-    public PlayerService(Repository<Player> repository) {
+    public PlayerService(MongoRepository<Player> repository) {
         this.repository = repository;
     }
 
