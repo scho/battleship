@@ -1,11 +1,13 @@
 package pw.scho.battleship.core;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import pw.scho.battleship.model.Game;
 import pw.scho.battleship.model.Player;
 import pw.scho.battleship.persistence.Repository;
 import pw.scho.battleship.persistence.memory.GameMemoryRepository;
+import pw.scho.battleship.persistence.memory.InMemoryCache;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,6 +25,11 @@ public class GameServiceTest {
     public void setupInstances() {
         repository = new GameMemoryRepository();
         service = new GameService(repository);
+    }
+
+    @After
+    public void clearCache() {
+        InMemoryCache.getInstance().clear();
     }
 
 

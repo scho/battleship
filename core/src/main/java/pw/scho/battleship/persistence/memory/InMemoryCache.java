@@ -24,6 +24,10 @@ public class InMemoryCache {
         hashMap.remove(id);
     }
 
+    public void clear() {
+        hashMap.clear();
+    }
+
     public Collection<Object> all() {
         return new ArrayList(hashMap.values());
     }

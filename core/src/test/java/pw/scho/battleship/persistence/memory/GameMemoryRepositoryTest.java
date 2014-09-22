@@ -1,8 +1,10 @@
 package pw.scho.battleship.persistence.memory;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import pw.scho.battleship.model.Game;
+import pw.scho.battleship.model.Player;
 
 import java.util.Collection;
 import java.util.UUID;
@@ -18,6 +20,11 @@ public class GameMemoryRepositoryTest {
     @Before
     public void createGameMemoryRepository() {
         repository = new GameMemoryRepository();
+    }
+
+    @After
+    public void clearCache() {
+        InMemoryCache.getInstance().clear();
     }
 
     @Test
