@@ -46,7 +46,10 @@ public class PersonalizedGame {
         return game.getFirstPlayer();
     }
 
-    public void shootAt(Position position){
+    public void shootAt(Position position) {
+        if (!isItPlayersTurn()) {
+            throw GameException.CreateShotTwice();
+        }
         getBoard().shootAt(position);
         game.toggleTurn();
     }

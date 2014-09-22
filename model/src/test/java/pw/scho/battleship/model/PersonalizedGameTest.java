@@ -62,4 +62,10 @@ public class PersonalizedGameTest {
 
         assertThat(personalizedGame.isItPlayersTurn(), is(false));
     }
+
+    @Test(expected = GameException.class)
+    public void testShootingTwiceThrowsGameException() {
+        personalizedGame.shootAt(new Position(0, 0));
+        personalizedGame.shootAt(new Position(1, 0));
+    }
 }
