@@ -87,12 +87,12 @@ public class BoardTest {
     public void testIsShootableAtIsFalseIfAlreadyShotAt() {
         board.shootAt(new Position(0, 0));
 
-        assertThat(board.isShootableAt(new Position(0, 0)), is(false));
+        assertThat(board.positionIsShootableAt(new Position(0, 0)), is(false));
     }
 
     @Test
     public void testIsShootableAtIsTrueIfNotShotAt() {
-        assertThat(board.isShootableAt(new Position(0, 0)), is(true));
+        assertThat(board.positionIsShootableAt(new Position(0, 0)), is(true));
     }
 
     @Test(expected = GameException.class)

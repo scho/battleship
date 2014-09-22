@@ -34,7 +34,6 @@ public class GameServiceTest {
         InMemoryCache.getInstance().clear();
     }
 
-
     @Test
     public void testGetAllOpenGames() {
         Player player = new Player();
