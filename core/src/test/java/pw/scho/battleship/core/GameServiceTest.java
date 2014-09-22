@@ -3,8 +3,10 @@ package pw.scho.battleship.core;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import pw.scho.battleship.model.Board;
 import pw.scho.battleship.model.Game;
 import pw.scho.battleship.model.Player;
+import pw.scho.battleship.model.Position;
 import pw.scho.battleship.persistence.Repository;
 import pw.scho.battleship.persistence.memory.GameMemoryRepository;
 import pw.scho.battleship.persistence.memory.InMemoryCache;
@@ -94,6 +96,36 @@ public class GameServiceTest {
 
         assertThat(game.getFirstPlayer(), is(player));
         assertThat(game.getSecondPlayer(), is(nullValue()));
+    }
+
+    @Test
+    public void testIsItMyTurn() {
+        Player player = new Player();
+        Player otherPlayer = new Player();
+        Game game = new Game();
+        game.setFirstPlayer(player);
+        game.setSecondPlayer(otherPlayer);
+        repository.add(game);
+
+        boolean isItPlayersTurn = service.isItPlayersTurn(game.getId(), player);
+
+        assertThat(isItPlayersTurn, is(true));
+    }
+
+    @Test
+    public void testShootAt() {
+        Player player = new Player();
+        Player otherPlayer = new Player();
+        Game game = new Game();
+        game.setFirstPlayer(player);
+        game.setSecondPlayer(otherPlayer);
+        game.setFirstBoard(new Board());
+        game.setSecondBoard(new Board());
+        repository.add(game);
+
+        service.shootAt(game.getId(), player, new Position(0, 0));
+
+        assertThat(service.isItPlayersTurn(game.getId(), player), is(false));
     }
 }
 

@@ -1,8 +1,6 @@
 package pw.scho.battleship.core;
 
-import pw.scho.battleship.model.BoardRandomizer;
-import pw.scho.battleship.model.Game;
-import pw.scho.battleship.model.Player;
+import pw.scho.battleship.model.*;
 import pw.scho.battleship.persistence.Repository;
 
 import java.util.ArrayList;
@@ -62,6 +60,20 @@ public class GameService {
             }
 
             return openGames;
+        }
+    }
+
+    public boolean isItPlayersTurn(UUID gameId, Player player) {
+        synchronized (transaction) {
+            Game game = gameRepository.get(gameId);
+            return new PersonalizedGame(player, game).isItPlayersTurn();
+        }
+    }
+
+    public void shootAt(UUID gameId, Player player, Position position) {
+        synchronized (transaction) {
+            Game game = gameRepository.get(gameId);
+            new PersonalizedGame(player, game).shootAt(position);
         }
     }
 }
