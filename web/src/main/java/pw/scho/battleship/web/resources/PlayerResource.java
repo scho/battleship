@@ -27,7 +27,6 @@ public class PlayerResource extends AuthenticatedResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces(MediaType.APPLICATION_JSON)
     @Path("register")
     public Response register(@FormParam("name") String name, @FormParam("password") String password) {
         if (name == null || name.isEmpty() || !service.nameAvailable(name)) {
@@ -41,7 +40,7 @@ public class PlayerResource extends AuthenticatedResource {
         try {
             Player player = service.register(name, password);
 
-            return Response.ok(new PlayerInfo(player))
+            return Response.ok()
                     .cookie(createAuthenticationCookie(player.getId().toString()))
                     .build();
         } finally {
@@ -51,12 +50,19 @@ public class PlayerResource extends AuthenticatedResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces(MediaType.APPLICATION_JSON)
     @Path("login")
     public Response login(@FormParam("name") String name, @FormParam("password") String password) {
         Player player = service.authenticate(name, password);
 
-        return Response.ok(new PlayerInfo(player))
+        if(player == null){
+            throw new WebApplicationException(
+                    Response.status(Response.Status.UNAUTHORIZED)
+                            .entity("Authentication failed")
+                            .build()
+            );
+        }
+
+        return Response.ok()
                 .cookie(createAuthenticationCookie(player.getId().toString()))
                 .build();
     }
