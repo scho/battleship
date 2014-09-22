@@ -16,7 +16,7 @@ public class GameMemoryRepositoryTest {
     private GameMemoryRepository repository;
 
     @Before
-    public void setCacheInstance() {
+    public void createGameMemoryRepository() {
         repository = new GameMemoryRepository();
     }
 
