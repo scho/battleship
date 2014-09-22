@@ -6,12 +6,28 @@ public class Game {
 
     private Board firstBoard;
     private Board secondBoard;
-    private UUID firstPlayerId;
-    private UUID secondPlayerId;
+    private Player firstPlayer;
+    private Player secondPlayer;
     private UUID id;
 
     public Game() {
         this.id = UUID.randomUUID();
+    }
+
+    public Player getSecondPlayer() {
+        return secondPlayer;
+    }
+
+    public void setSecondPlayer(Player secondPlayer) {
+        this.secondPlayer = secondPlayer;
+    }
+
+    public Player getFirstPlayer() {
+        return firstPlayer;
+    }
+
+    public void setFirstPlayer(Player firstPlayer) {
+        this.firstPlayer = firstPlayer;
     }
 
     public UUID getId() {
@@ -32,21 +48,5 @@ public class Game {
 
     public void setSecondBoard(Board secondBoard) {
         this.secondBoard = secondBoard;
-    }
-
-    public UUID getFirstPlayerId() {
-        return firstPlayerId;
-    }
-
-    public void setFirstPlayerId(UUID firstPlayerId) {
-        this.firstPlayerId = firstPlayerId;
-    }
-
-    public UUID getSecondPlayerId() {
-        return secondPlayerId;
-    }
-
-    public void setSecondPlayerId(UUID secondPlayerId) {
-        this.secondPlayerId = secondPlayerId;
     }
 }
