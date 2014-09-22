@@ -68,4 +68,31 @@ public class PersonalizedGameTest {
         personalizedGame.shootAt(new Position(0, 0));
         personalizedGame.shootAt(new Position(1, 0));
     }
+
+    @Test
+    public void testGetPlayersBoardPositions() {
+        board.placeShip(Ship.createHorizontal(new Position(0, 0), 2));
+        personalizedGame.shootAt(new Position(0, 0));
+        new PersonalizedGame(opponent, game).shootAt(new Position(0, 0));
+
+        BoardPosition[][] boardPositions = personalizedGame.getPlayersBoardPositions();
+
+        assertThat(boardPositions[0][0].getKind(), is(BoardPosition.Kind.HIT_SHIP));
+        assertThat(boardPositions[0][1].getKind(), is(BoardPosition.Kind.SHIP));
+        assertThat(boardPositions[0][2].getKind(), is(BoardPosition.Kind.WATER));
+    }
+
+    @Test
+    public void testGetOpponentsBoardPositions() {
+        opponentBoard.placeShip(Ship.createHorizontal(new Position(0, 0), 2));
+        personalizedGame.shootAt(new Position(0, 0));
+        new PersonalizedGame(opponent, game).shootAt(new Position(0, 0));
+        personalizedGame.shootAt(new Position(0, 1));
+
+        BoardPosition[][] boardPositions = personalizedGame.getOpponentsBoardPositions();
+
+        assertThat(boardPositions[0][0].getKind(), is(BoardPosition.Kind.HIT_SHIP));
+        assertThat(boardPositions[0][1].getKind(), is(BoardPosition.Kind.UNKNOWN));
+        assertThat(boardPositions[1][0].getKind(), is(BoardPosition.Kind.HIT_WATER));
+    }
 }

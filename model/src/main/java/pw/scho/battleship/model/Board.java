@@ -101,4 +101,44 @@ public class Board {
                 position.getX() < WIDTH &&
                 position.getY() < HEIGHT;
     }
+
+    public BoardPosition[][] getMaskedBoardPositions() {
+        return getBoardPositions(true);
+    }
+
+    public BoardPosition[][] getUnmaskedBoardPositions() {
+        return getBoardPositions(false);
+    }
+
+    private BoardPosition[][] getBoardPositions(boolean mask) {
+        BoardPosition[][] boardPositions = new BoardPosition[HEIGHT][WIDTH];
+
+        for (int x = 0; x < WIDTH; x++) {
+            for (int y = 0; y < HEIGHT; y++) {
+                Position position = new Position(x, y);
+                BoardPosition boardPosition;
+                if (positionWasShotAt(position)) {
+                    if (positionIsTakenByShip(position)) {
+                        boardPosition = BoardPosition.createHitShip();
+                    } else {
+                        boardPosition = BoardPosition.createHitWater();
+                    }
+                } else {
+                    if (mask) {
+                        boardPosition = BoardPosition.createUnknown();
+                    } else {
+                        if (positionIsTakenByShip(position)) {
+                            boardPosition = BoardPosition.createShip();
+                        } else {
+                            boardPosition = BoardPosition.createWater();
+                        }
+                    }
+                }
+
+                boardPositions[y][x] = boardPosition;
+            }
+        }
+
+        return boardPositions;
+    }
 }

@@ -61,4 +61,12 @@ public class PersonalizedGame {
 
         return game.isItSecondPlayersTurn();
     }
+
+    public BoardPosition[][] getPlayersBoardPositions() {
+        return getBoard().getUnmaskedBoardPositions();
+    }
+
+    public BoardPosition[][] getOpponentsBoardPositions() {
+        return getOpponentBoard().getMaskedBoardPositions();
+    }
 }
