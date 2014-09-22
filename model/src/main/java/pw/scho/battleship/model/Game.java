@@ -51,15 +51,15 @@ public class Game {
         this.secondBoard = secondBoard;
     }
 
-    public void toggleTurn(){
+    public void toggleTurn() {
         firstPlayersTurn = !firstPlayersTurn;
     }
 
-    public boolean isItFirstPlayersTurn(){
+    public boolean isItFirstPlayersTurn() {
         return firstPlayersTurn;
     }
 
-    public boolean isItSecondPlayersTurn(){
+    public boolean isItSecondPlayersTurn() {
         return !firstPlayersTurn;
     }
 }

@@ -54,7 +54,7 @@ public class PlayerResource extends AuthenticatedResource {
     public Response login(@FormParam("name") String name, @FormParam("password") String password) {
         Player player = service.authenticate(name, password);
 
-        if(player == null){
+        if (player == null) {
             throw new WebApplicationException(
                     Response.status(Response.Status.UNAUTHORIZED)
                             .entity("Authentication failed")

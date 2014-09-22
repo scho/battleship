@@ -30,7 +30,6 @@ public class PersonalizedGame {
         return game.getFirstBoard();
     }
 
-
     public Player getPlayer() {
         if (iAmFirst()) {
             return game.getFirstPlayer();

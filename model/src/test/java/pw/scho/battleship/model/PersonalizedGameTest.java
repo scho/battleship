@@ -1,6 +1,5 @@
 package pw.scho.battleship.model;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
