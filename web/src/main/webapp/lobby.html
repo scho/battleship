@@ -15,14 +15,25 @@
 
 <div class="header">
     <h1>Battleship - Lobby</h1>
+    <span id="player-info"></span>
+    <button id="logout-button" class="btn btn-secondary">Logout</button>
 </div>
 
 <div class="container">
     <div class="row">
         <div id="content" class="span12>">
+            <table id="openGames" class="table table-striped">
+                <thead>
+                <tr>
+                    <td>Opponent</td>
+                    <td>Link</td>
+                </tr>
+                </thead>
+                <tbody>
 
-            <span id="player-info"></span>
-            <button id="logout-button" class="btn btn-secondary">Logout</button>
+                </tbody>
+            </table>
+            <button id="create-game-button" class="btn btn-secondary">Create Game</button>
         </div>
     </div>
 </div>
@@ -32,10 +43,22 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
+    $('#create-game-button').click(function(event){
+
+        $.ajax({
+            type: 'PUT',
+            url: '/api/games/create'
+        }).done(function(data){
+            window.location = "/game.html#" + data;
+        });
+
+        event.preventDefault();
+    });
+
     $('#logout-button').click(function(event){
 
         $.ajax({
-            type: "POST",
+            type: 'POST',
             url: '/api/players/logout'
         }).done(function(data){
             window.location = "/";
@@ -45,17 +68,38 @@ $(document).ready(function() {
     });
 
     $.ajax({
-        type: "GET",
+        type: 'GET',
         url: '/api/games',
         dataType: 'json'
-    }).done(function(data){
-        console.log(data);
+    }).done(function(openGames){
+        var tbody = $('#openGames tbody').first();
+        openGames.map(function(openGame){
+            tbody.append('<tr>' +
+                '<td>' + openGame.opponentName + '</td>' +
+                '<td><a href="#" onclick="(function(e){' +
+                        'e.preventDefault();' +
+                        'joinGame(\'' + openGame.gameId + '\');' +
+                     '})(event);">Join</a></td>' +
+                '</tr>');
+        });
     }).fail(function(){
         alert("Loading of games failed.");
     });
 
+    window.joinGame = function(gameId){
+        $.ajax({
+            type: 'POST',
+            url: '/api/games/join/' + gameId
+        }).done(function(data){
+            window.location = "/game.html#" + data;
+        });
+
+        event.preventDefault();
+
+    };
+
     $.ajax({
-        type: "GET",
+        type: 'GET',
         url: '/api/players/info',
         dataType: 'json'
     }).done(function(player){
@@ -63,7 +107,10 @@ $(document).ready(function() {
     }).fail(function(){
         window.location = "/";
     });
+
 });
+
+
 
 
 </script>

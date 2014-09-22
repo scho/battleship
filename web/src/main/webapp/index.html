@@ -47,7 +47,7 @@ $(document).ready(function() {
     $('#register-button').click(function(event){
 
         $.ajax({
-            type: "POST",
+            type: 'POST',
             url: '/api/players/register',
             data: {
                 name: $('#inputName').val(),
@@ -66,7 +66,7 @@ $(document).ready(function() {
     $('#login-button').click(function(event){
 
         $.ajax({
-            type: "POST",
+            type: 'POST',
             url: '/api/players/login',
             data: {
                 name: $('#inputName').val(),
