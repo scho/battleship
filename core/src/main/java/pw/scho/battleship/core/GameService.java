@@ -42,6 +42,10 @@ public class GameService {
                 throw new RuntimeException("Cannot find your game");
             }
 
+            if (game.getSecondPlayer() != null) {
+                throw new RuntimeException("Cannot join full game");
+            }
+
             game.setSecondPlayer(player);
         }
     }
