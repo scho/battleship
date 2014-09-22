@@ -106,19 +106,22 @@ public class Board {
                 position.getY() < HEIGHT;
     }
 
-    public BoardPosition[][] getMaskedBoardPositions() {
+    public List<List<BoardPosition>> getMaskedBoardPositions() {
         return getBoardPositions(true);
     }
 
-    public BoardPosition[][] getUnmaskedBoardPositions() {
+    public List<List<BoardPosition>> getUnmaskedBoardPositions() {
         return getBoardPositions(false);
     }
 
-    private BoardPosition[][] getBoardPositions(boolean mask) {
-        BoardPosition[][] boardPositions = new BoardPosition[HEIGHT][WIDTH];
+    private List<List<BoardPosition>> getBoardPositions(boolean mask) {
+        List<List<BoardPosition>> boardPositions = new ArrayList();
 
-        for (int x = 0; x < WIDTH; x++) {
-            for (int y = 0; y < HEIGHT; y++) {
+
+        for (int y = 0; y < HEIGHT; y++) {
+            List<BoardPosition> row = new ArrayList();
+            boardPositions.add(row);
+            for (int x = 0; x < WIDTH; x++) {
                 Position position = new Position(x, y);
                 BoardPosition boardPosition;
                 if (positionWasShotAt(position)) {
@@ -139,7 +142,7 @@ public class Board {
                     }
                 }
 
-                boardPositions[y][x] = boardPosition;
+                row.add(boardPosition);
             }
         }
 

@@ -3,6 +3,8 @@ package pw.scho.battleship.model;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -75,11 +77,11 @@ public class PersonalizedGameTest {
         personalizedGame.shootAt(new Position(0, 0));
         new PersonalizedGame(opponent, game).shootAt(new Position(0, 0));
 
-        BoardPosition[][] boardPositions = personalizedGame.getPlayersBoardPositions();
+        List<List<BoardPosition>> boardPositions = personalizedGame.getPlayersBoardPositions();
 
-        assertThat(boardPositions[0][0].getKind(), is(BoardPosition.Kind.HIT_SHIP));
-        assertThat(boardPositions[0][1].getKind(), is(BoardPosition.Kind.SHIP));
-        assertThat(boardPositions[0][2].getKind(), is(BoardPosition.Kind.WATER));
+        assertThat(boardPositions.get(0).get(0).getKind(), is(BoardPosition.Kind.HIT_SHIP));
+        assertThat(boardPositions.get(0).get(1).getKind(), is(BoardPosition.Kind.SHIP));
+        assertThat(boardPositions.get(0).get(2).getKind(), is(BoardPosition.Kind.WATER));
     }
 
     @Test
@@ -89,10 +91,10 @@ public class PersonalizedGameTest {
         new PersonalizedGame(opponent, game).shootAt(new Position(0, 0));
         personalizedGame.shootAt(new Position(0, 1));
 
-        BoardPosition[][] boardPositions = personalizedGame.getOpponentsBoardPositions();
+        List<List<BoardPosition>> boardPositions = personalizedGame.getOpponentsBoardPositions();
 
-        assertThat(boardPositions[0][0].getKind(), is(BoardPosition.Kind.HIT_SHIP));
-        assertThat(boardPositions[0][1].getKind(), is(BoardPosition.Kind.UNKNOWN));
-        assertThat(boardPositions[1][0].getKind(), is(BoardPosition.Kind.HIT_WATER));
+        assertThat(boardPositions.get(0).get(0).getKind(), is(BoardPosition.Kind.HIT_SHIP));
+        assertThat(boardPositions.get(0).get(1).getKind(), is(BoardPosition.Kind.UNKNOWN));
+        assertThat(boardPositions.get(1).get(0).getKind(), is(BoardPosition.Kind.HIT_WATER));
     }
 }

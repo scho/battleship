@@ -2,6 +2,7 @@ package pw.scho.battleship.web.resources;
 
 
 import pw.scho.battleship.core.GameService;
+import pw.scho.battleship.model.BoardPosition;
 import pw.scho.battleship.model.Game;
 import pw.scho.battleship.model.Player;
 import pw.scho.battleship.persistence.memory.GameMemoryRepository;
@@ -34,11 +35,7 @@ public class GameResource extends AuthenticatedResource {
                 .map(GameInfo::new)
                 .collect(Collectors.toList());
 
-        // GenericEntity is needed for serialization, Response.ok(new ArrayList())
-        // does not work.
-        // See: http://stackoverflow.com/a/22852881/2064483
-        return Response.ok(new GenericEntity<List<GameInfo>>(gameInfos) {
-        }).build();
+        return Response.ok(gameInfos).build();
     }
 
     @PUT
@@ -54,13 +51,34 @@ public class GameResource extends AuthenticatedResource {
 
     @POST
     @Produces(MediaType.TEXT_PLAIN)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Path("/join/{gameId}")
+    @Path("/{gameId}/join")
     public Response join(@CookieParam("playerId") String playerId, @PathParam("gameId") String gameId) {
         Player player = authenticatePlayer(playerId);
 
         service.joinGame(UUID.fromString(gameId), player);
 
         return Response.ok(gameId).build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{gameId}/playersboardpositions")
+    public Response getPlayersBoardPositions(@CookieParam("playerId") String playerId, @PathParam("gameId") String gameId) {
+        Player player = authenticatePlayer(playerId);
+
+        List<List<BoardPosition>> boardPositions = service.getPlayersBoardPositions(UUID.fromString(gameId), player);
+
+        return Response.ok(boardPositions).build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{gameId}/opponentsboardpositions")
+    public Response getOpponentsBoardPositions(@CookieParam("playerId") String playerId, @PathParam("gameId") String gameId) {
+        Player player = authenticatePlayer(playerId);
+
+        List<List<BoardPosition>> boardPositions = service.getOpponentsBoardPositions(UUID.fromString(gameId), player);
+
+        return Response.ok(boardPositions).build();
     }
 }

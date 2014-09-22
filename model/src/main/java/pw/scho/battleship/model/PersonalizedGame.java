@@ -1,5 +1,7 @@
 package pw.scho.battleship.model;
 
+import java.util.List;
+
 public class PersonalizedGame {
 
     private final Player player;
@@ -62,11 +64,11 @@ public class PersonalizedGame {
         return game.isItSecondPlayersTurn();
     }
 
-    public BoardPosition[][] getPlayersBoardPositions() {
+    public List<List<BoardPosition>> getPlayersBoardPositions() {
         return getBoard().getUnmaskedBoardPositions();
     }
 
-    public BoardPosition[][] getOpponentsBoardPositions() {
+    public List<List<BoardPosition>> getOpponentsBoardPositions() {
         return getOpponentBoard().getMaskedBoardPositions();
     }
 }

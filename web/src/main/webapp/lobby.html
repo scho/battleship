@@ -89,7 +89,7 @@ $(document).ready(function() {
     window.joinGame = function(gameId){
         $.ajax({
             type: 'POST',
-            url: '/api/games/join/' + gameId
+            url: '/api/games/' + gameId + '/join'
         }).done(function(data){
             window.location = "/game.html#" + data;
         });

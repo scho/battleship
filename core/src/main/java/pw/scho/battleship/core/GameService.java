@@ -76,4 +76,18 @@ public class GameService {
             new PersonalizedGame(player, game).shootAt(position);
         }
     }
+
+    public List<List<BoardPosition>> getPlayersBoardPositions(UUID gameId, Player player) {
+        synchronized (transaction) {
+            Game game = gameRepository.get(gameId);
+            return new PersonalizedGame(player, game).getPlayersBoardPositions();
+        }
+    }
+
+    public List<List<BoardPosition>> getOpponentsBoardPositions(UUID gameId, Player player) {
+        synchronized (transaction) {
+            Game game = gameRepository.get(gameId);
+            return new PersonalizedGame(player, game).getOpponentsBoardPositions();
+        }
+    }
 }

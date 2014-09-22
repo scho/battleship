@@ -33,6 +33,25 @@
 $(document).ready(function() {
     var gameId = window.location.hash.substring(1);
 
+    $.ajax({
+        type: 'GET',
+        url: '/api/games/' + gameId + '/playersboardpositions',
+        dataType: 'json'
+    }).done(function(data){
+        console.log(data);
+    }).fail(function(){
+        console.log('playersboardpositions fail');
+    });
+
+    $.ajax({
+        type: 'GET',
+        url: '/api/games/' + gameId + '/opponentsboardpositions',
+        dataType: 'json'
+    }).done(function(data){
+        console.log(data);
+    }).fail(function(){
+        console.log('opponentsboardpositions fail');
+    });
 });
 
 

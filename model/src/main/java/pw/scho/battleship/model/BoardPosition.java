@@ -2,7 +2,10 @@ package pw.scho.battleship.model;
 
 public class BoardPosition {
 
-    private final Kind kind;
+    private Kind kind;
+
+    public BoardPosition(){
+    }
 
     private BoardPosition(Kind kind) {
         this.kind = kind;
