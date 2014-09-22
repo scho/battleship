@@ -50,7 +50,7 @@ public class PersonalizedGame {
         if (!isItPlayersTurn()) {
             throw GameException.CreateShotTwice();
         }
-        getBoard().shootAt(position);
+        getOpponentBoard().shootAt(position);
         game.toggleTurn();
     }
 
