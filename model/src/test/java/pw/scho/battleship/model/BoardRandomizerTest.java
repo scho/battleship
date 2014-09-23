@@ -25,4 +25,9 @@ public class BoardRandomizerTest {
         assertThat(board.getShips().get(2).size(), is(4));
     }
 
+    @Test
+    public void testRandomizeWithStandardShips() {
+        boardRandomizer.randomizeWithStandardShips();
+    }
+
 }
