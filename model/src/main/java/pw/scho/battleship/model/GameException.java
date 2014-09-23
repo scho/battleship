@@ -17,13 +17,13 @@ public class GameException extends RuntimeException {
         return new GameException(GameRuntimeExceptionKind.ALREADY_SHOT_AT);
     }
 
-    public static GameException CreateShotTwice() {
-        return new GameException(GameRuntimeExceptionKind.SHOT_TWICE);
+    public static GameException CreateNotPlayersTurn() {
+        return new GameException(GameRuntimeExceptionKind.NOT_PLAYERS_TURN);
     }
 
     private enum GameRuntimeExceptionKind {
         SHIP_NOT_PLACEABLE,
         ALREADY_SHOT_AT,
-        SHOT_TWICE;
+        NOT_PLAYERS_TURN;
     }
 }
