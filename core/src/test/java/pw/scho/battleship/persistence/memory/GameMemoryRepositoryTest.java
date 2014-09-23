@@ -4,7 +4,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import pw.scho.battleship.model.Game;
-import pw.scho.battleship.model.Player;
 
 import java.util.Collection;
 import java.util.UUID;

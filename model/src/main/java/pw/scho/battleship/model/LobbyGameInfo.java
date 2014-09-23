@@ -1,7 +1,5 @@
 package pw.scho.battleship.model;
 
-import pw.scho.battleship.model.Game;
-
 public class LobbyGameInfo {
 
     private String opponentName;
@@ -15,4 +13,11 @@ public class LobbyGameInfo {
         this.opponentName = game.getFirstPlayer().getName();
     }
 
+    public String getGameId() {
+        return gameId;
+    }
+
+    public String getOpponentName() {
+        return opponentName;
+    }
 }

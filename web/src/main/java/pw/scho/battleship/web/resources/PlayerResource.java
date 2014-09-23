@@ -3,9 +3,9 @@ package pw.scho.battleship.web.resources;
 import org.mongolink.MongoSession;
 import pw.scho.battleship.core.PlayerService;
 import pw.scho.battleship.model.Player;
+import pw.scho.battleship.model.PlayerInfo;
 import pw.scho.battleship.persistence.configuration.MongoConfiguration;
 import pw.scho.battleship.persistence.mongo.PlayerMongoRepository;
-import pw.scho.battleship.web.mapping.PlayerInfo;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

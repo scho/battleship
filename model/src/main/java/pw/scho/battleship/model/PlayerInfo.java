@@ -1,7 +1,5 @@
 package pw.scho.battleship.model;
 
-import pw.scho.battleship.model.Player;
-
 public class PlayerInfo {
 
     private String name;
@@ -15,5 +13,17 @@ public class PlayerInfo {
         this.name = player.getName();
         this.gamesLost = player.getGamesLost();
         this.gamesWon = player.getGamesWon();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getGamesWon() {
+        return gamesWon;
+    }
+
+    public int getGamesLost() {
+        return gamesLost;
     }
 }

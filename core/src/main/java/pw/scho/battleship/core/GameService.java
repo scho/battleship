@@ -48,14 +48,14 @@ public class GameService {
         }
     }
 
-    public List<Game> getAllOpenGames(Player player) {
+    public List<LobbyGameInfo> getAllOpenGames(Player player) {
         synchronized (transaction) {
             List<Game> games = gameRepository.all();
-            List<Game> openGames = new ArrayList();
+            List<LobbyGameInfo> openGames = new ArrayList();
 
             for (Game game : games) {
                 if (game.getSecondPlayer() == null && !game.getFirstPlayer().getId().equals(player.getId())) {
-                    openGames.add(game);
+                    openGames.add(new LobbyGameInfo(game));
                 }
             }
 
@@ -63,10 +63,10 @@ public class GameService {
         }
     }
 
-    public boolean isItPlayersTurn(UUID gameId, Player player) {
+    public GameInfo getGameInfo(UUID gameId, Player player) {
         synchronized (transaction) {
             Game game = gameRepository.get(gameId);
-            return new PersonalizedGame(player, game).isItPlayersTurn();
+            return new GameInfo(new PersonalizedGame(player, game));
         }
     }
 

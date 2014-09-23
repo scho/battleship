@@ -3,10 +3,7 @@ package pw.scho.battleship.core;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import pw.scho.battleship.model.Board;
-import pw.scho.battleship.model.Game;
-import pw.scho.battleship.model.Player;
-import pw.scho.battleship.model.Position;
+import pw.scho.battleship.model.*;
 import pw.scho.battleship.persistence.Repository;
 import pw.scho.battleship.persistence.memory.GameMemoryRepository;
 import pw.scho.battleship.persistence.memory.InMemoryCache;
@@ -49,10 +46,10 @@ public class GameServiceTest {
         repository.add(startedGame);
         repository.add(ownGame);
 
-        List<Game> openGames = service.getAllOpenGames(player);
+        List<LobbyGameInfo> openGames = service.getAllOpenGames(player);
 
         assertThat(openGames.size(), is(1));
-        assertThat(openGames.get(0), is(openGame));
+        assertThat(openGames.get(0).getGameId(), is(openGame.getId().toString()));
     }
 
     @Test
@@ -98,7 +95,7 @@ public class GameServiceTest {
     }
 
     @Test
-    public void testIsItMyTurn() {
+    public void testGetGameInfo() {
         Player player = new Player();
         Player otherPlayer = new Player();
         Game game = new Game();
@@ -106,9 +103,9 @@ public class GameServiceTest {
         game.setSecondPlayer(otherPlayer);
         repository.add(game);
 
-        boolean isItPlayersTurn = service.isItPlayersTurn(game.getId(), player);
+        GameInfo gameInfo = service.getGameInfo(game.getId(), player);
 
-        assertThat(isItPlayersTurn, is(true));
+        assertThat(gameInfo.isStarted(), is(true));
     }
 
     @Test
@@ -124,7 +121,7 @@ public class GameServiceTest {
 
         service.shootAt(game.getId(), player, new Position(0, 0));
 
-        assertThat(service.isItPlayersTurn(game.getId(), player), is(false));
+        assertThat(service.getGameInfo(game.getId(), player).isPlayersTurn(), is(false));
     }
 }
 
