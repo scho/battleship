@@ -12,3 +12,43 @@
     width: 600px;
     margin: 0 auto;
 }
+
+.board tr {
+    height: 30px;
+}
+
+.board td {
+    width: 16px;
+}
+
+.board .water {
+    background-color: #EBF4FA;
+}
+
+.board .ship {
+    background-color: #6C7B8B;
+}
+
+.board .ship-hit {
+    background-color: #DC143C;
+}
+
+.board .water-hit {
+    background-color: #4876FF;
+}
+
+.board .unknown {
+    background-color: #F4F4F4;
+}
+
+.board .unknown:hover.clickable {
+    background-color: #999999;
+}
+
+.board .clickable:hover {
+    cursor: pointer;
+}
+
+#vs {
+    font-size: 2em;
+}
