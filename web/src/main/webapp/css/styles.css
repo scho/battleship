@@ -1,11 +1,5 @@
 .header {
-    width: 600px;
-    margin: 0 auto;
-}
-
-.container {
-    width: 800px;
-    margin: 0 auto;
+    text-align: center;
 }
 
 #openGames {
@@ -13,13 +7,33 @@
     margin: 0 auto;
 }
 
+#inner-not-your-turn {
+    position: relative;
+    top: 0;
+    left: 0;
+    margin: 130px auto;
+    vertical-align: middle;
+
+}
+
+#not-your-turn {
+    position: absolute;
+    width: 380px;
+    height: 400px;
+    z-index: 1000;
+    background-color:rgba(255,255,255,0.4);
+}
+
+.board {
+    width: 301px;
+    margin: 0 auto !important;
+    float: none !important;
+}
+
 .board tr {
     height: 30px;
 }
 
-.board td {
-    width: 16px;
-}
 
 .board .water {
     background-color: #EBF4FA;
@@ -30,11 +44,15 @@
 }
 
 .board .ship-hit {
-    background-color: #DC143C;
+    background-color: #FF476F;
 }
 
-.board .water-hit {
-    background-color: #4876FF;
+.water-hit {
+    background-color: #AEDCFF;
+}
+
+.water-hit {
+    background-color: #AEDCFF;
 }
 
 .board .unknown {
@@ -51,4 +69,12 @@
 
 #vs {
     font-size: 2em;
+}
+
+#your-turn {
+    margin-top: 150px;
+}
+
+#nobody-has-joined {
+    margin-top: 150px;
 }

@@ -14,28 +14,43 @@
 <body>
 
 <div class="header">
-    <h1>Battleship - Game</h1>
+    <h1>Battleship</h1>
 
-    <h2 id="headline" style="display: none;"><span id="players-name"></span> <span id="vs">VS</span> <span
-            id="opponents-name"></span></h2>
+    <h2 id="headline" style="display: none;"><span class="players-name"></span> <span id="vs">VS</span> <span
+            class="opponents-name"></span></h2>
 
-    <div id="your-turn" style="display: none;">It is your turn!</div>
+
     <a href="/lobby.html">Back to Lobby</a>
 </div>
 
 <div class="container">
     <div class="row">
-        <div id="content" class="span12>">
-            <table id="players-board" class="table table-bordered board">
-                <tbody>
-                </tbody>
-            </table>
 
-            <table id="opponents-board" class="table table-bordered board">
-                <tbody>
-                </tbody>
-            </table>
-        </div>
+            <div class="span5 text-center">
+                <h4><span class="opponents-name"></span></h4>
+                <div id="not-your-turn" class="text-center">
+                    <div id="inner-not-your-turn"><h4>Waiting for other players turn.</h4></div>
+                </div>
+
+                <table id="opponents-board" class="table table-bordered board">
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div class="span2">
+                <div id="nobody-has-joined" class="text-center" style="display: none;"><h5>Nobody has joined yet, lets wait!</h5></div>
+                <div id="your-turn" class="text-center" style="display: none;"><h5>Go ahead, shoot!</h5></div>
+            </div>
+            <div class="span5 text-center">
+                <h4>Your Board</h4>
+                <table id="players-board" class="table table-bordered board">
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
+
+
     </div>
 </div>
 
@@ -73,19 +88,22 @@ $(document).ready(function() {
     window.createBoard = function(id, data, clickable){
         var tbody = $(id + ' tbody').first(),
             y = 0,
-            x;
+            x,
+            chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
         tbody.empty();
         data.map(function(row){
             var rowEl = $('<tr></tr>');
             x = 0;
             row.map(function(cell){
                 var kind = cell.kind.toLocaleLowerCase().replace('_', '-'),
-                    unknown = kind === 'unknown';
+                    unknown = kind === 'unknown',
+                    title = chars[x] + (y + 1).toString();
 
                 if(clickable && unknown){
-                    rowEl.append('<td onClick="(function(e){ e.preventDefault(); shootAt(' + x + ',' + y + ')})(event)" class="clickable ' + kind + '"></td>');
+                    rowEl.append('<td title="' + title + '" onClick="(function(e){ e.preventDefault(); shootAt(' + x + ',' + y + ')})(event)" class="clickable ' + kind + '"></td>');
                 } else {
-                    rowEl.append('<td class="' + kind + '"></td>');
+                    rowEl.append('<td title="' + title + '" class="' + kind + '"></td>');
                 }
                 x += 1;
             });
@@ -110,22 +128,26 @@ $(document).ready(function() {
             type: 'GET',
             url: '/api/games/' + gameId + '/info'
         }).done(function(gameInfo){
-            $('#players-name').text(gameInfo.playersName);
+            $('.players-name').text(gameInfo.playersName);
             if(gameInfo.started){
-                $('#opponents-name').text(gameInfo.opponentsName);
+                $('.opponents-name').text(gameInfo.opponentsName);
+                $('#nobody-has-joined').hide();
             } else {
-                $('#opponents-name').text('?');
+                $('.opponents-name').text('?');
+                $('#nobody-has-joined').show();
             }
 
-            if(gameInfo.playersTurn){
+            if(gameInfo.playersTurn && gameInfo.started){
                 $('#players-name').addClass('active');
                 $('#opponents-name').removeClass('active');
                 $('#your-turn').show();
+                $('#not-your-turn').hide();
                 window.loadPlayersBoardPositions();
             } else {
                 $('#players-name').removeClass('active');
                 $('#opponents-name').addClass('active');
                 $('#your-turn').hide();
+                $('#not-your-turn').show();
                 setTimeout(window.updateGameInfo, 1000);
             }
             $('#headline').show();

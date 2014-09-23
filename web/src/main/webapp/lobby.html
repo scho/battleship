@@ -14,14 +14,14 @@
 <body>
 
 <div class="header">
-    <h1>Battleship - Lobby</h1>
-    <span id="player-info"></span>
-    <button id="logout-button" class="btn btn-secondary">Logout</button>
+    <h1>Battleship</h1>
+    <h3>Lobby</h3>
 </div>
 
 <div class="container">
     <div class="row">
-        <div id="content" class="span12>">
+        <div id="content" class="span8>">
+            <h4>Open games</h4>
             <table id="openGames" class="table table-striped">
                 <thead>
                 <tr>
@@ -33,8 +33,21 @@
 
                 </tbody>
             </table>
-            <button id="reload-games-button" class="btn btn-secondary">Reload</button>
-            <button id="create-game-button" class="btn btn-secondary">Create Game</button>
+            <br />
+            <p>
+                <button id="open-game-button" class="btn btn-secondary">Open new game</button>
+            </p>
+        </div>
+        <div class="span4">
+            <h4>Player stats</h4>
+            <p>
+                <span id="player-login-info"></span>
+                [<a id="logout-button" href="#">Logout</a>]
+            </p>
+            <p>
+                <span id="player-stats"></span>
+            </p>
+
         </div>
     </div>
 </div>
@@ -44,7 +57,7 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-    $('#create-game-button').click(function(event){
+    $('#open-game-button').click(function(event){
 
         $.ajax({
             type: 'PUT',
@@ -68,12 +81,6 @@ $(document).ready(function() {
         event.preventDefault();
     });
 
-    $('#reload-games-button').click(function(event){
-        window.loadGames();
-
-        event.preventDefault();
-    });
-
     window.loadGames = function () {
         $.ajax({
             type: 'GET',
@@ -91,6 +98,10 @@ $(document).ready(function() {
                          '})(event);">Join</a></td>' +
                     '</tr>');
             });
+            if(openGames.length === 0){
+                tbody.append('<tr><td colspan="2"><i>No open games available. Want to open a new one?</i></td></tr>');
+            }
+            setTimeout(window.loadGames, 5000);
         }).fail(function(){
             console.log("Loading of games failed.");
         });
@@ -114,7 +125,8 @@ $(document).ready(function() {
             url: '/api/players/info',
             dataType: 'json'
         }).done(function(player){
-            $('#player-info').text('Logged in as ' + player.name + ' - ' + player.gamesWon + ' games won, ' + player.gamesLost + ' games lost');
+            $('#player-login-info').text('Logged in as ' + player.name);
+            $('#player-stats').text(player.gamesWon + ' games won, ' + player.gamesLost + ' games lost');
         }).fail(function(){
             window.location = "/";
         });
