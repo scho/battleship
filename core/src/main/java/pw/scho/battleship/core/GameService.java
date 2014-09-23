@@ -71,6 +71,23 @@ public class GameService {
         }
     }
 
+    public List<LobbyGameInfo> getAllOwnGames(UUID playerId) throws ServiceException {
+        synchronized (transaction) {
+            Player player = getPlayerById(playerId);
+
+            List<Game> games = gameRepository.all();
+            List<LobbyGameInfo> openGames = new ArrayList();
+
+            for (Game game : games) {
+                if (game.getFirstPlayer().getId().equals(player.getId()) || game.getSecondPlayer() != null && game.getSecondPlayer().getId().equals(player.getId())) {
+                    openGames.add(new LobbyGameInfo(game));
+                }
+            }
+
+            return openGames;
+        }
+    }
+
     public GameState getGameInfo(UUID gameId, UUID playerId) throws ServiceException {
         synchronized (transaction) {
             Game game = getGameById(gameId);

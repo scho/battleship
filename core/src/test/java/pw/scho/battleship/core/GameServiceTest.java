@@ -12,7 +12,9 @@ import pw.scho.battleship.persistence.mongo.PlayerMongoRepository;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
@@ -54,6 +56,33 @@ public class GameServiceTest {
 
         assertThat(openGames.size(), is(1));
         assertThat(openGames.get(0).getGameId(), is(openGame.getId().toString()));
+    }
+
+    @Test
+    public void testGetAllOwnGames() throws ServiceException {
+        Player player = new Player();
+        Player otherPlayer = new Player();
+        addPlayerToRepository(player);
+        Game openGame = new Game();
+        openGame.setFirstPlayer(new Player());
+        Game ownGame = new Game();
+        ownGame.setFirstPlayer(player);
+        Game startedGame = new Game();
+        startedGame.setFirstPlayer(player);
+        startedGame.setSecondPlayer(otherPlayer);
+        gameRepository.add(openGame);
+        gameRepository.add(startedGame);
+        gameRepository.add(ownGame);
+
+        List<LobbyGameInfo> ownGames = service.getAllOwnGames(player.getId());
+
+        List<String> gameIds = ownGames.stream()
+                .map(game -> game.getGameId().toString())
+                .collect(Collectors.toList());
+
+        assertThat(gameIds.size(), is(2));
+        assertThat(gameIds, hasItem(startedGame.getId().toString()));
+        assertThat(gameIds, hasItem(ownGame.getId().toString()));
     }
 
     @Test

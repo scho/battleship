@@ -25,9 +25,23 @@ public class GameResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response index(@CookieParam("playerId") String playerId) {
+    @Path("/allopen")
+    public Response allOpen(@CookieParam("playerId") String playerId) {
         try {
             List<LobbyGameInfo> lobbyGameInfos = service.getAllOpenGames(UUID.fromString(playerId));
+
+            return Response.ok(lobbyGameInfos).build();
+        } catch (ServiceException e) {
+            return createResponseFromServiceException(e);
+        }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/own")
+    public Response own(@CookieParam("playerId") String playerId) {
+        try {
+            List<LobbyGameInfo> lobbyGameInfos = service.getAllOwnGames(UUID.fromString(playerId));
 
             return Response.ok(lobbyGameInfos).build();
         } catch (ServiceException e) {
