@@ -87,7 +87,7 @@ public class Board {
         return true;
     }
 
-    private boolean positionIsTakenByShip(Position position) {
+    public boolean positionIsTakenByShip(Position position) {
         return getShipAtPosition(position) != null;
     }
 
@@ -115,37 +115,6 @@ public class Board {
     }
 
     private List<List<BoardPosition>> getBoardPositions(boolean mask) {
-        List<List<BoardPosition>> boardPositions = new ArrayList();
-
-
-        for (int y = 0; y < HEIGHT; y++) {
-            List<BoardPosition> row = new ArrayList();
-            boardPositions.add(row);
-            for (int x = 0; x < WIDTH; x++) {
-                Position position = new Position(x, y);
-                BoardPosition boardPosition;
-                if (positionWasShotAt(position)) {
-                    if (positionIsTakenByShip(position)) {
-                        boardPosition = BoardPosition.createShipHit();
-                    } else {
-                        boardPosition = BoardPosition.createWaterHit();
-                    }
-                } else {
-                    if (mask) {
-                        boardPosition = BoardPosition.createUnknown();
-                    } else {
-                        if (positionIsTakenByShip(position)) {
-                            boardPosition = BoardPosition.createShip();
-                        } else {
-                            boardPosition = BoardPosition.createWater();
-                        }
-                    }
-                }
-
-                row.add(boardPosition);
-            }
-        }
-
-        return boardPositions;
+        return new BoardPositionGenerator(this, mask).generate();
     }
 }
