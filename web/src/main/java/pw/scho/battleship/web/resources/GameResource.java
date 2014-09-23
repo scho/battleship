@@ -76,4 +76,31 @@ public class GameResource extends AuthenticatedResource {
 
         return Response.ok(boardPositions).build();
     }
+
+    @POST
+    @Path("/{gameId}/shootat/{x}-{y}")
+    public Response shootAt(@CookieParam("playerId") String playerId,
+                            @PathParam("gameId") String gameId,
+                            @PathParam("x") int x,
+                            @PathParam("y") int y) {
+        Player player = authenticatePlayer(playerId);
+
+        try {
+            service.shootAt(UUID.fromString(gameId), player, new Position(x, y));
+            return Response.ok().build();
+        } catch (GameException e) {
+            return Response.status(Response.Status.CONFLICT).build();
+        }
+    }
+
+    @GET
+    @Path("/{gameId}/info")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response info(@CookieParam("playerId") String playerId,
+                         @PathParam("gameId") String gameId) {
+        Player player = authenticatePlayer(playerId);
+
+        GameInfo gameInfo = service.getGameInfo(UUID.fromString(gameId), player);
+        return Response.ok(gameInfo).build();
+    }
 }
