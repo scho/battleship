@@ -79,7 +79,7 @@ public class PersonalizedGameTest {
 
         List<List<BoardPosition>> boardPositions = personalizedGame.getPlayersBoardPositions();
 
-        assertThat(boardPositions.get(0).get(0).getKind(), is(BoardPosition.Kind.HIT_SHIP));
+        assertThat(boardPositions.get(0).get(0).getKind(), is(BoardPosition.Kind.SHIP_HIT));
         assertThat(boardPositions.get(0).get(1).getKind(), is(BoardPosition.Kind.SHIP));
         assertThat(boardPositions.get(0).get(2).getKind(), is(BoardPosition.Kind.WATER));
     }
@@ -93,8 +93,8 @@ public class PersonalizedGameTest {
 
         List<List<BoardPosition>> boardPositions = personalizedGame.getOpponentsBoardPositions();
 
-        assertThat(boardPositions.get(0).get(0).getKind(), is(BoardPosition.Kind.HIT_SHIP));
+        assertThat(boardPositions.get(0).get(0).getKind(), is(BoardPosition.Kind.SHIP_HIT));
         assertThat(boardPositions.get(0).get(1).getKind(), is(BoardPosition.Kind.UNKNOWN));
-        assertThat(boardPositions.get(1).get(0).getKind(), is(BoardPosition.Kind.HIT_WATER));
+        assertThat(boardPositions.get(1).get(0).getKind(), is(BoardPosition.Kind.WATER_HIT));
     }
 }

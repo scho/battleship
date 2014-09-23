@@ -4,7 +4,7 @@ public class BoardPosition {
 
     private Kind kind;
 
-    public BoardPosition(){
+    public BoardPosition() {
     }
 
     private BoardPosition(Kind kind) {
@@ -15,8 +15,8 @@ public class BoardPosition {
         return new BoardPosition(Kind.WATER);
     }
 
-    public static BoardPosition createHitWater() {
-        return new BoardPosition(Kind.HIT_WATER);
+    public static BoardPosition createWaterHit() {
+        return new BoardPosition(Kind.WATER_HIT);
     }
 
     public static BoardPosition createUnknown() {
@@ -27,8 +27,8 @@ public class BoardPosition {
         return new BoardPosition(Kind.SHIP);
     }
 
-    public static BoardPosition createHitShip() {
-        return new BoardPosition(Kind.HIT_SHIP);
+    public static BoardPosition createShipHit() {
+        return new BoardPosition(Kind.SHIP_HIT);
     }
 
     public Kind getKind() {
@@ -37,9 +37,9 @@ public class BoardPosition {
 
     public enum Kind {
         WATER,
-        HIT_WATER,
+        WATER_HIT,
         UNKNOWN,
         SHIP,
-        HIT_SHIP
+        SHIP_HIT
     }
 }

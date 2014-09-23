@@ -126,9 +126,9 @@ public class Board {
                 BoardPosition boardPosition;
                 if (positionWasShotAt(position)) {
                     if (positionIsTakenByShip(position)) {
-                        boardPosition = BoardPosition.createHitShip();
+                        boardPosition = BoardPosition.createShipHit();
                     } else {
-                        boardPosition = BoardPosition.createHitWater();
+                        boardPosition = BoardPosition.createWaterHit();
                     }
                 } else {
                     if (mask) {
