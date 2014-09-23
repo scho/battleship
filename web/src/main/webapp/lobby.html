@@ -33,6 +33,7 @@
 
                 </tbody>
             </table>
+            <button id="reload-games-button" class="btn btn-secondary">Reload</button>
             <button id="create-game-button" class="btn btn-secondary">Create Game</button>
         </div>
     </div>
@@ -67,24 +68,33 @@ $(document).ready(function() {
         event.preventDefault();
     });
 
-    $.ajax({
-        type: 'GET',
-        url: '/api/games',
-        dataType: 'json'
-    }).done(function(openGames){
-        var tbody = $('#openGames tbody').first();
-        openGames.map(function(openGame){
-            tbody.append('<tr>' +
-                '<td>' + openGame.opponentName + '</td>' +
-                '<td><a href="#" onclick="(function(e){' +
-                        'e.preventDefault();' +
-                        'joinGame(\'' + openGame.gameId + '\');' +
-                     '})(event);">Join</a></td>' +
-                '</tr>');
-        });
-    }).fail(function(){
-        alert("Loading of games failed.");
+    $('#reload-games-button').click(function(event){
+        window.loadGames();
+
+        event.preventDefault();
     });
+
+    window.loadGames = function () {
+        $.ajax({
+            type: 'GET',
+            url: '/api/games',
+            dataType: 'json'
+        }).done(function(openGames){
+            var tbody = $('#openGames tbody').first();
+            tbody.empty();
+            openGames.map(function(openGame){
+                tbody.append('<tr>' +
+                    '<td>' + openGame.opponentName + '</td>' +
+                    '<td><a href="#" onclick="(function(e){' +
+                            'e.preventDefault();' +
+                            'joinGame(\'' + openGame.gameId + '\');' +
+                         '})(event);">Join</a></td>' +
+                    '</tr>');
+            });
+        }).fail(function(){
+            console.log("Loading of games failed.");
+        });
+    }
 
     window.joinGame = function(gameId){
         $.ajax({
@@ -98,17 +108,23 @@ $(document).ready(function() {
 
     };
 
-    $.ajax({
-        type: 'GET',
-        url: '/api/players/info',
-        dataType: 'json'
-    }).done(function(player){
-        $('#player-info').text('Logged in as ' + player.name + ' - ' + player.gamesWon + ' games won, ' + player.gamesLost + ' games lost');
-    }).fail(function(){
-        window.location = "/";
-    });
+    window.loadPlayerInfo = function(gameId){
+        $.ajax({
+            type: 'GET',
+            url: '/api/players/info',
+            dataType: 'json'
+        }).done(function(player){
+            $('#player-info').text('Logged in as ' + player.name + ' - ' + player.gamesWon + ' games won, ' + player.gamesLost + ' games lost');
+        }).fail(function(){
+            window.location = "/";
+        });
+    };
+
+    window.loadPlayerInfo();
+    window.loadGames();
 
 });
+
 
 
 

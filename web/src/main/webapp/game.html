@@ -15,13 +15,26 @@
 
 <div class="header">
     <h1>Battleship - Game</h1>
+
+    <h2 id="headline" style="display: none;"><span id="players-name"></span> <span id="vs">VS</span> <span
+            id="opponents-name"></span></h2>
+
+    <div id="your-turn" style="display: none;">It is your turn!</div>
     <a href="/lobby.html">Back to Lobby</a>
 </div>
 
 <div class="container">
     <div class="row">
         <div id="content" class="span12>">
+            <table id="players-board" class="table table-bordered board">
+                <tbody>
+                </tbody>
+            </table>
 
+            <table id="opponents-board" class="table table-bordered board">
+                <tbody>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -33,26 +46,98 @@
 $(document).ready(function() {
     var gameId = window.location.hash.substring(1);
 
-    $.ajax({
-        type: 'GET',
-        url: '/api/games/' + gameId + '/playersboardpositions',
-        dataType: 'json'
-    }).done(function(data){
-        console.log(data);
-    }).fail(function(){
-        console.log('playersboardpositions fail');
-    });
+    window.loadPlayersBoardPositions = function () {
+        $.ajax({
+            type: 'GET',
+            url: '/api/games/' + gameId + '/playersboardpositions',
+            dataType: 'json'
+        }).done(function(data){
+            createBoard('#players-board', data, false);
+        }).fail(function(){
+            console.log('playersboardpositions fail');
+        });
+    };
 
-    $.ajax({
-        type: 'GET',
-        url: '/api/games/' + gameId + '/opponentsboardpositions',
-        dataType: 'json'
-    }).done(function(data){
-        console.log(data);
-    }).fail(function(){
-        console.log('opponentsboardpositions fail');
-    });
+    window.loadOpponentsBoardPositions = function () {
+        $.ajax({
+            type: 'GET',
+            url: '/api/games/' + gameId + '/opponentsboardpositions',
+            dataType: 'json'
+        }).done(function(data){
+            createBoard('#opponents-board', data, true);
+        }).fail(function(){
+            console.log('opponentsboardpositions fail');
+        });
+    };
+
+    window.createBoard = function(id, data, clickable){
+        var tbody = $(id + ' tbody').first(),
+            y = 0,
+            x;
+        tbody.empty();
+        data.map(function(row){
+            var rowEl = $('<tr></tr>');
+            x = 0;
+            row.map(function(cell){
+                var kind = cell.kind.toLocaleLowerCase().replace('_', '-'),
+                    unknown = kind === 'unknown';
+
+                if(clickable && unknown){
+                    rowEl.append('<td onClick="(function(e){ e.preventDefault(); shootAt(' + x + ',' + y + ')})(event)" class="clickable ' + kind + '"></td>');
+                } else {
+                    rowEl.append('<td class="' + kind + '"></td>');
+                }
+                x += 1;
+            });
+            tbody.append(rowEl);
+            y += 1;
+        });
+    };
+
+    window.shootAt = function(x, y){
+        $.ajax({
+            type: 'POST',
+            url: '/api/games/' + gameId + '/shootat/' + x + '-' + y
+        }).done(function(data){
+            window.updateGameInfo();
+            window.loadOpponentsBoardPositions();
+        }).fail(function(){
+        });
+    };
+
+    window.updateGameInfo = function(x, y){
+        $.ajax({
+            type: 'GET',
+            url: '/api/games/' + gameId + '/info'
+        }).done(function(gameInfo){
+            $('#players-name').text(gameInfo.playersName);
+            if(gameInfo.started){
+                $('#opponents-name').text(gameInfo.opponentsName);
+            } else {
+                $('#opponents-name').text('?');
+            }
+
+            if(gameInfo.playersTurn){
+                $('#players-name').addClass('active');
+                $('#opponents-name').removeClass('active');
+                $('#your-turn').show();
+                window.loadPlayersBoardPositions();
+            } else {
+                $('#players-name').removeClass('active');
+                $('#opponents-name').addClass('active');
+                $('#your-turn').hide();
+                setTimeout(window.updateGameInfo, 1000);
+            }
+            $('#headline').show();
+        }).fail(function(){
+        });
+    };
+
+    window.loadPlayersBoardPositions();
+    window.loadOpponentsBoardPositions();
+    window.updateGameInfo();
 });
+
 
 
 </script>
