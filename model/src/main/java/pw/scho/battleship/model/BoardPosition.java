@@ -31,6 +31,10 @@ public class BoardPosition {
         return new BoardPosition(Kind.SHIP_HIT);
     }
 
+    public static BoardPosition createShipSunk() {
+        return new BoardPosition(Kind.SHIP_SUNK);
+    }
+
     public Kind getKind() {
         return kind;
     }
@@ -40,6 +44,7 @@ public class BoardPosition {
         WATER_HIT,
         UNKNOWN,
         SHIP,
-        SHIP_HIT
+        SHIP_HIT,
+        SHIP_SUNK
     }
 }

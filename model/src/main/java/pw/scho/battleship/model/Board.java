@@ -91,7 +91,7 @@ public class Board {
         return getShipAtPosition(position) != null;
     }
 
-    private Ship getShipAtPosition(Position position) {
+    public Ship getShipAtPosition(Position position) {
         return ships2DMap[position.getY()][position.getX()];
     }
 

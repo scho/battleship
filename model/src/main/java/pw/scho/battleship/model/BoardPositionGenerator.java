@@ -34,20 +34,20 @@ public class BoardPositionGenerator {
     private BoardPosition processPosition(Position position) {
         if (board.positionWasShotAt(position)) {
             if (board.positionIsTakenByShip(position)) {
-                return BoardPosition.createShipHit();
-            } else {
-                return BoardPosition.createWaterHit();
-            }
-        } else {
-            if (mask) {
-                return BoardPosition.createUnknown();
-            } else {
-                if (board.positionIsTakenByShip(position)) {
-                    return BoardPosition.createShip();
-                } else {
-                    return BoardPosition.createWater();
+                Ship ship = board.getShipAtPosition(position);
+                if(ship.sunk()){
+                    return BoardPosition.createShipSunk();
                 }
+                return BoardPosition.createShipHit();
             }
+            return BoardPosition.createWaterHit();
         }
+        if (mask) {
+            return BoardPosition.createUnknown();
+        }
+        if (board.positionIsTakenByShip(position)) {
+            return BoardPosition.createShip();
+        }
+        return BoardPosition.createWater();
     }
 }

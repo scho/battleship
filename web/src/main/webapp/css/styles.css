@@ -44,7 +44,11 @@
 }
 
 .board .ship-hit {
-    background-color: #FF476F;
+    background-color: #FF6D95;
+}
+
+.board .ship-sunk {
+    background-color: #B30023;
 }
 
 .water-hit {
