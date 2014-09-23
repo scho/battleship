@@ -21,12 +21,12 @@ public class PlayerService {
     }
 
     public Player register(String name, String password) {
+        repository.getSession().start();
         if (!nameAvailable(name)) {
             throw new RuntimeException("Name already taken");
         }
         Player player = new Player(name, password);
 
-        repository.getSession().start();
         repository.add(player);
         repository.getSession().stop();
         return player;
