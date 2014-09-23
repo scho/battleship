@@ -3,7 +3,6 @@ package pw.scho.battleship.persistence.mongo;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mongolink.MongoSession;
 import org.mongolink.domain.criteria.Restrictions;
 import pw.scho.battleship.model.Player;
 import pw.scho.battleship.persistence.configuration.MongoConfiguration;

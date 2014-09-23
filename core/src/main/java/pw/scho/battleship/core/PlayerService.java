@@ -26,8 +26,9 @@ public class PlayerService {
         }
         Player player = new Player(name, password);
 
+        repository.getSession().start();
         repository.add(player);
-
+        repository.getSession().stop();
         return player;
     }
 

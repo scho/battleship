@@ -52,11 +52,11 @@ public class Player {
         this.gamesLost = gamesLost;
     }
 
-    public void lastGameWon(){
+    public void lastGameWon() {
         this.gamesWon++;
     }
 
-    public void lastGameLost(){
+    public void lastGameLost() {
         this.gamesLost++;
     }
 

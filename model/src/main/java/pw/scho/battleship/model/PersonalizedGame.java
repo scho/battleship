@@ -80,15 +80,15 @@ public class PersonalizedGame {
     }
 
     public boolean isWon() {
-        if(playerIsFirstPlayer()){
+        if (playerIsFirstPlayer()) {
             return game.firstPlayerHasWon();
         }
         return game.secondPlayerHasWon();
     }
 
     private void checkForWin() {
-        if(getOpponentBoard().allShipsSunk()){
-            if(playerIsFirstPlayer()){
+        if (getOpponentBoard().allShipsSunk()) {
+            if (playerIsFirstPlayer()) {
                 game.setFirstPlayerHasWon(true);
             } else {
                 game.setSecondPlayerHasWon(true);

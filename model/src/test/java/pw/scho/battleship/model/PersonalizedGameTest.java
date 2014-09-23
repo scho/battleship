@@ -99,7 +99,7 @@ public class PersonalizedGameTest {
     }
 
     @Test
-    public void testShootingTheLastShipFinishesTheGameAndSetsTheWinFlag(){
+    public void testShootingTheLastShipFinishesTheGameAndSetsTheWinFlag() {
         opponentBoard.placeShip(Ship.createHorizontal(new Position(0, 0), 1));
         PersonalizedGame opponentPersonalizedGame = new PersonalizedGame(opponent, game);
 

@@ -1,6 +1,5 @@
 package pw.scho.battleship.web.resources;
 
-import org.mongolink.MongoSession;
 import pw.scho.battleship.core.PlayerService;
 import pw.scho.battleship.model.Player;
 import pw.scho.battleship.model.PlayerInfo;
@@ -15,14 +14,11 @@ import javax.ws.rs.core.Response;
 @Path("/players")
 public class PlayerResource extends AuthenticatedResource {
     private PlayerService service;
-    private MongoSession session;
 
     public PlayerResource() {
         super();
         // TODO: Use DI Container
-        session = MongoConfiguration.createSession();
-        session.start();
-        this.service = new PlayerService(new PlayerMongoRepository(session));
+        this.service = new PlayerService(new PlayerMongoRepository(MongoConfiguration.createSession()));
     }
 
     @POST
@@ -37,15 +33,12 @@ public class PlayerResource extends AuthenticatedResource {
             );
         }
 
-        try {
-            Player player = service.register(name, password);
+        Player player = service.register(name, password);
 
-            return Response.ok()
-                    .cookie(createAuthenticationCookie(player.getId().toString()))
-                    .build();
-        } finally {
-            session.stop();
-        }
+        return Response.ok()
+                .cookie(createAuthenticationCookie(player.getId().toString()))
+                .build();
+
     }
 
     @POST

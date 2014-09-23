@@ -44,7 +44,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return criteria.list();
     }
 
-    public MongoSession getSession(){
+    public MongoSession getSession() {
         return session;
     }
 

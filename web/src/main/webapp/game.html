@@ -26,32 +26,35 @@
 <div class="container">
     <div class="row">
 
-            <div class="span5 text-center">
-                <h4><span class="opponents-name"></span></h4>
-                <div id="not-your-turn" class="text-center">
-                    <div id="inner-not-your-turn"><h4>Waiting for other players turn.</h4></div>
-                </div>
+        <div class="span5 text-center">
+            <h4><span class="opponents-name"></span></h4>
 
-                <table id="opponents-board" class="table table-bordered board">
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
-            <div class="span2">
-                <div id="nobody-has-joined" class="message text-center" style="display: none;"><h5>Nobody has joined yet, lets wait!</h5></div>
-                <div id="your-turn" class="message text-center" style="display: none;"><h5>Go ahead, shoot!</h5></div>
-                <div id="lost" class="message text-center" style="display: none;"><h3>You lost :(</h3><a href="lobby.html">Back to lobby</a></div>
-                <div id="won" class="message text-center" style="display: none;"><h3>You won :)</h3><a href="lobby.html">Back to lobby</a></div>
-                <div id="your-turn" class="message text-center" style="display: none;"><h5>Go ahead, shoot!</h5></div>
-            </div>
-            <div class="span5 text-center">
-                <h4>Your Board</h4>
-                <table id="players-board" class="table table-bordered board">
-                    <tbody>
-                    </tbody>
-                </table>
+            <div id="not-your-turn" class="text-center">
+                <div id="inner-not-your-turn"><h4>Waiting for other players turn.</h4></div>
             </div>
 
+            <table id="opponents-board" class="table table-bordered board">
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="span2">
+            <div id="nobody-has-joined" class="message text-center" style="display: none;"><h5>Nobody has joined yet,
+                lets wait!</h5></div>
+            <div id="your-turn" class="message text-center" style="display: none;"><h5>Go ahead, shoot!</h5></div>
+            <div id="lost" class="message text-center" style="display: none;"><h3>You lost :(</h3><a href="lobby.html">Back
+                to lobby</a></div>
+            <div id="won" class="message text-center" style="display: none;"><h3>You won :)</h3><a href="lobby.html">Back
+                to lobby</a></div>
+            <div id="your-turn" class="message text-center" style="display: none;"><h5>Go ahead, shoot!</h5></div>
+        </div>
+        <div class="span5 text-center">
+            <h4>Your Board</h4>
+            <table id="players-board" class="table table-bordered board">
+                <tbody>
+                </tbody>
+            </table>
+        </div>
 
 
     </div>
@@ -163,6 +166,7 @@ $(document).ready(function() {
             }
             $('#headline').show();
         }).fail(function(){
+            window.location = 'lobby.html';
         });
     };
 
@@ -170,6 +174,7 @@ $(document).ready(function() {
     window.loadOpponentsBoardPositions();
     window.updateGameState();
 });
+
 </script>
 
 </body>

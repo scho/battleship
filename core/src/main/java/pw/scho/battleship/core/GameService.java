@@ -18,10 +18,12 @@ public class GameService {
         this.gameRepository = gameRepository;
         this.playerRepository = playerRepository;
         this.transaction = Transaction.getInstance();
+        this.playerRepository.getSession().start();
     }
 
-    public Game createGame(Player player) {
+    public Game openGame(UUID playerId) throws ServiceException {
         synchronized (transaction) {
+            Player player = getPlayerById(playerId);
             Game game = new Game();
 
             BoardRandomizer boardRandomizer = new BoardRandomizer();
@@ -35,24 +37,27 @@ public class GameService {
         }
     }
 
-    public void joinGame(UUID gameId, Player player) {
+    public void joinGame(UUID gameId, UUID playerId) throws ServiceException {
         synchronized (transaction) {
-            Game game = gameRepository.get(gameId);
+            Player player = getPlayerById(playerId);
+            Game game = getGameById(gameId);
 
             if (game == null) {
-                throw new RuntimeException("Cannot find your game");
+                throw ServiceException.createNotFound();
             }
 
             if (game.getSecondPlayer() != null) {
-                throw new RuntimeException("Cannot join full game");
+                throw ServiceException.createInvalidAction();
             }
 
             game.setSecondPlayer(player);
         }
     }
 
-    public List<LobbyGameInfo> getAllOpenGames(Player player) {
+    public List<LobbyGameInfo> getAllOpenGames(UUID playerId) throws ServiceException {
         synchronized (transaction) {
+            Player player = getPlayerById(playerId);
+
             List<Game> games = gameRepository.all();
             List<LobbyGameInfo> openGames = new ArrayList();
 
@@ -66,18 +71,26 @@ public class GameService {
         }
     }
 
-    public GameState getGameInfo(UUID gameId, Player player) {
+    public GameState getGameInfo(UUID gameId, UUID playerId) throws ServiceException {
         synchronized (transaction) {
-            Game game = gameRepository.get(gameId);
+            Game game = getGameById(gameId);
+            Player player = getPlayerById(playerId);
+
+            checkIfPlayerIsMemberOfGame(game, player);
+
             return new GameState(new PersonalizedGame(player, game));
         }
     }
 
-    public void shootAt(UUID gameId, Player player, Position position) {
+    public void shootAt(UUID gameId, UUID playerId, Position position) throws ServiceException {
         synchronized (transaction) {
-            Game game = gameRepository.get(gameId);
+            Game game = getGameById(gameId);
+            Player player = getPlayerById(playerId);
+
+            checkIfPlayerIsMemberOfGame(game, player);
+
             PersonalizedGame personalizedGame = new PersonalizedGame(player, game);
-            if(personalizedGame.isStarted() && personalizedGame.isPlayersTurn() && !personalizedGame.isFinished()){
+            if (personalizedGame.isStarted() && personalizedGame.isPlayersTurn() && !personalizedGame.isFinished()) {
                 personalizedGame.shootAt(position);
 
                 updatePlayerStats(personalizedGame);
@@ -85,10 +98,31 @@ public class GameService {
         }
     }
 
-    private void updatePlayerStats(PersonalizedGame game) {
-        if(game.isFinished()){
-            playerRepository.getSession().start();
 
+    public List<List<BoardPosition>> getPlayersBoardPositions(UUID gameId, UUID playerId) throws ServiceException {
+        synchronized (transaction) {
+            Game game = getGameById(gameId);
+            Player player = getPlayerById(playerId);
+
+            checkIfPlayerIsMemberOfGame(game, player);
+
+            return new PersonalizedGame(player, game).getPlayersBoardPositions();
+        }
+    }
+
+    public List<List<BoardPosition>> getOpponentsBoardPositions(UUID gameId, UUID playerId) throws ServiceException {
+        synchronized (transaction) {
+            Game game = getGameById(gameId);
+            Player player = getPlayerById(playerId);
+
+            checkIfPlayerIsMemberOfGame(game, player);
+
+            return new PersonalizedGame(player, game).getOpponentsBoardPositions();
+        }
+    }
+
+    private void updatePlayerStats(PersonalizedGame game) {
+        if (game.isFinished()) {
             Player winner = game.isWon() ? game.getPlayer() : game.getOpponent();
             Player looser = game.isWon() ? game.getOpponent() : game.getPlayer();
 
@@ -98,21 +132,38 @@ public class GameService {
             winner.lastGameWon();
             looser.lastGameLost();
 
-            playerRepository.getSession().stop();
+            playerRepository.getSession().flush();
         }
     }
 
-    public List<List<BoardPosition>> getPlayersBoardPositions(UUID gameId, Player player) {
-        synchronized (transaction) {
-            Game game = gameRepository.get(gameId);
-            return new PersonalizedGame(player, game).getPlayersBoardPositions();
+    private void checkIfPlayerIsMemberOfGame(Game game, Player player) throws ServiceException {
+        if (game.getFirstPlayer().getId().equals(player.getId())
+                || game.getSecondPlayer() != null && game.getSecondPlayer().getId().equals(player.getId())) {
+            return;
         }
+
+        throw ServiceException.createUnauthorized();
     }
 
-    public List<List<BoardPosition>> getOpponentsBoardPositions(UUID gameId, Player player) {
-        synchronized (transaction) {
-            Game game = gameRepository.get(gameId);
-            return new PersonalizedGame(player, game).getOpponentsBoardPositions();
+    private Player getPlayerById(UUID playerId) throws ServiceException {
+        Player player = playerRepository.get(playerId);
+
+        if (player != null) {
+            return player;
         }
+
+        throw ServiceException.createUnauthorized();
     }
+
+    private Game getGameById(UUID gameId) throws ServiceException {
+        Game game = gameRepository.get(gameId);
+
+        if (game != null) {
+            return game;
+        }
+
+        throw ServiceException.createNotFound();
+    }
+
+
 }
