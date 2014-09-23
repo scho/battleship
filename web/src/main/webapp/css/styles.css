@@ -71,10 +71,6 @@
     font-size: 2em;
 }
 
-#your-turn {
-    margin-top: 150px;
-}
-
-#nobody-has-joined {
+.message {
     margin-top: 150px;
 }

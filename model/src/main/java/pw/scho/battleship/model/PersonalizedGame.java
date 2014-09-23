@@ -12,12 +12,8 @@ public class PersonalizedGame {
         this.game = game;
     }
 
-    private boolean iAmFirst() {
-        return game.getFirstPlayer().getId().equals(player.getId());
-    }
-
     public Board getBoard() {
-        if (iAmFirst()) {
+        if (playerIsFirstPlayer()) {
             return game.getFirstBoard();
         }
 
@@ -25,7 +21,7 @@ public class PersonalizedGame {
     }
 
     public Board getOpponentBoard() {
-        if (iAmFirst()) {
+        if (playerIsFirstPlayer()) {
             return game.getSecondBoard();
         }
 
@@ -33,7 +29,7 @@ public class PersonalizedGame {
     }
 
     public Player getPlayer() {
-        if (iAmFirst()) {
+        if (playerIsFirstPlayer()) {
             return game.getFirstPlayer();
         }
 
@@ -41,7 +37,7 @@ public class PersonalizedGame {
     }
 
     public Player getOpponent() {
-        if (iAmFirst()) {
+        if (playerIsFirstPlayer()) {
             return game.getSecondPlayer();
         }
 
@@ -54,10 +50,12 @@ public class PersonalizedGame {
         }
         getOpponentBoard().shootAt(position);
         game.toggleTurn();
+        checkForWin();
     }
 
+
     public boolean isPlayersTurn() {
-        if (iAmFirst()) {
+        if (playerIsFirstPlayer()) {
             return game.isItFirstPlayersTurn();
         }
 
@@ -74,5 +72,32 @@ public class PersonalizedGame {
 
     public boolean isStarted() {
         return getOpponent() != null;
+    }
+
+
+    public boolean isFinished() {
+        return game.isFinished();
+    }
+
+    public boolean isWon() {
+        if(playerIsFirstPlayer()){
+            return game.firstPlayerHasWon();
+        }
+        return game.secondPlayerHasWon();
+    }
+
+    private void checkForWin() {
+        if(getOpponentBoard().allShipsSunk()){
+            if(playerIsFirstPlayer()){
+                game.setFirstPlayerHasWon(true);
+            } else {
+                game.setSecondPlayerHasWon(true);
+            }
+            game.setOver(true);
+        }
+    }
+
+    private boolean playerIsFirstPlayer() {
+        return game.getFirstPlayer().getId().equals(player.getId());
     }
 }

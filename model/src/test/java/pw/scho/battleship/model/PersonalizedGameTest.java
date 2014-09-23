@@ -97,4 +97,17 @@ public class PersonalizedGameTest {
         assertThat(boardPositions.get(0).get(1).getKind(), is(BoardPosition.Kind.UNKNOWN));
         assertThat(boardPositions.get(1).get(0).getKind(), is(BoardPosition.Kind.WATER_HIT));
     }
+
+    @Test
+    public void testShootingTheLastShipFinishesTheGameAndSetsTheWinFlag(){
+        opponentBoard.placeShip(Ship.createHorizontal(new Position(0, 0), 1));
+        PersonalizedGame opponentPersonalizedGame = new PersonalizedGame(opponent, game);
+
+        personalizedGame.shootAt(new Position(0, 0));
+
+        assertThat(personalizedGame.isFinished(), is(true));
+        assertThat(personalizedGame.isWon(), is(true));
+        assertThat(opponentPersonalizedGame.isFinished(), is(true));
+        assertThat(opponentPersonalizedGame.isWon(), is(false));
+    }
 }

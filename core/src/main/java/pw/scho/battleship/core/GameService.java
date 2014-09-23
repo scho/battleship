@@ -2,6 +2,7 @@ package pw.scho.battleship.core;
 
 import pw.scho.battleship.model.*;
 import pw.scho.battleship.persistence.Repository;
+import pw.scho.battleship.persistence.mongo.PlayerMongoRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,10 +11,12 @@ import java.util.UUID;
 public class GameService {
 
     private final Repository<Game> gameRepository;
+    private final PlayerMongoRepository playerRepository;
     private final Transaction transaction;
 
-    public GameService(Repository<Game> gameRepository) {
+    public GameService(Repository<Game> gameRepository, PlayerMongoRepository playerRepository) {
         this.gameRepository = gameRepository;
+        this.playerRepository = playerRepository;
         this.transaction = Transaction.getInstance();
     }
 
@@ -63,17 +66,39 @@ public class GameService {
         }
     }
 
-    public GameInfo getGameInfo(UUID gameId, Player player) {
+    public GameState getGameInfo(UUID gameId, Player player) {
         synchronized (transaction) {
             Game game = gameRepository.get(gameId);
-            return new GameInfo(new PersonalizedGame(player, game));
+            return new GameState(new PersonalizedGame(player, game));
         }
     }
 
     public void shootAt(UUID gameId, Player player, Position position) {
         synchronized (transaction) {
             Game game = gameRepository.get(gameId);
-            new PersonalizedGame(player, game).shootAt(position);
+            PersonalizedGame personalizedGame = new PersonalizedGame(player, game);
+            if(personalizedGame.isStarted() && personalizedGame.isPlayersTurn() && !personalizedGame.isFinished()){
+                personalizedGame.shootAt(position);
+
+                updatePlayerStats(personalizedGame);
+            }
+        }
+    }
+
+    private void updatePlayerStats(PersonalizedGame game) {
+        if(game.isFinished()){
+            playerRepository.getSession().start();
+
+            Player winner = game.isWon() ? game.getPlayer() : game.getOpponent();
+            Player looser = game.isWon() ? game.getOpponent() : game.getPlayer();
+
+            winner = playerRepository.get(winner.getId());
+            looser = playerRepository.get(looser.getId());
+
+            winner.lastGameWon();
+            looser.lastGameLost();
+
+            playerRepository.getSession().stop();
         }
     }
 

@@ -52,6 +52,14 @@ public class Player {
         this.gamesLost = gamesLost;
     }
 
+    public void lastGameWon(){
+        this.gamesWon++;
+    }
+
+    public void lastGameLost(){
+        this.gamesLost++;
+    }
+
     public UUID getId() {
         return id;
     }

@@ -8,7 +8,7 @@ public class BoardRandomizer {
     private Board board;
 
     public Board randomizeWithStandardShips() {
-        return randomize(new int[]{2, 2, 3, 3, 4, 5});
+        return randomize(new int[]{2});
     }
 
     public Board randomize(int[] shipSizes) {

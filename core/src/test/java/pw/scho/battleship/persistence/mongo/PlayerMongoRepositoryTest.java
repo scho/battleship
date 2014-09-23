@@ -14,22 +14,18 @@ import static org.hamcrest.Matchers.is;
 public class PlayerMongoRepositoryTest {
 
     private MongoRepository<Player> repository;
-    private MongoSession session;
 
     @Before
     public void setupRepository() {
-        session = MongoConfiguration.createSession();
-        session.start();
-
-        repository = new PlayerMongoRepository(session);
-
+        repository = new PlayerMongoRepository(MongoConfiguration.createSession());
+        repository.getSession().start();
         repository.all().forEach(repository::delete);
-        session.flush();
+        repository.getSession().flush();
     }
 
     @After
     public void sessionClear() {
-        session.stop();
+        repository.getSession().stop();
     }
 
     @Test
@@ -39,8 +35,8 @@ public class PlayerMongoRepositoryTest {
         player.setPassword("secret");
 
         repository.add(player);
-        session.flush();
-        session.clear();
+        repository.getSession().flush();
+        repository.getSession().clear();
         Player toni = repository.get(player.getId());
 
         assertThat(toni.getName(), is("Toni"));
@@ -53,8 +49,8 @@ public class PlayerMongoRepositoryTest {
         player.setName("Toni");
 
         repository.add(player);
-        session.flush();
-        session.clear();
+        repository.getSession().flush();
+        repository.getSession().clear();
         Player toni = repository.findByRestriction(Restrictions.equals("name", "Toni")).get(0);
 
         assertThat(toni.getId(), is(player.getId()));

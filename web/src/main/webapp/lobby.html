@@ -45,7 +45,10 @@
                 [<a id="logout-button" href="#">Logout</a>]
             </p>
             <p>
-                <span id="player-stats"></span>
+                Games won: <span id="games-won"></span>
+            </p>
+            <p>
+                Games lost: <span id="games-lost"></span>
             </p>
 
         </div>
@@ -126,7 +129,8 @@ $(document).ready(function() {
             dataType: 'json'
         }).done(function(player){
             $('#player-login-info').text('Logged in as ' + player.name);
-            $('#player-stats').text(player.gamesWon + ' games won, ' + player.gamesLost + ' games lost');
+            $('#games-won').text(player.gamesWon);
+            $('#games-lost').text(player.gamesLost);
         }).fail(function(){
             window.location = "/";
         });

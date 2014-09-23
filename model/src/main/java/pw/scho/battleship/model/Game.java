@@ -10,9 +10,36 @@ public class Game {
     private Player secondPlayer;
     private UUID id;
     private boolean firstPlayersTurn = true;
+    private boolean over;
+    private boolean firstPlayerHasWon = false;
+    private boolean secondPlayerHasWon = false;
 
     public Game() {
         this.id = UUID.randomUUID();
+    }
+
+    public boolean secondPlayerHasWon() {
+        return secondPlayerHasWon;
+    }
+
+    public void setSecondPlayerHasWon(boolean secondPlayerHasWon) {
+        this.secondPlayerHasWon = secondPlayerHasWon;
+    }
+
+    public boolean firstPlayerHasWon() {
+        return firstPlayerHasWon;
+    }
+
+    public void setFirstPlayerHasWon(boolean firstPlayerHasWon) {
+        this.firstPlayerHasWon = firstPlayerHasWon;
+    }
+
+    public boolean isFinished() {
+        return over;
+    }
+
+    public void setOver(boolean over) {
+        this.over = over;
     }
 
     public Player getSecondPlayer() {
@@ -62,4 +89,6 @@ public class Game {
     public boolean isItSecondPlayersTurn() {
         return !firstPlayersTurn;
     }
+
+
 }

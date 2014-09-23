@@ -94,13 +94,13 @@ public class GameResource extends AuthenticatedResource {
     }
 
     @GET
-    @Path("/{gameId}/info")
+    @Path("/{gameId}/state")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response info(@CookieParam("playerId") String playerId,
+    public Response state(@CookieParam("playerId") String playerId,
                          @PathParam("gameId") String gameId) {
         Player player = authenticatePlayer(playerId);
 
-        GameInfo gameInfo = service.getGameInfo(UUID.fromString(gameId), player);
-        return Response.ok(gameInfo).build();
+        GameState gameState = service.getGameInfo(UUID.fromString(gameId), player);
+        return Response.ok(gameState).build();
     }
 }
