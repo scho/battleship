@@ -30,7 +30,7 @@ public class Main {
     private static Handler getStaticContentHandler() {
         ResourceHandler resourceHandler = new ResourceHandler();
         resourceHandler.setDirectoriesListed(true);
-        resourceHandler.setResourceBase("./web/src/main/webapp/");
+        resourceHandler.setResourceBase("./src/main/webapp/");
         return resourceHandler;
     }
 
