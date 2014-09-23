@@ -48,7 +48,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: 'PUT',
-            url: '/api/games/create'
+            url: '/api/games/open'
         }).done(function(data){
             window.location = "/game.html#" + data;
         });

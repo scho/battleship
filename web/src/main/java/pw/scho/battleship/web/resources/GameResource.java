@@ -32,8 +32,8 @@ public class GameResource extends AuthenticatedResource {
 
     @PUT
     @Produces(MediaType.TEXT_PLAIN)
-    @Path("/create")
-    public Response create(@CookieParam("playerId") String playerId) {
+    @Path("/open")
+    public Response open(@CookieParam("playerId") String playerId) {
         Player player = authenticatePlayer(playerId);
 
         Game game = service.createGame(player);
