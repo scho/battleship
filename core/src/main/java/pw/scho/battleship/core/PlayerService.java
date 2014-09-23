@@ -47,7 +47,13 @@ public class PlayerService {
         return player;
     }
 
-    public Player get(UUID playerId) {
-        return repository.get(playerId);
+    public Player getPlayerById(UUID playerId) throws ServiceException {
+        repository.getSession().start();
+        Player player = repository.get(playerId);
+        if (player != null) {
+            return player;
+        }
+
+        throw ServiceException.createUnauthorized();
     }
 }

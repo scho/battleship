@@ -32,7 +32,7 @@ public class GameResource {
 
             return Response.ok(lobbyGameInfos).build();
         } catch (ServiceException e) {
-            return createResponseFromServiceException(e);
+            return new ResponseFromServiceExceptionBuilder(e).build();
         }
     }
 
@@ -45,7 +45,7 @@ public class GameResource {
 
             return Response.ok(lobbyGameInfos).build();
         } catch (ServiceException e) {
-            return createResponseFromServiceException(e);
+            return new ResponseFromServiceExceptionBuilder(e).build();
         }
     }
 
@@ -57,7 +57,7 @@ public class GameResource {
             Game game = service.openGame(UUID.fromString(playerId));
             return Response.ok(game.getId().toString()).build();
         } catch (ServiceException e) {
-            return createResponseFromServiceException(e);
+            return new ResponseFromServiceExceptionBuilder(e).build();
         }
     }
 
@@ -71,7 +71,7 @@ public class GameResource {
             service.joinGame(UUID.fromString(gameId), UUID.fromString(playerId));
             return Response.ok(gameId).build();
         } catch (ServiceException e) {
-            return createResponseFromServiceException(e);
+            return new ResponseFromServiceExceptionBuilder(e).build();
         }
     }
 
@@ -85,7 +85,7 @@ public class GameResource {
             List<List<BoardPosition>> boardPositions = service.getPlayersBoardPositions(UUID.fromString(gameId), UUID.fromString(playerId));
             return Response.ok(boardPositions).build();
         } catch (ServiceException e) {
-            return createResponseFromServiceException(e);
+            return new ResponseFromServiceExceptionBuilder(e).build();
         }
     }
 
@@ -98,7 +98,7 @@ public class GameResource {
             List<List<BoardPosition>> boardPositions = service.getOpponentsBoardPositions(UUID.fromString(gameId), UUID.fromString(playerId));
             return Response.ok(boardPositions).build();
         } catch (ServiceException e) {
-            return createResponseFromServiceException(e);
+            return new ResponseFromServiceExceptionBuilder(e).build();
         }
     }
 
@@ -111,7 +111,7 @@ public class GameResource {
             List<String> messages = service.getMessages(UUID.fromString(gameId), UUID.fromString(playerId));
             return Response.ok(messages).build();
         } catch (ServiceException e) {
-            return createResponseFromServiceException(e);
+            return new ResponseFromServiceExceptionBuilder(e).build();
         }
     }
 
@@ -126,7 +126,7 @@ public class GameResource {
             service.shootAt(UUID.fromString(gameId), UUID.fromString(playerId), new Position(x, y));
             return Response.ok().build();
         } catch (ServiceException e) {
-            return createResponseFromServiceException(e);
+            return new ResponseFromServiceExceptionBuilder(e).build();
         }
     }
 
@@ -139,23 +139,9 @@ public class GameResource {
             GameState gameState = service.getGameInfo(UUID.fromString(gameId), UUID.fromString(playerId));
             return Response.ok(gameState).build();
         } catch (ServiceException e) {
-            return createResponseFromServiceException(e);
+            return new ResponseFromServiceExceptionBuilder(e).build();
         }
     }
 
-    private Response createResponseFromServiceException(ServiceException exception) {
-        Response.Status status = null;
-        switch (exception.getKind()) {
-            case INVALID_ACTION:
-                status = Response.Status.CONFLICT;
-                break;
-            case NOT_FOUND:
-                status = Response.Status.NOT_FOUND;
-                break;
-            case UNAUTHORIZED:
-                status = Response.Status.UNAUTHORIZED;
-                break;
-        }
-        return Response.status(status).build();
-    }
+
 }
