@@ -13,17 +13,17 @@
 
 <body>
 
-<div class="header">
+<div class="header text-center">
     <h1>Battleship</h1>
-
-    <h2 id="headline" style="display: none;"><span class="players-name"></span> <span id="vs">VS</span> <span
-            class="opponents-name"></span></h2>
-
-
     <a href="/lobby.html">Back to Lobby</a>
 </div>
 
 <div class="container">
+    <div class="row" id="headline">
+        <div class="span5 text-right"><h2><span class="players-name"></span></h2></div>
+        <div class="span2 text-center"><h2><span id="vs">VS</span></h2></div>
+        <div class="span5 text-left"><h2><span class="opponents-name"></span></h2></div>
+    </div>
     <div class="row">
 
         <div class="span5 text-center">
@@ -44,9 +44,9 @@
                     lets wait!</h5></div>
                 <div id="your-turn" class="message text-center" style="display: none;"><h5>Go ahead, shoot!</h5></div>
                 <div id="lost" class="message text-center" style="display: none;"><h3>You lost :(</h3><a href="lobby.html">Back
-                    to lobby</a></div>
+                    to Lobby</a></div>
                 <div id="won" class="message text-center" style="display: none;"><h3>You won :)</h3><a href="lobby.html">Back
-                    to lobby</a></div>
+                    to Lobby</a></div>
                 <div id="your-turn" class="message text-center" style="display: none;"><h5>Go ahead, shoot!</h5></div>
             </div>
             <div id="messages" class="text-center">
