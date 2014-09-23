@@ -71,7 +71,7 @@ public class GameService {
         }
     }
 
-    public List<LobbyGameInfo> getAllOwnGames(UUID playerId) throws ServiceException {
+    public List<LobbyGameInfo> getAllOwnAndOngoingGames(UUID playerId) throws ServiceException {
         synchronized (transaction) {
             Player player = getPlayerById(playerId);
 
@@ -79,7 +79,10 @@ public class GameService {
             List<LobbyGameInfo> openGames = new ArrayList();
 
             for (Game game : games) {
-                if (game.getFirstPlayer().getId().equals(player.getId()) || game.getSecondPlayer() != null && game.getSecondPlayer().getId().equals(player.getId())) {
+                boolean isFirstPlayer = game.getFirstPlayer().getId().equals(player.getId());
+                boolean isSecondPlayer = game.getSecondPlayer() != null && game.getSecondPlayer().getId().equals(player.getId());
+                
+                if (!game.isFinished() && (isFirstPlayer || isSecondPlayer)) {
                     openGames.add(new LobbyGameInfo(game));
                 }
             }

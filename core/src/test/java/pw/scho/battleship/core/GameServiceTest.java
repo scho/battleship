@@ -70,11 +70,16 @@ public class GameServiceTest {
         Game startedGame = new Game();
         startedGame.setFirstPlayer(player);
         startedGame.setSecondPlayer(otherPlayer);
+        Game finishedGame = new Game();
+        finishedGame.setFirstPlayer(player);
+        finishedGame.setSecondPlayer(otherPlayer);
+        finishedGame.setFinished(true);
         gameRepository.add(openGame);
         gameRepository.add(startedGame);
         gameRepository.add(ownGame);
+        gameRepository.add(finishedGame);
 
-        List<LobbyGameInfo> ownGames = service.getAllOwnGames(player.getId());
+        List<LobbyGameInfo> ownGames = service.getAllOwnAndOngoingGames(player.getId());
 
         List<String> gameIds = ownGames.stream()
                 .map(game -> game.getGameId().toString())

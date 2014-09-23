@@ -10,7 +10,7 @@ public class Game {
     private Player secondPlayer;
     private UUID id;
     private boolean firstPlayersTurn = true;
-    private boolean over;
+    private boolean finished;
     private boolean firstPlayerHasWon = false;
     private boolean secondPlayerHasWon = false;
 
@@ -35,11 +35,11 @@ public class Game {
     }
 
     public boolean isFinished() {
-        return over;
+        return finished;
     }
 
-    public void setOver(boolean over) {
-        this.over = over;
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
 
     public Player getSecondPlayer() {

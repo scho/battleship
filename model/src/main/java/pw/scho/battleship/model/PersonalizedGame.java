@@ -100,7 +100,7 @@ public class PersonalizedGame {
             } else {
                 game.setSecondPlayerHasWon(true);
             }
-            game.setOver(true);
+            game.setFinished(true);
         }
     }
 

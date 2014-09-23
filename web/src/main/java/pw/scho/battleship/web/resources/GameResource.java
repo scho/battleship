@@ -41,7 +41,7 @@ public class GameResource {
     @Path("/own")
     public Response own(@CookieParam("playerId") String playerId) {
         try {
-            List<LobbyGameInfo> lobbyGameInfos = service.getAllOwnGames(UUID.fromString(playerId));
+            List<LobbyGameInfo> lobbyGameInfos = service.getAllOwnAndOngoingGames(UUID.fromString(playerId));
 
             return Response.ok(lobbyGameInfos).build();
         } catch (ServiceException e) {
