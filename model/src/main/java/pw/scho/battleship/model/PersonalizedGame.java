@@ -49,14 +49,14 @@ public class PersonalizedGame {
     }
 
     public void shootAt(Position position) {
-        if (!isItPlayersTurn()) {
-            throw GameException.CreateShotTwice();
+        if (!isPlayersTurn()) {
+            throw GameException.CreateNotPlayersTurn();
         }
         getOpponentBoard().shootAt(position);
         game.toggleTurn();
     }
 
-    public boolean isItPlayersTurn() {
+    public boolean isPlayersTurn() {
         if (iAmFirst()) {
             return game.isItFirstPlayersTurn();
         }
@@ -70,5 +70,9 @@ public class PersonalizedGame {
 
     public List<List<BoardPosition>> getOpponentsBoardPositions() {
         return getOpponentBoard().getMaskedBoardPositions();
+    }
+
+    public boolean isStarted() {
+        return getOpponent() != null;
     }
 }

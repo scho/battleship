@@ -53,16 +53,16 @@ public class PersonalizedGameTest {
 
     @Test
     public void testFirstPlayerAlwaysStarts() {
-        assertThat(personalizedGame.isItPlayersTurn(), is(true));
+        assertThat(personalizedGame.isPlayersTurn(), is(true));
     }
 
     @Test
     public void testShootingChangesTurn() {
-        assertThat(personalizedGame.isItPlayersTurn(), is(true));
+        assertThat(personalizedGame.isPlayersTurn(), is(true));
 
         personalizedGame.shootAt(new Position(0, 0));
 
-        assertThat(personalizedGame.isItPlayersTurn(), is(false));
+        assertThat(personalizedGame.isPlayersTurn(), is(false));
     }
 
     @Test(expected = GameException.class)
