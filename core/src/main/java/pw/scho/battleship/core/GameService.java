@@ -121,6 +121,17 @@ public class GameService {
         }
     }
 
+    public List<String> getMessages(UUID gameId, UUID playerId) throws ServiceException {
+        synchronized (transaction) {
+            Game game = getGameById(gameId);
+            Player player = getPlayerById(playerId);
+
+            checkIfPlayerIsMemberOfGame(game, player);
+
+            return new PersonalizedGame(player, game).getMessages();
+        }
+    }
+
     private void updatePlayerStats(PersonalizedGame game) {
         if (game.isFinished()) {
             Player winner = game.isWon() ? game.getPlayer() : game.getOpponent();
@@ -164,6 +175,4 @@ public class GameService {
 
         throw ServiceException.createNotFound();
     }
-
-
 }

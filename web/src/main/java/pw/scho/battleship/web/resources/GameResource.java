@@ -88,6 +88,19 @@ public class GameResource {
         }
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{gameId}/messages")
+    public Response getMessages(@CookieParam("playerId") String playerId,
+                                @PathParam("gameId") String gameId) {
+        try {
+            List<String> messages = service.getMessages(UUID.fromString(gameId), UUID.fromString(playerId));
+            return Response.ok(messages).build();
+        } catch (ServiceException e) {
+            return createResponseFromServiceException(e);
+        }
+    }
+
     @POST
     @Path("/{gameId}/shootat/{x}-{y}")
     public Response shootAt(@CookieParam("playerId") String playerId,

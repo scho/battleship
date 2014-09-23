@@ -185,6 +185,26 @@ public class GameServiceTest {
         service.getGameInfo(game.getId(), player.getId());
     }
 
+    @Test
+    public void testMessageQueue() throws ServiceException {
+        Player player = new Player();
+        Player otherPlayer = new Player();
+        addPlayerToRepository(player);
+        addPlayerToRepository(otherPlayer);
+        Game game = new Game();
+        game.setFirstPlayer(player);
+        game.setSecondPlayer(otherPlayer);
+        game.setFirstBoard(new Board());
+        game.setSecondBoard(new Board());
+        game.getSecondBoard().placeShip(Ship.createHorizontal(new Position(0, 0), 1));
+        gameRepository.add(game);
+
+        service.shootAt(game.getId(), player.getId(), new Position(0, 0));
+        List<String> playerMessages = service.getMessages(game.getId(), player.getId());
+
+        assertThat(playerMessages.size(), is(1));
+    }
+
     private void addPlayerToRepository(Player player) {
         PlayerMongoRepository playerMongoRepository = new PlayerMongoRepository(MongoConfiguration.createSession());
         playerMongoRepository.getSession().start();

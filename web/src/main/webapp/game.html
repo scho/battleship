@@ -29,7 +29,7 @@
         <div class="span5 text-center">
             <h4><span class="opponents-name"></span></h4>
 
-            <div id="not-your-turn" class="text-center">
+            <div id="not-your-turn" class="text-center" style="display: none;">
                 <div id="inner-not-your-turn"><h4>Waiting for other players turn.</h4></div>
             </div>
 
@@ -39,14 +39,19 @@
             </table>
         </div>
         <div class="span2">
-            <div id="nobody-has-joined" class="message text-center" style="display: none;"><h5>Nobody has joined yet,
-                lets wait!</h5></div>
-            <div id="your-turn" class="message text-center" style="display: none;"><h5>Go ahead, shoot!</h5></div>
-            <div id="lost" class="message text-center" style="display: none;"><h3>You lost :(</h3><a href="lobby.html">Back
-                to lobby</a></div>
-            <div id="won" class="message text-center" style="display: none;"><h3>You won :)</h3><a href="lobby.html">Back
-                to lobby</a></div>
-            <div id="your-turn" class="message text-center" style="display: none;"><h5>Go ahead, shoot!</h5></div>
+            <div id="message">
+                <div id="nobody-has-joined" class="message text-center" style="display: none;"><h5>Nobody has joined yet,
+                    lets wait!</h5></div>
+                <div id="your-turn" class="message text-center" style="display: none;"><h5>Go ahead, shoot!</h5></div>
+                <div id="lost" class="message text-center" style="display: none;"><h3>You lost :(</h3><a href="lobby.html">Back
+                    to lobby</a></div>
+                <div id="won" class="message text-center" style="display: none;"><h3>You won :)</h3><a href="lobby.html">Back
+                    to lobby</a></div>
+                <div id="your-turn" class="message text-center" style="display: none;"><h5>Go ahead, shoot!</h5></div>
+            </div>
+            <div id="messages" class="text-center">
+
+            </div>
         </div>
         <div class="span5 text-center">
             <h4>Your Board</h4>
@@ -55,8 +60,6 @@
                 </tbody>
             </table>
         </div>
-
-
     </div>
 </div>
 
@@ -125,6 +128,21 @@ $(document).ready(function() {
         }).done(function(data){
             window.updateGameState();
             window.loadOpponentsBoardPositions();
+            window.loadMessages();
+        }).fail(function(){
+        });
+    };
+
+    window.loadMessages = function(x, y){
+        $.ajax({
+            type: 'GET',
+            url: '/api/games/' + gameId + '/messages'
+        }).done(function(messages){
+            var list = $('#messages');
+            list.empty();
+            messages.reverse().map(function(message){
+                list.append('<p>' + message + '</p>');
+            });
         }).fail(function(){
         });
     };
@@ -156,12 +174,12 @@ $(document).ready(function() {
             }
 
             if(gameState.playersTurn && gameState.started){
-                $('#your-turn').show();
-                $('#not-your-turn').hide();
+                $('#your-turn').fadeIn();
+                $('#not-your-turn').fadeOut();
                 window.loadPlayersBoardPositions();
             } else {
-                $('#your-turn').hide();
-                $('#not-your-turn').show();
+                $('#your-turn').fadeOut();;
+                $('#not-your-turn').fadeIn();
                 setTimeout(window.updateGameState, 1000);
             }
             $('#headline').show();
@@ -173,6 +191,7 @@ $(document).ready(function() {
     window.loadPlayersBoardPositions();
     window.loadOpponentsBoardPositions();
     window.updateGameState();
+    window.loadMessages();
 });
 
 </script>

@@ -20,11 +20,11 @@ public class BoardMessageQueue {
     }
 
     public void addMissMessage(Position position) {
-        messages.add("Your shot at " + position.toString() + " was a miss.");
+        messages.add(position.toString() + " was a miss.");
     }
 
     public void addHitMessage(Position position, Ship ship) {
-        String message = "Your shot at " + position.toString() + " was a hit.";
+        String message = position.toString() + " was a hit.";
         if (ship.sunk()) {
             message += " Ship sunk!";
         }

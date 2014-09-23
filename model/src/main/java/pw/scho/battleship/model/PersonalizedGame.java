@@ -70,6 +70,13 @@ public class PersonalizedGame {
         return getOpponentBoard().getMaskedBoardPositions();
     }
 
+    public List<String> getMessages() {
+        if(playerIsFirstPlayer()){
+            return game.getSecondBoard().getMessageQueue().getAllMessages();
+        }
+        return game.getFirstBoard().getMessageQueue().getAllMessages();
+    }
+
     public boolean isStarted() {
         return getOpponent() != null;
     }
@@ -100,4 +107,6 @@ public class PersonalizedGame {
     private boolean playerIsFirstPlayer() {
         return game.getFirstPlayer().getId().equals(player.getId());
     }
+
+
 }
