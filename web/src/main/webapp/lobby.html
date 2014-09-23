@@ -128,7 +128,7 @@ $(document).ready(function() {
             var tbody = $('#own-games tbody').first();
             tbody.empty();
             ownGames.map(function(ownGame){
-                tbody.append('<tr><td><a href="game.html#' + ownGame.gameId + '">' + ownGame.opponentName + ' VS ' + ownGame.playerName + '</a></td></tr>');
+                tbody.append('<tr><td><a href="game.html#' + ownGame.gameId + '">' + ownGame.opponentName + ' VS ' + (ownGame.playerName ? ownGame.playerName : '?') + '</a></td></tr>');
             });
             if(ownGames.length === 0){
                 tbody.append('<tr><td><i>No own games available.</i></td></tr>');

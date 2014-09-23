@@ -76,7 +76,10 @@
     height: 100px;
 }
 
-#messages-list {
+#messages {
     margin-top: 10px;
-    font-size: 0.7em;
+    font-size: 0.9em;
+    height: 150px;
+    overflow: auto;
+    overflow-y: scroll;
 }
