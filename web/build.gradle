@@ -1,10 +1,23 @@
 apply plugin: 'java'
 apply plugin: 'application'
+apply plugin: 'jacoco'
 
-mainClassName = "pw.scho.battleship.web.Main"
+mainClassName = 'pw.scho.battleship.web.Main'
 
 sourceCompatibility = 1.8
 version = '1.0'
+
+jacoco {
+    toolVersion = "0.7.2.201409121644"
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination "${buildDir}/jacocoHtml"
+    }
+}
 
 repositories {
     mavenCentral()
