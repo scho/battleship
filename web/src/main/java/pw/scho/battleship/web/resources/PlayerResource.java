@@ -35,7 +35,7 @@ public class PlayerResource {
 
         Player player = service.register(name, password);
 
-        return Response.ok()
+        return Response.ok(player.getId().toString())
                 .cookie(createAuthenticationCookie(player.getId().toString()))
                 .build();
 
@@ -53,7 +53,7 @@ public class PlayerResource {
                     .build();
         }
 
-        return Response.ok()
+        return Response.ok(player.getId().toString())
                 .cookie(createAuthenticationCookie(player.getId().toString()))
                 .build();
     }
