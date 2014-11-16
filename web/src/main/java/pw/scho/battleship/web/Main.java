@@ -13,9 +13,11 @@ import org.glassfish.jersey.servlet.ServletContainer;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        System.out.println("Starting server on port 8080");
+        int port = Integer.valueOf(System.getProperty("jetty.port"));
 
-        Server server = new Server(8080);
+        System.out.println("Starting server on port " + port);
+
+        Server server = new Server(port);
 
         HandlerList handlers = new HandlerList();
 
