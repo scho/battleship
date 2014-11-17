@@ -62,8 +62,17 @@ public class PlayerResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("info")
     public Response info(@CookieParam("playerId") String playerId) {
+        UUID uuid;
+        try{
+            uuid = UUID.fromString(playerId);
+        } catch(IllegalArgumentException e){
+            return Response.status(Response.Status.UNAUTHORIZED)
+                    .entity("PlayerId is invalid")
+                    .build();
+        }
+
         try {
-            Player player = service.getPlayerById(UUID.fromString(playerId));
+            Player player = service.getPlayerById(uuid);
             return Response.ok(new PlayerInfo(player)).build();
         } catch (ServiceException e) {
             return new ResponseFromServiceExceptionBuilder(e).build();
