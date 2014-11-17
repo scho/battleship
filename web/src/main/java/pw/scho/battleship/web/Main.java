@@ -13,7 +13,12 @@ import org.glassfish.jersey.servlet.ServletContainer;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        int port = Integer.valueOf(System.getProperty("jetty.port"));
+        int port;
+        try{
+            port = Integer.valueOf(System.getProperty("jetty.port"));
+        } catch(NumberFormatException e){
+            port = 8080;
+        }
 
         System.out.println("Starting server on port " + port);
 
