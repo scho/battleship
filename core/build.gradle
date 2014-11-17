@@ -18,15 +18,13 @@ jacocoTestReport {
 
 repositories {
     mavenCentral()
-    maven {
-        url 'http://repository-mongolink.forge.cloudbees.com/release/'
-    }
 }
 
 dependencies {
     compile project(':model')
-    compile 'org.mongolink:mongolink:1.1.4'
     compile 'cglib:cglib:3.1'
+    compile 'org.mongodb:mongo-java-driver:2.12.4'
+    compile 'org.jongo:jongo:1.1'
     testCompile 'junit:junit:4.11'
     testCompile 'org.hamcrest:hamcrest-all:1.3'
 }

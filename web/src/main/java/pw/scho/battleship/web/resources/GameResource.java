@@ -20,7 +20,7 @@ public class GameResource {
 
     public GameResource() {
         // TODO: Use DI Container
-        this.service = new GameService(new GameMemoryRepository(), new PlayerMongoRepository(MongoConfiguration.createSession()));
+        this.service = new GameService(new GameMemoryRepository(), new PlayerMongoRepository(MongoConfiguration.getInstance().getCollection("players")));
     }
 
     @GET

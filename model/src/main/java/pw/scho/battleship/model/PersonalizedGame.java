@@ -71,7 +71,7 @@ public class PersonalizedGame {
     }
 
     public List<String> getMessages() {
-        if(playerIsFirstPlayer()){
+        if (playerIsFirstPlayer()) {
             return game.getSecondBoard().getMessageQueue().getAllMessages();
         }
         return game.getFirstBoard().getMessageQueue().getAllMessages();

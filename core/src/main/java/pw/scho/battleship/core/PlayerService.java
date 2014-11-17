@@ -1,6 +1,5 @@
 package pw.scho.battleship.core;
 
-import org.mongolink.domain.criteria.Restrictions;
 import pw.scho.battleship.model.Player;
 import pw.scho.battleship.persistence.mongo.MongoRepository;
 
@@ -17,23 +16,21 @@ public class PlayerService {
     }
 
     public boolean nameAvailable(String name) {
-        return repository.findByRestriction(Restrictions.equals("name", name)).size() == 0;
+        return repository.findByRestriction("{ name: '" + name + "' }").size() == 0;
     }
 
     public Player register(String name, String password) {
-        repository.getSession().start();
         if (!nameAvailable(name)) {
             throw new RuntimeException("Name already taken");
         }
         Player player = new Player(name, password);
 
-        repository.add(player);
-        repository.getSession().stop();
+        repository.insert(player);
         return player;
     }
 
     public Player authenticate(String name, String password) {
-        List<Player> players = repository.findByRestriction(Restrictions.equals("name", name));
+        List<Player> players = repository.findByRestriction("{ name: '" + name + "' }");
 
         if (players.size() != 1) {
             return null;
@@ -48,8 +45,7 @@ public class PlayerService {
     }
 
     public Player getPlayerById(UUID playerId) throws ServiceException {
-        repository.getSession().start();
-        Player player = repository.get(playerId);
+        Player player = repository.get(playerId.toString());
         if (player != null) {
             return player;
         }

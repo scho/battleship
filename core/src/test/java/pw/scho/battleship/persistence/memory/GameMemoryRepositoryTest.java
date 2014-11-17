@@ -31,7 +31,7 @@ public class GameMemoryRepositoryTest {
         Game game = new Game();
         String id = game.getId().toString();
 
-        repository.add(game);
+        repository.insert(game);
         Game cachedGame = repository.get(UUID.fromString(id));
 
         assertThat(cachedGame, is(notNullValue()));
@@ -41,7 +41,7 @@ public class GameMemoryRepositoryTest {
     public void testDelete() {
         Game cachedGame;
         Game game = new Game();
-        repository.add(game);
+        repository.insert(game);
         cachedGame = repository.get(game.getId());
         assertThat(cachedGame, is(repository.get(game.getId())));
 
@@ -56,8 +56,8 @@ public class GameMemoryRepositoryTest {
         Game game = new Game();
         Game otherGame = new Game();
 
-        repository.add(game);
-        repository.add(otherGame);
+        repository.insert(game);
+        repository.insert(otherGame);
         InMemoryCache.getInstance().set("anotherObjectWithDifferentType", new Object());
 
         Collection games = repository.all();

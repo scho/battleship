@@ -1,31 +1,31 @@
 package pw.scho.battleship.core;
 
+import org.jongo.MongoCollection;
 import org.junit.Before;
 import org.junit.Test;
 import pw.scho.battleship.model.Player;
 import pw.scho.battleship.persistence.configuration.MongoConfiguration;
 import pw.scho.battleship.persistence.mongo.PlayerMongoRepository;
 
-import java.util.UUID;
-
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 
 
 public class PlayerServiceTest {
 
     private PlayerService service;
 
+    private PlayerMongoRepository repository;
+
     @Before
     public void setup() {
-        service = new PlayerService(new PlayerMongoRepository(MongoConfiguration.createSession()));
 
-        PlayerMongoRepository repository = new PlayerMongoRepository(MongoConfiguration.createSession());
-        repository.getSession().start();
-        repository.all().forEach(repository::delete);
-        repository.getSession().flush();
+        MongoCollection players = MongoConfiguration.getInstance().getCollection("players_test");
+
+        repository = new PlayerMongoRepository(players);
+        repository.all().forEach(player -> repository.delete(player.getId()));
+
+        service = new PlayerService(repository);
     }
 
     @Test
@@ -38,7 +38,7 @@ public class PlayerServiceTest {
     @Test
     public void testAuthenticateWithCorrectCredentials() throws Exception {
         Player player = new Player("Toni", "secret");
-        addPlayerToRepository(player);
+        insertPlayerToRepository(player);
 
         Player authenticatedPlayer = service.authenticate("Toni", "secret");
 
@@ -55,17 +55,14 @@ public class PlayerServiceTest {
     @Test
     public void testAuthenticateWithIncorrectPassword() throws Exception {
         Player player = new Player("Toni", "secret");
-        addPlayerToRepository(player);
+        insertPlayerToRepository(player);
 
         Player authenticatedPlayer = service.authenticate("Toni", "wrong password");
 
         assertThat(authenticatedPlayer, is(nullValue()));
     }
 
-    private void addPlayerToRepository(Player player) {
-        PlayerMongoRepository playerMongoRepository = new PlayerMongoRepository(MongoConfiguration.createSession());
-        playerMongoRepository.getSession().start();
-        playerMongoRepository.add(player);
-        playerMongoRepository.getSession().stop();
+    private void insertPlayerToRepository(Player player) {
+        repository.insert(player);
     }
 }

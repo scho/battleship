@@ -8,7 +8,9 @@ public interface Repository<T> {
 
     void delete(T entity);
 
-    void add(T entity);
+    void update(Object id, T entity);
+
+    void insert(T entity);
 
     List<T> all();
 }

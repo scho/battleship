@@ -7,9 +7,9 @@ public class Board {
 
     public static final int WIDTH = 10;
     public static final int HEIGHT = 10;
+    private final BoardMessageQueue messageQueue = new BoardMessageQueue();
     private Ship[][] ships2DMap = new Ship[HEIGHT][WIDTH];
     private boolean[][] shots2DMap = new boolean[HEIGHT][WIDTH];
-    private final BoardMessageQueue messageQueue = new BoardMessageQueue();
     private List<Ship> ships = new ArrayList();
     private List<Position> shots = new ArrayList();
 

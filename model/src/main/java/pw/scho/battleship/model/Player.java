@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class Player {
 
-    private UUID id;
+    private String _id;
     private String name;
     private int gamesWon = 0;
     private int gamesLost = 0;
@@ -17,7 +17,7 @@ public class Player {
     }
 
     public Player() {
-        id = UUID.randomUUID();
+        _id = UUID.randomUUID().toString();
     }
 
     public String getPassword() {
@@ -61,6 +61,6 @@ public class Player {
     }
 
     public UUID getId() {
-        return id;
+        return UUID.fromString(_id);
     }
 }

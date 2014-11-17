@@ -20,7 +20,7 @@ public class PlayerResource {
     public PlayerResource() {
         super();
         // TODO: Use DI Container
-        this.service = new PlayerService(new PlayerMongoRepository(MongoConfiguration.createSession()));
+        this.service = new PlayerService(new PlayerMongoRepository(MongoConfiguration.getInstance().getCollection("players")));
     }
 
     @POST

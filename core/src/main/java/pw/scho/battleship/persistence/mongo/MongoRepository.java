@@ -1,51 +1,53 @@
 package pw.scho.battleship.persistence.mongo;
 
-import org.mongolink.MongoSession;
-import org.mongolink.domain.criteria.Criteria;
-import org.mongolink.domain.criteria.Restriction;
+import org.jongo.MongoCollection;
 import pw.scho.battleship.persistence.Repository;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public abstract class MongoRepository<T> implements Repository<T> {
 
-    protected final MongoSession session;
+    protected final MongoCollection collection;
 
-    protected MongoRepository(MongoSession session) {
-        this.session = session;
+    protected MongoRepository(MongoCollection collection) {
+        this.collection = collection;
     }
 
-    @Override
     public T get(Object id) {
-        return session.get(id, persistentType());
+        return collection.findOne("{ _id: '" + id.toString() + "' }").as(persistentType());
     }
 
-    @Override
-    public void delete(T entity) {
-        session.delete(entity);
+    public void delete(Object id) {
+        collection.remove("{ _id: '" + id.toString() + "' }");
     }
 
-    @Override
-    public void add(T entity) {
-        session.save(entity);
+    public void insert(T entity) {
+        collection.insert(entity);
     }
 
-    @Override
+    public void update(Object id, T entity) {
+        collection.update("{ _id: '" + id.toString() + "'}").with(entity);
+    }
+
     public List<T> all() {
-        return session.getAll(persistentType());
+        Iterator<T> i = collection.find().as(persistentType());
+        List<T> result = new ArrayList<>();
+        while (i.hasNext()) {
+            result.add(result.size(), i.next());
+        }
+        return result;
     }
 
-    public List<T> findByRestriction(Restriction restriction) {
-        Criteria<T> criteria = session.createCriteria(persistentType());
-
-        criteria.add(restriction);
-
-        return criteria.list();
-    }
-
-    public MongoSession getSession() {
-        return session;
+    public List<T> findByRestriction(String restriction) {
+        Iterator<T> i = collection.find(restriction).as(persistentType());
+        List<T> result = new ArrayList<>();
+        while (i.hasNext()) {
+            result.add(result.size(), i.next());
+        }
+        return result;
     }
 
     protected final Class<T> persistentType() {

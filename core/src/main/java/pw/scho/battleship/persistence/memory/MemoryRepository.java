@@ -20,22 +20,22 @@ public class MemoryRepository<T> implements Repository<T> {
         this.typeCheckFunction = typeCheckFunction;
     }
 
-    @Override
     public T get(Object id) {
         return (T) cache.get(id);
     }
 
-    @Override
     public void delete(T entity) {
         cache.remove(primaryKeyFunction.apply(entity));
     }
 
-    @Override
-    public void add(T entity) {
+    public void update(Object id, T entity) {
         cache.set(primaryKeyFunction.apply(entity), entity);
     }
 
-    @Override
+    public void insert(T entity) {
+        cache.set(primaryKeyFunction.apply(entity), entity);
+    }
+
     public List<T> all() {
         List<T> entities = new ArrayList();
 

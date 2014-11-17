@@ -35,7 +35,7 @@ public class BoardPositionGenerator {
         if (board.positionWasShotAt(position)) {
             if (board.positionIsTakenByShip(position)) {
                 Ship ship = board.getShipAtPosition(position);
-                if(ship.sunk()){
+                if (ship.sunk()) {
                     return BoardPosition.createShipSunk();
                 }
                 return BoardPosition.createShipHit();

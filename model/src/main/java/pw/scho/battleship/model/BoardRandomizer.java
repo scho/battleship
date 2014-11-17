@@ -5,31 +5,31 @@ import java.util.Random;
 public class BoardRandomizer {
 
     private final Random random = new Random();
+    private final int maximumNumberOfTries = 50;
     private Board board;
     private int numberOfTries = 0;
-    private final int maximumNumberOfTries = 50;
 
     public Board randomizeWithStandardShips() {
         return randomize(new int[]{2, 2, 2, 2, 3, 3, 3, 4, 4, 5});
     }
 
     public Board randomize(int[] shipSizes) {
-        while(true){
+        while (true) {
             Board board = tryToPlaceShips(shipSizes);
 
-            if(board != null){
+            if (board != null) {
                 break;
             }
         }
         return board;
     }
 
-    private Board tryToPlaceShips(int[] shipSizes){
+    private Board tryToPlaceShips(int[] shipSizes) {
         board = new Board();
 
         for (int size : shipSizes) {
             boolean success = placeShip(size);
-            if(!success){
+            if (!success) {
                 return null;
             }
         }
@@ -47,7 +47,7 @@ public class BoardRandomizer {
             }
 
             numberOfTries++;
-            if(numberOfTries > maximumNumberOfTries){
+            if (numberOfTries > maximumNumberOfTries) {
                 numberOfTries = 0;
                 return false;
             }

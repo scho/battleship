@@ -1,61 +1,57 @@
 package pw.scho.battleship.persistence.configuration;
 
 
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.mongodb.DB;
-import com.mongodb.MongoURI;
-import com.mongodb.ServerAddress;
-import org.mongolink.MongoSession;
-import org.mongolink.MongoSessionManager;
-import org.mongolink.Settings;
-import org.mongolink.UpdateStrategies;
-import org.mongolink.domain.mapper.ContextBuilder;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import org.jongo.Jongo;
+import org.jongo.marshall.jackson.JacksonMapper;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class MongoConfiguration {
 
-    public static void stop() {
-        Singleton.INSTANCE.mongoSessionManager.close();
-    }
-
-    public static MongoSession createSession() {
-        return Singleton.INSTANCE.mongoSessionManager.createSession();
+    public static Jongo getInstance() {
+        return Singleton.INSTANCE.jongo;
     }
 
     private enum Singleton {
 
         INSTANCE;
 
-        private final MongoSessionManager mongoSessionManager;
+        private final Jongo jongo;
 
         private Singleton() {
-            ContextBuilder builder = new ContextBuilder("pw.scho.battleship.persistence.mongo.mapping");
-            Settings settings = null;
-            try {
-                settings = Settings.defaultInstance()
-                        .withDefaultUpdateStrategy(UpdateStrategies.DIFF)
-                        .withDbName("battleship");
-                String mongoHqUrl = System.getenv("MONGOHQ_URL");
+            String mongoHgUrl = System.getenv("MONGOHQ_URL");
+            DB db = null;
 
-                if(mongoHqUrl!= null){
-                    MongoURI mongoURI = new MongoURI(mongoHqUrl);
-                    List<ServerAddress> serverAdresses = new ArrayList<>();
-                    for(String host : mongoURI.getHosts()){
-                        serverAdresses.add(new ServerAddress(host, 27017));
-                    }
-                    settings = settings.withAddresses(serverAdresses)
-                            .withAuthentication(mongoURI.getUsername(), mongoURI.getPassword().toString());
-                } else {
-                    settings = settings.withAddresses(Arrays.asList(new ServerAddress("localhost", 27017)));
+            if (mongoHgUrl != null) {
+                try {
+                    MongoClientURI mongoClientURI = new MongoClientURI(mongoHgUrl);
+
+                    db = new MongoClient(mongoClientURI).getDB(mongoClientURI.getDatabase());
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();
                 }
-            } catch (UnknownHostException e) {
+            } else {
+                try {
+                    db = new MongoClient().getDB("battleship");
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();
+                }
             }
-            mongoSessionManager = MongoSessionManager.create(builder, settings);
+
+
+            jongo = new Jongo(db,
+                    new JacksonMapper.Builder()
+                            .enable(MapperFeature.AUTO_DETECT_FIELDS)
+                            .build()
+            );
+
+
         }
+
+
     }
 }

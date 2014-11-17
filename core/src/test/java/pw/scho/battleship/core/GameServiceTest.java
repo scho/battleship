@@ -23,12 +23,16 @@ import static org.junit.Assert.fail;
 public class GameServiceTest {
 
     private Repository<Game> gameRepository;
+    private PlayerMongoRepository playerRepository;
     private GameService service;
 
     @Before
     public void setupInstances() {
         gameRepository = new GameMemoryRepository();
-        service = new GameService(gameRepository, new PlayerMongoRepository(MongoConfiguration.createSession()));
+        playerRepository = new PlayerMongoRepository(MongoConfiguration.getInstance().getCollection("players_test"));
+        service = new GameService(gameRepository, playerRepository);
+
+        playerRepository.all().forEach(player -> playerRepository.delete(player.getId()));
     }
 
     @After
@@ -48,9 +52,9 @@ public class GameServiceTest {
         Game startedGame = new Game();
         startedGame.setFirstPlayer(otherPlayer);
         startedGame.setSecondPlayer(player);
-        gameRepository.add(openGame);
-        gameRepository.add(startedGame);
-        gameRepository.add(ownGame);
+        gameRepository.insert(openGame);
+        gameRepository.insert(startedGame);
+        gameRepository.insert(ownGame);
 
         List<LobbyGameInfo> openGames = service.getAllOpenGames(player.getId());
 
@@ -74,10 +78,10 @@ public class GameServiceTest {
         finishedGame.setFirstPlayer(player);
         finishedGame.setSecondPlayer(otherPlayer);
         finishedGame.setFinished(true);
-        gameRepository.add(openGame);
-        gameRepository.add(startedGame);
-        gameRepository.add(ownGame);
-        gameRepository.add(finishedGame);
+        gameRepository.insert(openGame);
+        gameRepository.insert(startedGame);
+        gameRepository.insert(ownGame);
+        gameRepository.insert(finishedGame);
 
         List<LobbyGameInfo> ownGames = service.getAllOwnAndOngoingGames(player.getId());
 
@@ -97,7 +101,7 @@ public class GameServiceTest {
         Player otherPlayer = new Player();
         Game openGame = new Game();
         openGame.setFirstPlayer(otherPlayer);
-        gameRepository.add(openGame);
+        gameRepository.insert(openGame);
 
         service.joinGame(openGame.getId(), player.getId());
 
@@ -125,7 +129,7 @@ public class GameServiceTest {
         Game fullGame = new Game();
         fullGame.setFirstPlayer(player);
         fullGame.setSecondPlayer(otherPlayer);
-        gameRepository.add(fullGame);
+        gameRepository.insert(fullGame);
 
         try {
             service.joinGame(fullGame.getId(), player.getId());
@@ -154,7 +158,7 @@ public class GameServiceTest {
         Game game = new Game();
         game.setFirstPlayer(player);
         game.setSecondPlayer(otherPlayer);
-        gameRepository.add(game);
+        gameRepository.insert(game);
 
         GameState gameState = service.getGameInfo(game.getId(), player.getId());
 
@@ -172,7 +176,7 @@ public class GameServiceTest {
         game.setFirstBoard(new Board());
         game.setSecondBoard(new Board());
         game.getSecondBoard().placeShip(Ship.createHorizontal(new Position(0, 0), 5));
-        gameRepository.add(game);
+        gameRepository.insert(game);
 
         service.shootAt(game.getId(), player.getId(), new Position(0, 0));
 
@@ -193,7 +197,7 @@ public class GameServiceTest {
         game.setFirstBoard(new Board());
         game.setSecondBoard(new Board());
         game.getSecondBoard().placeShip(Ship.createHorizontal(new Position(0, 0), 1));
-        gameRepository.add(game);
+        gameRepository.insert(game);
 
         service.shootAt(game.getId(), player.getId(), new Position(0, 0));
 
@@ -214,7 +218,7 @@ public class GameServiceTest {
         Game game = new Game();
         game.setFirstPlayer(otherPlayer);
         game.setSecondPlayer(yetAnotherPlayer);
-        gameRepository.add(game);
+        gameRepository.insert(game);
 
         service.getGameInfo(game.getId(), player.getId());
     }
@@ -231,7 +235,7 @@ public class GameServiceTest {
         game.setFirstBoard(new Board());
         game.setSecondBoard(new Board());
         game.getSecondBoard().placeShip(Ship.createHorizontal(new Position(0, 0), 1));
-        gameRepository.add(game);
+        gameRepository.insert(game);
 
         service.shootAt(game.getId(), player.getId(), new Position(0, 0));
         List<String> playerMessages = service.getMessages(game.getId(), player.getId());
@@ -240,16 +244,11 @@ public class GameServiceTest {
     }
 
     private void addPlayerToRepository(Player player) {
-        PlayerMongoRepository playerMongoRepository = new PlayerMongoRepository(MongoConfiguration.createSession());
-        playerMongoRepository.getSession().start();
-        playerMongoRepository.add(player);
-        playerMongoRepository.getSession().stop();
+        playerRepository.insert(player);
     }
 
     private Player getPlayerFromRepository(UUID playerId) {
-        PlayerMongoRepository playerMongoRepository = new PlayerMongoRepository(MongoConfiguration.createSession());
-        playerMongoRepository.getSession().start();
-        return playerMongoRepository.get(playerId);
+        return playerRepository.get(playerId);
     }
 }
 

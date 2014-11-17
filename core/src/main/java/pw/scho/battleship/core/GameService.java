@@ -18,7 +18,6 @@ public class GameService {
         this.gameRepository = gameRepository;
         this.playerRepository = playerRepository;
         this.transaction = Transaction.getInstance();
-        this.playerRepository.getSession().start();
     }
 
     public Game openGame(UUID playerId) throws ServiceException {
@@ -31,7 +30,7 @@ public class GameService {
             game.setFirstBoard(boardRandomizer.randomizeWithStandardShips());
             game.setSecondBoard(boardRandomizer.randomizeWithStandardShips());
 
-            gameRepository.add(game);
+            gameRepository.insert(game);
 
             return game;
         }
@@ -81,7 +80,7 @@ public class GameService {
             for (Game game : games) {
                 boolean isFirstPlayer = game.getFirstPlayer().getId().equals(player.getId());
                 boolean isSecondPlayer = game.getSecondPlayer() != null && game.getSecondPlayer().getId().equals(player.getId());
-                
+
                 if (!game.isFinished() && (isFirstPlayer || isSecondPlayer)) {
                     openGames.add(new LobbyGameInfo(game));
                 }
@@ -157,13 +156,14 @@ public class GameService {
             Player winner = game.isWon() ? game.getPlayer() : game.getOpponent();
             Player looser = game.isWon() ? game.getOpponent() : game.getPlayer();
 
-            winner = playerRepository.get(winner.getId());
-            looser = playerRepository.get(looser.getId());
+            winner = playerRepository.get(winner.getId().toString());
+            looser = playerRepository.get(looser.getId().toString());
 
             winner.lastGameWon();
             looser.lastGameLost();
 
-            playerRepository.getSession().flush();
+            playerRepository.update(winner.getId(), winner);
+            playerRepository.update(looser.getId(), looser);
         }
     }
 
