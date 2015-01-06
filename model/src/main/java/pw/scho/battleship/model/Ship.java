@@ -24,16 +24,8 @@ public class Ship {
         return new Ship(position, new Position(position.getX(), position.getY() + size - 1));
     }
 
-    public Position getFromPosition() {
-        return fromPosition;
-    }
-
-    public Position getToPosition() {
-        return toPosition;
-    }
-
     public int size() {
-        return Math.max(toPosition.getX() - fromPosition.getX(), toPosition.getY() - fromPosition.getY()) + 1;
+        return (int) fromPosition.distanceTo(toPosition) + 1;
     }
 
     public void hit() {

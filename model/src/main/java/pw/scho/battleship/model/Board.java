@@ -21,10 +21,6 @@ public class Board {
         return ships;
     }
 
-    public List<Position> getShots() {
-        return shots;
-    }
-
     public boolean shipIsPlaceable(Ship ship) {
         for (Position position : ship.getShipPositions()) {
             if (!positionIsOnBoard(position) || positionIsTakenByShip(position)) {
