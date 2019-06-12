@@ -1,6 +1,5 @@
 apply plugin: 'java'
 apply plugin: 'application'
-apply plugin: 'jacoco'
 
 mainClassName = 'pw.scho.battleship.web.Main'
 
@@ -18,6 +17,7 @@ repositories {
         url 'http://repository-mongolink.forge.cloudbees.com/release/'
     }
 }
+
 
 dependencies {
     compile project(':model')
