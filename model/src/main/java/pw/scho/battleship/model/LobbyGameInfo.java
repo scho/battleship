@@ -5,6 +5,7 @@ public class LobbyGameInfo {
     private String playerName;
     private String opponentName;
     private String gameId;
+
     public LobbyGameInfo() {
     }
 

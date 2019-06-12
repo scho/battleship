@@ -14,9 +14,9 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         int port;
-        try{
+        try {
             port = Integer.valueOf(System.getProperty("jetty.port"));
-        } catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             port = 8080;
         }
 
@@ -26,7 +26,8 @@ public class Main {
 
         HandlerList handlers = new HandlerList();
 
-        handlers.setHandlers(new Handler[]{getStaticContentHandler(), getJerseyHandler(), new DefaultHandler()});
+        handlers.setHandlers(
+            new Handler[]{getStaticContentHandler(), getJerseyHandler(), new DefaultHandler()});
 
         server.setHandler(handlers);
 

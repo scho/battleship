@@ -7,7 +7,13 @@ import pw.scho.battleship.model.PlayerInfo;
 import pw.scho.battleship.persistence.configuration.MongoConfiguration;
 import pw.scho.battleship.persistence.mongo.PlayerMongoRepository;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.CookieParam;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
@@ -20,7 +26,8 @@ public class PlayerResource {
     public PlayerResource() {
         super();
         // TODO: Use DI Container
-        this.service = new PlayerService(new PlayerMongoRepository(MongoConfiguration.getInstance().getCollection("players")));
+        this.service = new PlayerService(
+            new PlayerMongoRepository(MongoConfiguration.getInstance().getCollection("players")));
     }
 
     @POST
@@ -29,15 +36,15 @@ public class PlayerResource {
     public Response register(@FormParam("name") String name, @FormParam("password") String password) {
         if (name == null || name.isEmpty() || !service.nameAvailable(name)) {
             return Response.status(Response.Status.CONFLICT)
-                    .entity("Name is invalid")
-                    .build();
+                .entity("Name is invalid")
+                .build();
         }
 
         Player player = service.register(name, password);
 
         return Response.ok(player.getId().toString())
-                .cookie(createAuthenticationCookie(player.getId().toString()))
-                .build();
+            .cookie(createAuthenticationCookie(player.getId().toString()))
+            .build();
 
     }
 
@@ -49,13 +56,13 @@ public class PlayerResource {
 
         if (player == null) {
             return Response.status(Response.Status.UNAUTHORIZED)
-                    .entity("Authentication failed")
-                    .build();
+                .entity("Authentication failed")
+                .build();
         }
 
         return Response.ok(player.getId().toString())
-                .cookie(createAuthenticationCookie(player.getId().toString()))
-                .build();
+            .cookie(createAuthenticationCookie(player.getId().toString()))
+            .build();
     }
 
     @GET
@@ -63,12 +70,12 @@ public class PlayerResource {
     @Path("info")
     public Response info(@CookieParam("playerId") String playerId) {
         UUID uuid;
-        try{
+        try {
             uuid = UUID.fromString(playerId);
-        } catch(IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             return Response.status(Response.Status.UNAUTHORIZED)
-                    .entity("PlayerId is invalid")
-                    .build();
+                .entity("PlayerId is invalid")
+                .build();
         }
 
         try {
@@ -83,20 +90,20 @@ public class PlayerResource {
     @Path("logout")
     public Response logout() {
         return Response.ok()
-                .cookie(createAuthenticationCookie(""))
-                .build();
+            .cookie(createAuthenticationCookie(""))
+            .build();
     }
 
     private NewCookie createAuthenticationCookie(String playerId) {
         return new NewCookie("playerId",
-                playerId,
-                "/",
-                null,
-                NewCookie.DEFAULT_VERSION,
-                null,
-                NewCookie.DEFAULT_MAX_AGE,
-                null,
-                false,
-                false);
+            playerId,
+            "/",
+            null,
+            NewCookie.DEFAULT_VERSION,
+            null,
+            NewCookie.DEFAULT_MAX_AGE,
+            null,
+            false,
+            false);
     }
 }

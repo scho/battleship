@@ -44,9 +44,9 @@ public class MongoConfiguration {
 
 
             jongo = new Jongo(db,
-                    new JacksonMapper.Builder()
-                            .enable(MapperFeature.AUTO_DETECT_FIELDS)
-                            .build()
+                new JacksonMapper.Builder()
+                    .enable(MapperFeature.AUTO_DETECT_FIELDS)
+                    .build()
             );
 
 

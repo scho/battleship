@@ -3,12 +3,22 @@ package pw.scho.battleship.web.resources;
 
 import pw.scho.battleship.core.GameService;
 import pw.scho.battleship.core.ServiceException;
-import pw.scho.battleship.model.*;
+import pw.scho.battleship.model.BoardPosition;
+import pw.scho.battleship.model.Game;
+import pw.scho.battleship.model.GameState;
+import pw.scho.battleship.model.LobbyGameInfo;
+import pw.scho.battleship.model.Position;
 import pw.scho.battleship.persistence.configuration.MongoConfiguration;
 import pw.scho.battleship.persistence.memory.GameMemoryRepository;
 import pw.scho.battleship.persistence.mongo.PlayerMongoRepository;
 
-import javax.ws.rs.*;
+import javax.ws.rs.CookieParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -20,7 +30,8 @@ public class GameResource {
 
     public GameResource() {
         // TODO: Use DI Container
-        this.service = new GameService(new GameMemoryRepository(), new PlayerMongoRepository(MongoConfiguration.getInstance().getCollection("players")));
+        this.service = new GameService(new GameMemoryRepository(),
+            new PlayerMongoRepository(MongoConfiguration.getInstance().getCollection("players")));
     }
 
     @GET
@@ -41,7 +52,8 @@ public class GameResource {
     @Path("/own")
     public Response own(@CookieParam("playerId") String playerId) {
         try {
-            List<LobbyGameInfo> lobbyGameInfos = service.getAllOwnAndOngoingGames(UUID.fromString(playerId));
+            List<LobbyGameInfo> lobbyGameInfos = service.getAllOwnAndOngoingGames(
+                UUID.fromString(playerId));
 
             return Response.ok(lobbyGameInfos).build();
         } catch (ServiceException e) {
@@ -82,7 +94,8 @@ public class GameResource {
     public Response getPlayersBoardPositions(@CookieParam("playerId") String playerId,
                                              @PathParam("gameId") String gameId) {
         try {
-            List<List<BoardPosition>> boardPositions = service.getPlayersBoardPositions(UUID.fromString(gameId), UUID.fromString(playerId));
+            List<List<BoardPosition>> boardPositions = service.getPlayersBoardPositions(
+                UUID.fromString(gameId), UUID.fromString(playerId));
             return Response.ok(boardPositions).build();
         } catch (ServiceException e) {
             return new ResponseFromServiceExceptionBuilder(e).build();
@@ -95,7 +108,8 @@ public class GameResource {
     public Response getOpponentsBoardPositions(@CookieParam("playerId") String playerId,
                                                @PathParam("gameId") String gameId) {
         try {
-            List<List<BoardPosition>> boardPositions = service.getOpponentsBoardPositions(UUID.fromString(gameId), UUID.fromString(playerId));
+            List<List<BoardPosition>> boardPositions = service.getOpponentsBoardPositions(
+                UUID.fromString(gameId), UUID.fromString(playerId));
             return Response.ok(boardPositions).build();
         } catch (ServiceException e) {
             return new ResponseFromServiceExceptionBuilder(e).build();
@@ -108,7 +122,8 @@ public class GameResource {
     public Response getMessages(@CookieParam("playerId") String playerId,
                                 @PathParam("gameId") String gameId) {
         try {
-            List<String> messages = service.getMessages(UUID.fromString(gameId), UUID.fromString(playerId));
+            List<String> messages = service.getMessages(UUID.fromString(gameId),
+                UUID.fromString(playerId));
             return Response.ok(messages).build();
         } catch (ServiceException e) {
             return new ResponseFromServiceExceptionBuilder(e).build();
@@ -136,7 +151,8 @@ public class GameResource {
     public Response state(@CookieParam("playerId") String playerId,
                           @PathParam("gameId") String gameId) {
         try {
-            GameState gameState = service.getGameInfo(UUID.fromString(gameId), UUID.fromString(playerId));
+            GameState gameState = service.getGameInfo(UUID.fromString(gameId),
+                UUID.fromString(playerId));
             return Response.ok(gameState).build();
         } catch (ServiceException e) {
             return new ResponseFromServiceExceptionBuilder(e).build();

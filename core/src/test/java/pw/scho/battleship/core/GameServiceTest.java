@@ -3,7 +3,13 @@ package pw.scho.battleship.core;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import pw.scho.battleship.model.*;
+import pw.scho.battleship.model.Board;
+import pw.scho.battleship.model.Game;
+import pw.scho.battleship.model.GameState;
+import pw.scho.battleship.model.LobbyGameInfo;
+import pw.scho.battleship.model.Player;
+import pw.scho.battleship.model.Position;
+import pw.scho.battleship.model.Ship;
 import pw.scho.battleship.persistence.Repository;
 import pw.scho.battleship.persistence.configuration.MongoConfiguration;
 import pw.scho.battleship.persistence.memory.GameMemoryRepository;
@@ -29,7 +35,8 @@ public class GameServiceTest {
     @Before
     public void setupInstances() {
         gameRepository = new GameMemoryRepository();
-        playerRepository = new PlayerMongoRepository(MongoConfiguration.getInstance().getCollection("players_test"));
+        playerRepository = new PlayerMongoRepository(
+            MongoConfiguration.getInstance().getCollection("players_test"));
         service = new GameService(gameRepository, playerRepository);
 
         playerRepository.all().forEach(player -> playerRepository.delete(player.getId()));
@@ -86,8 +93,8 @@ public class GameServiceTest {
         List<LobbyGameInfo> ownGames = service.getAllOwnAndOngoingGames(player.getId());
 
         List<String> gameIds = ownGames.stream()
-                .map(game -> game.getGameId().toString())
-                .collect(Collectors.toList());
+            .map(game -> game.getGameId().toString())
+            .collect(Collectors.toList());
 
         assertThat(gameIds.size(), is(2));
         assertThat(gameIds, hasItem(startedGame.getId().toString()));

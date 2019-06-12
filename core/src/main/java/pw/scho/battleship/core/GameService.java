@@ -1,6 +1,13 @@
 package pw.scho.battleship.core;
 
-import pw.scho.battleship.model.*;
+import pw.scho.battleship.model.BoardPosition;
+import pw.scho.battleship.model.BoardRandomizer;
+import pw.scho.battleship.model.Game;
+import pw.scho.battleship.model.GameState;
+import pw.scho.battleship.model.LobbyGameInfo;
+import pw.scho.battleship.model.PersonalizedGame;
+import pw.scho.battleship.model.Player;
+import pw.scho.battleship.model.Position;
 import pw.scho.battleship.persistence.Repository;
 import pw.scho.battleship.persistence.mongo.PlayerMongoRepository;
 
@@ -61,7 +68,8 @@ public class GameService {
             List<LobbyGameInfo> openGames = new ArrayList<>();
 
             for (Game game : games) {
-                if (game.getSecondPlayer() == null && !game.getFirstPlayer().getId().equals(player.getId())) {
+                if (game.getSecondPlayer() == null && !game.getFirstPlayer().getId().equals(
+                    player.getId())) {
                     openGames.add(new LobbyGameInfo(game));
                 }
             }
@@ -79,7 +87,8 @@ public class GameService {
 
             for (Game game : games) {
                 boolean isFirstPlayer = game.getFirstPlayer().getId().equals(player.getId());
-                boolean isSecondPlayer = game.getSecondPlayer() != null && game.getSecondPlayer().getId().equals(player.getId());
+                boolean isSecondPlayer = game.getSecondPlayer() != null && game.getSecondPlayer().getId().equals(
+                    player.getId());
 
                 if (!game.isFinished() && (isFirstPlayer || isSecondPlayer)) {
                     openGames.add(new LobbyGameInfo(game));
@@ -169,7 +178,8 @@ public class GameService {
 
     private void checkIfPlayerIsMemberOfGame(Game game, Player player) throws ServiceException {
         if (game.getFirstPlayer().getId().equals(player.getId())
-                || game.getSecondPlayer() != null && game.getSecondPlayer().getId().equals(player.getId())) {
+            || game.getSecondPlayer() != null && game.getSecondPlayer().getId().equals(
+            player.getId())) {
             return;
         }
 

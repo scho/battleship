@@ -1,72 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Battleship</title>
-    <meta name="description" content="Battleship - Yet anther browser version of this famous game.">
-    <meta name="author" content="Georg Meyer">
+    <head>
+        <meta charset="utf-8">
+        <title>Battleship</title>
+        <meta name="description" content="Battleship - Yet anther browser version of this famous game.">
+        <meta name="author" content="Georg Meyer">
 
-    <link href="css/bootstrap.css" rel="stylesheet">
-    <link href="css/styles.css" rel="stylesheet">
+        <link href="css/bootstrap.css" rel="stylesheet">
+        <link href="css/styles.css" rel="stylesheet">
 
-</head>
+    </head>
 
-<body>
+    <body>
 
-<div class="header text-center">
-    <h1>Battleship</h1>
-    <a href="/lobby.html">Back to Lobby</a>
-</div>
-
-<div class="container">
-    <div class="row" id="headline">
-        <div class="span5 text-right"><h2><span class="players-name"></span></h2></div>
-        <div class="span2 text-center"><h2><span id="vs">VS</span></h2></div>
-        <div class="span5 text-left"><h2><span class="opponents-name"></span></h2></div>
-    </div>
-    <div class="row">
-
-        <div class="span5 text-center">
-            <h4><span class="opponents-name"></span></h4>
-
-            <div id="not-your-turn" class="text-center" style="display: none;">
-                <div id="inner-not-your-turn"><h4>Waiting for other players turn.</h4></div>
-            </div>
-
-            <table id="opponents-board" class="table table-bordered board">
-                <tbody>
-                </tbody>
-            </table>
+        <div class="header text-center">
+            <h1>Battleship</h1>
+            <a href="/lobby.html">Back to Lobby</a>
         </div>
-        <div class="span2">
-            <div id="message">
-                <div id="nobody-has-joined" class="message text-center" style="display: none;"><h5>Nobody has joined yet,
-                    lets wait!</h5></div>
-                <div id="your-turn" class="message text-center" style="display: none;"><h5>Go ahead, shoot!</h5></div>
-                <div id="lost" class="message text-center" style="display: none;"><h3>You lost :(</h3><a href="lobby.html">Back
-                    to Lobby</a></div>
-                <div id="won" class="message text-center" style="display: none;"><h3>You won :)</h3><a href="lobby.html">Back
-                    to Lobby</a></div>
-                <div id="your-turn" class="message text-center" style="display: none;"><h5>Go ahead, shoot!</h5></div>
-            </div>
-            <div id="messages" class="text-center">
 
+        <div class="container">
+            <div class="row" id="headline">
+                <div class="span5 text-right"><h2><span class="players-name"></span></h2></div>
+                <div class="span2 text-center"><h2><span id="vs">VS</span></h2></div>
+                <div class="span5 text-left"><h2><span class="opponents-name"></span></h2></div>
+            </div>
+            <div class="row">
+
+                <div class="span5 text-center">
+                    <h4><span class="opponents-name"></span></h4>
+
+                    <div id="not-your-turn" class="text-center" style="display: none;">
+                        <div id="inner-not-your-turn"><h4>Waiting for other players turn.</h4></div>
+                    </div>
+
+                    <table id="opponents-board" class="table table-bordered board">
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="span2">
+                    <div id="message">
+                        <div id="nobody-has-joined" class="message text-center" style="display: none;"><h5>Nobody has
+                            joined yet,
+                            lets wait!</h5></div>
+                        <div id="your-turn" class="message text-center" style="display: none;"><h5>Go ahead, shoot!</h5>
+                        </div>
+                        <div id="lost" class="message text-center" style="display: none;"><h3>You lost :(</h3><a
+                                href="lobby.html">Back
+                            to Lobby</a></div>
+                        <div id="won" class="message text-center" style="display: none;"><h3>You won :)</h3><a
+                                href="lobby.html">Back
+                            to Lobby</a></div>
+                        <div id="your-turn" class="message text-center" style="display: none;"><h5>Go ahead, shoot!</h5>
+                        </div>
+                    </div>
+                    <div id="messages" class="text-center">
+
+                    </div>
+                </div>
+                <div class="span5 text-center">
+                    <h4>Your Board</h4>
+                    <table id="players-board" class="table table-bordered board">
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-        <div class="span5 text-center">
-            <h4>Your Board</h4>
-            <table id="players-board" class="table table-bordered board">
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
 
-<script src="lib/jquery-1.11.1.js"></script>
-<script src="lib/bootstrap.js"></script>
+        <script src="lib/jquery-1.11.1.js"></script>
+        <script src="lib/bootstrap.js"></script>
 
-<script type="text/javascript">
+        <script type="text/javascript">
 $(document).ready(function() {
     var gameId = window.location.hash.substring(1);
 
@@ -194,7 +199,8 @@ $(document).ready(function() {
     window.loadMessages();
 });
 
-</script>
 
-</body>
+        </script>
+
+    </body>
 </html>
