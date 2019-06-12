@@ -20,7 +20,7 @@ public class Position {
     }
 
     public String toString() {
-        return digits[x] + String.valueOf(y + 1);
+        return digits[x] + (y + 1);
     }
 
     public double distanceTo(Position otherPosition) {

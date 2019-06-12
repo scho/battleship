@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Board {
 
-    public static final int WIDTH = 10;
-    public static final int HEIGHT = 10;
+    static final int WIDTH = 10;
+    static final int HEIGHT = 10;
     private final BoardMessageQueue messageQueue = new BoardMessageQueue();
     private Ship[][] ships2DMap = new Ship[HEIGHT][WIDTH];
     private boolean[][] shots2DMap = new boolean[HEIGHT][WIDTH];
@@ -51,7 +51,7 @@ public class Board {
         return !shots2DMap[position.getY()][position.getX()];
     }
 
-    public boolean positionWasShotAt(Position position) {
+    boolean positionWasShotAt(Position position) {
         return !positionIsShootableAt(position);
     }
 
@@ -80,11 +80,11 @@ public class Board {
         return true;
     }
 
-    public boolean positionIsTakenByShip(Position position) {
+    boolean positionIsTakenByShip(Position position) {
         return getShipAtPosition(position) != null;
     }
 
-    public Ship getShipAtPosition(Position position) {
+    Ship getShipAtPosition(Position position) {
         return ships2DMap[position.getY()][position.getX()];
     }
 
@@ -99,11 +99,11 @@ public class Board {
             position.getY() < HEIGHT;
     }
 
-    public List<List<BoardPosition>> getMaskedBoardPositions() {
+    List<List<BoardPosition>> getMaskedBoardPositions() {
         return getBoardPositions(true);
     }
 
-    public List<List<BoardPosition>> getUnmaskedBoardPositions() {
+    List<List<BoardPosition>> getUnmaskedBoardPositions() {
         return getBoardPositions(false);
     }
 

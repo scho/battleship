@@ -4,34 +4,32 @@ public class BoardPosition {
 
     private Kind kind;
 
-    public BoardPosition() {
-    }
 
     private BoardPosition(Kind kind) {
         this.kind = kind;
     }
 
-    public static BoardPosition createWater() {
+    static BoardPosition createWater() {
         return new BoardPosition(Kind.WATER);
     }
 
-    public static BoardPosition createWaterHit() {
+    static BoardPosition createWaterHit() {
         return new BoardPosition(Kind.WATER_HIT);
     }
 
-    public static BoardPosition createUnknown() {
+    static BoardPosition createUnknown() {
         return new BoardPosition(Kind.UNKNOWN);
     }
 
-    public static BoardPosition createShip() {
+    static BoardPosition createShip() {
         return new BoardPosition(Kind.SHIP);
     }
 
-    public static BoardPosition createShipHit() {
+    static BoardPosition createShipHit() {
         return new BoardPosition(Kind.SHIP_HIT);
     }
 
-    public static BoardPosition createShipSunk() {
+    static BoardPosition createShipSunk() {
         return new BoardPosition(Kind.SHIP_SUNK);
     }
 

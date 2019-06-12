@@ -18,20 +18,20 @@ public class Game {
         this.id = UUID.randomUUID();
     }
 
-    public boolean secondPlayerHasWon() {
+    boolean secondPlayerHasWon() {
         return secondPlayerHasWon;
     }
 
-    public void setSecondPlayerHasWon(boolean secondPlayerHasWon) {
-        this.secondPlayerHasWon = secondPlayerHasWon;
+    void setSecondPlayerHasWon() {
+        this.secondPlayerHasWon = true;
     }
 
-    public boolean firstPlayerHasWon() {
+    boolean firstPlayerHasWon() {
         return firstPlayerHasWon;
     }
 
-    public void setFirstPlayerHasWon(boolean firstPlayerHasWon) {
-        this.firstPlayerHasWon = firstPlayerHasWon;
+    void setFirstPlayerHasWon() {
+        this.firstPlayerHasWon = true;
     }
 
     public boolean isFinished() {
@@ -62,7 +62,7 @@ public class Game {
         return id;
     }
 
-    public Board getFirstBoard() {
+    Board getFirstBoard() {
         return firstBoard;
     }
 
@@ -78,15 +78,15 @@ public class Game {
         this.secondBoard = secondBoard;
     }
 
-    public void toggleTurn() {
+    void toggleTurn() {
         firstPlayersTurn = !firstPlayersTurn;
     }
 
-    public boolean isItFirstPlayersTurn() {
+    boolean isItFirstPlayersTurn() {
         return firstPlayersTurn;
     }
 
-    public boolean isItSecondPlayersTurn() {
+    boolean isItSecondPlayersTurn() {
         return !firstPlayersTurn;
     }
 

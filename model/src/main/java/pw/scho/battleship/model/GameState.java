@@ -9,9 +9,6 @@ public class GameState {
     private boolean finished;
     private boolean won;
 
-    public GameState() {
-    }
-
     public GameState(PersonalizedGame game) {
         this.playersName = game.getPlayer().getName();
         if (game.getOpponent() != null) {

@@ -6,9 +6,6 @@ public class PlayerInfo {
     private int gamesWon;
     private int gamesLost;
 
-    public PlayerInfo() {
-    }
-
     public PlayerInfo(Player player) {
         this.name = player.getName();
         this.gamesLost = player.getGamesLost();

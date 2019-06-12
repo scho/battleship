@@ -9,15 +9,15 @@ public class GameException extends RuntimeException {
         this.kind = kind;
     }
 
-    public static GameException CreateShipNotPlaceable() {
+    static GameException CreateShipNotPlaceable() {
         return new GameException(GameRuntimeExceptionKind.SHIP_NOT_PLACEABLE);
     }
 
-    public static GameException CreateAlreadyShotAt() {
+    static GameException CreateAlreadyShotAt() {
         return new GameException(GameRuntimeExceptionKind.ALREADY_SHOT_AT);
     }
 
-    public static GameException CreateNotPlayersTurn() {
+    static GameException CreateNotPlayersTurn() {
         return new GameException(GameRuntimeExceptionKind.NOT_PLAYERS_TURN);
     }
 

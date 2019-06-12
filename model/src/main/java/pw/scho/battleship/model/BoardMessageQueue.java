@@ -7,11 +7,11 @@ public class BoardMessageQueue {
 
     private final List<String> messages;
 
-    public BoardMessageQueue() {
+    BoardMessageQueue() {
         messages = new ArrayList<>();
     }
 
-    public List<String> getAllMessages() {
+    List<String> getAllMessages() {
         return messages;
     }
 
@@ -19,11 +19,11 @@ public class BoardMessageQueue {
         return messages.size();
     }
 
-    public void addMissMessage(Position position) {
+    void addMissMessage(Position position) {
         messages.add(position.toString() + " was a miss.");
     }
 
-    public void addHitMessage(Position position, Ship ship) {
+    void addHitMessage(Position position, Ship ship) {
         String message = position.toString() + " was a hit.";
         if (ship.sunk()) {
             message += " Ship sunk!";

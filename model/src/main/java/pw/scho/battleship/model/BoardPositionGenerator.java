@@ -3,19 +3,19 @@ package pw.scho.battleship.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BoardPositionGenerator {
+class BoardPositionGenerator {
 
     private final Board board;
     private final boolean mask;
     private List<List<BoardPosition>> boardPositions;
 
-    public BoardPositionGenerator(Board board, boolean mask) {
+    BoardPositionGenerator(Board board, boolean mask) {
         this.board = board;
         this.mask = mask;
         boardPositions = new ArrayList<>();
     }
 
-    public List<List<BoardPosition>> generate() {
+    List<List<BoardPosition>> generate() {
         for (int y = 0; y < Board.HEIGHT; y++) {
             processRow(y);
         }

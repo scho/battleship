@@ -96,9 +96,9 @@ public class PersonalizedGame {
     private void checkForWin() {
         if (getOpponentBoard().allShipsSunk()) {
             if (playerIsFirstPlayer()) {
-                game.setFirstPlayerHasWon(true);
+                game.setFirstPlayerHasWon();
             } else {
-                game.setSecondPlayerHasWon(true);
+                game.setSecondPlayerHasWon();
             }
             game.setFinished(true);
         }

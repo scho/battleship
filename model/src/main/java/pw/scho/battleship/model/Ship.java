@@ -8,9 +8,6 @@ public class Ship {
     private Position toPosition;
     private int hits = 0;
 
-    public Ship() {
-    }
-
     protected Ship(Position fromPosition, Position toPosition) {
         this.fromPosition = fromPosition;
         this.toPosition = toPosition;
@@ -28,15 +25,15 @@ public class Ship {
         return (int) fromPosition.distanceTo(toPosition) + 1;
     }
 
-    public void hit() {
+    void hit() {
         hits++;
     }
 
-    public boolean sunk() {
+    boolean sunk() {
         return hits == size();
     }
 
-    public Iterable<Position> getShipPositions() {
+    Iterable<Position> getShipPositions() {
         ArrayList<Position> positions = new ArrayList<>();
 
         for (int x = fromPosition.getX(); x <= toPosition.getX(); x++) {
