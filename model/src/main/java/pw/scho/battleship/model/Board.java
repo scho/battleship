@@ -11,7 +11,6 @@ public class Board {
     private Ship[][] ships2DMap = new Ship[HEIGHT][WIDTH];
     private boolean[][] shots2DMap = new boolean[HEIGHT][WIDTH];
     private List<Ship> ships = new ArrayList<>();
-    private List<Position> shots = new ArrayList<>();
 
     public BoardMessageQueue getMessageQueue() {
         return messageQueue;
@@ -63,8 +62,6 @@ public class Board {
 
         shots2DMap[position.getY()][position.getX()] = true;
         Ship ship = getShipAtPosition(position);
-
-        shots.add(position);
 
         if (ship != null) {
             ship.hit();
