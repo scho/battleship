@@ -10,8 +10,8 @@ public class Board {
     private final BoardMessageQueue messageQueue = new BoardMessageQueue();
     private Ship[][] ships2DMap = new Ship[HEIGHT][WIDTH];
     private boolean[][] shots2DMap = new boolean[HEIGHT][WIDTH];
-    private List<Ship> ships = new ArrayList();
-    private List<Position> shots = new ArrayList();
+    private List<Ship> ships = new ArrayList<>();
+    private List<Position> shots = new ArrayList<>();
 
     public BoardMessageQueue getMessageQueue() {
         return messageQueue;
@@ -49,7 +49,7 @@ public class Board {
     }
 
     public boolean positionIsShootableAt(Position position) {
-        return shots2DMap[position.getY()][position.getX()] == false;
+        return !shots2DMap[position.getY()][position.getX()];
     }
 
     public boolean positionWasShotAt(Position position) {
@@ -97,9 +97,9 @@ public class Board {
 
     private boolean positionIsOnBoard(Position position) {
         return position.getX() >= 0 &&
-                position.getY() >= 0 &&
-                position.getX() < WIDTH &&
-                position.getY() < HEIGHT;
+            position.getY() >= 0 &&
+            position.getX() < WIDTH &&
+            position.getY() < HEIGHT;
     }
 
     public List<List<BoardPosition>> getMaskedBoardPositions() {

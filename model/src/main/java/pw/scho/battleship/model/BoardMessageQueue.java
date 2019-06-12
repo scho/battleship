@@ -8,7 +8,7 @@ public class BoardMessageQueue {
     private final List<String> messages;
 
     public BoardMessageQueue() {
-        messages = new ArrayList();
+        messages = new ArrayList<>();
     }
 
     public List<String> getAllMessages() {

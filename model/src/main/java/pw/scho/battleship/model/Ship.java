@@ -37,7 +37,7 @@ public class Ship {
     }
 
     public Iterable<Position> getShipPositions() {
-        ArrayList<Position> positions = new ArrayList();
+        ArrayList<Position> positions = new ArrayList<>();
 
         for (int x = fromPosition.getX(); x <= toPosition.getX(); x++) {
             for (int y = fromPosition.getY(); y <= toPosition.getY(); y++) {
@@ -49,12 +49,12 @@ public class Ship {
     }
 
     public Iterable<Position> getBoarderPositions() {
-        ArrayList<Position> positions = new ArrayList();
+        ArrayList<Position> positions = new ArrayList<>();
 
         for (int x = fromPosition.getX() - 1; x <= toPosition.getX() + 1; x++) {
             for (int y = fromPosition.getY() - 1; y <= toPosition.getY() + 1; y++) {
                 if (x < fromPosition.getX() || x > toPosition.getX()
-                        || y < fromPosition.getY() || y > toPosition.getY()) {
+                    || y < fromPosition.getY() || y > toPosition.getY()) {
                     positions.add(new Position(x, y));
                 }
             }

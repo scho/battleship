@@ -37,7 +37,7 @@ public class MemoryRepository<T> implements Repository<T> {
     }
 
     public List<T> all() {
-        List<T> entities = new ArrayList();
+        List<T> entities = new ArrayList<>();
 
         for (Object object : cache.all()) {
             if (typeCheckFunction.apply(object)) {

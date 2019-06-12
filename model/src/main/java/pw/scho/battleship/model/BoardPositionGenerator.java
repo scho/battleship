@@ -12,7 +12,7 @@ public class BoardPositionGenerator {
     public BoardPositionGenerator(Board board, boolean mask) {
         this.board = board;
         this.mask = mask;
-        boardPositions = new ArrayList();
+        boardPositions = new ArrayList<>();
     }
 
     public List<List<BoardPosition>> generate() {
@@ -24,7 +24,7 @@ public class BoardPositionGenerator {
     }
 
     private void processRow(int y) {
-        List<BoardPosition> row = new ArrayList();
+        List<BoardPosition> row = new ArrayList<>();
         boardPositions.add(row);
         for (int x = 0; x < Board.WIDTH; x++) {
             row.add(processPosition(new Position(x, y)));

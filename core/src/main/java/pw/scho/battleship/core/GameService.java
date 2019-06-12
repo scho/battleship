@@ -58,7 +58,7 @@ public class GameService {
             Player player = getPlayerById(playerId);
 
             List<Game> games = gameRepository.all();
-            List<LobbyGameInfo> openGames = new ArrayList();
+            List<LobbyGameInfo> openGames = new ArrayList<>();
 
             for (Game game : games) {
                 if (game.getSecondPlayer() == null && !game.getFirstPlayer().getId().equals(player.getId())) {
@@ -75,7 +75,7 @@ public class GameService {
             Player player = getPlayerById(playerId);
 
             List<Game> games = gameRepository.all();
-            List<LobbyGameInfo> openGames = new ArrayList();
+            List<LobbyGameInfo> openGames = new ArrayList<>();
 
             for (Game game : games) {
                 boolean isFirstPlayer = game.getFirstPlayer().getId().equals(player.getId());
